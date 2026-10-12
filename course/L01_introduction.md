@@ -103,7 +103,7 @@ This compact form is the one we will use throughout the course. Lectures 2–5 d
 | 2 | Describing the radiation field | $I_\nu$, $J_\nu$, $F_\nu$, $K_\nu$; $I_\nu$ constant in vacuum |
 | 3 | Black-body radiation | Planck, Wien, Stefan–Boltzmann, brightness temperature |
 | 4 | Emission, absorption, scattering | $\alpha_\nu$, $j_\nu$, cross-sections, Einstein coefficients, random walk |
-| 5 | The RTE and its formal solution | $I = I_0e^{-\tau}+S(1-e^{-\tau})$; line formation in slabs |
+| 5 | The RTE and its formal solution | $I = I_0e^{-\tau}+S(1-e^{-\tau})$; MIT toy models: thin H cloud, two-layer star, thermal inversion |
 | 6 | Thermodynamic equilibrium and **LTE** | Kirchhoff, Saha–Boltzmann, $S_\nu=B_\nu$ |
 | 7 | Plane-parallel atmospheres | Schwarzschild–Milne, $E_n$, Eddington–Barbier |
 | 8 | Moments, diffusion and scattering | Eddington approximation, Rosseland mean, $S(0)=\sqrt{\varepsilon}B$ |
@@ -129,22 +129,14 @@ This compact form is the one we will use throughout the course. Lectures 2–5 d
 
 ## Exam questions and answers — Lecture 1
 
-**Q1.** Define radiative transfer and give three distinct astrophysical applications.
+**Q1.** Write the RTE along a ray. Explain the physical meaning of each term and why the absorption term is proportional to $I_\nu$ but the emission term is not.
 
-> **A1.** Radiative transfer is the theory of how the specific intensity of radiation changes as it propagates through matter that absorbs, emits and scatters it. Applications: (i) computing stellar spectra and deriving $T_{\rm eff}$, $\log g$ and abundances from them; (ii) extinction and reddening of starlight by interstellar dust, and 21-cm emission/absorption by H I; (iii) CMB anisotropies and polarisation, produced by Thomson scattering at recombination. Others: H II regions, accretion disks, exoplanet atmospheres, energy transport in stellar interiors.
+> **A1.** $dI_\nu/ds = -\alpha_\nu I_\nu + j_\nu$. Absorption removes a fixed *fraction* $\alpha_\nu\,ds$ of the photons already present in the beam, so the loss is $\propto I_\nu$. Spontaneous emission is produced by the matter (excited atoms decay at rate $A_{21}$ whether or not there is light), so it does not depend on $I_\nu$. (Stimulated emission *is* $\propto I_\nu$ and is therefore counted as negative absorption inside $\alpha_\nu$; see Lecture 4.)
 
-**Q2.** Write the RTE along a ray. Explain the physical meaning of each term and why the absorption term is proportional to $I_\nu$ but the emission term is not.
+**Q2.** What is the difference between TE and LTE? "In LTE, $I_\nu = B_\nu$." True or false?
 
-> **A2.** $dI_\nu/ds = -\alpha_\nu I_\nu + j_\nu$. Absorption removes a fixed *fraction* $\alpha_\nu\,ds$ of the photons already present in the beam, so the loss is $\propto I_\nu$. Spontaneous emission is produced by the matter (excited atoms decay at rate $A_{21}$ whether or not there is light), so it does not depend on $I_\nu$. (Stimulated emission *is* $\propto I_\nu$ and is therefore counted as negative absorption inside $\alpha_\nu$; see Lecture 4.)
+> **A2.** In TE, both matter and radiation are in equilibrium at one temperature: $I_\nu = J_\nu = B_\nu(T)$ is isotropic and there is no net flux. In LTE the *matter* is in equilibrium at the local temperature $T(\mathbf{r})$ (Maxwell, Boltzmann and Saha distributions hold), which gives $j_\nu = \alpha_\nu B_\nu(T)$, i.e. $S_\nu = B_\nu(T)$. The *radiation field* may differ from $B_\nu$. The statement is **false**: in LTE $S_\nu = B_\nu$, not $I_\nu = B_\nu$. At the surface of a star, for example, $I_\nu(\mu<0) = 0$ (no incoming radiation) while $B_\nu \neq 0$.
 
-**Q3.** What is the difference between TE and LTE? "In LTE, $I_\nu = B_\nu$." True or false?
+**Q3.** Define optical depth. A medium has $\tau_\nu = 0.01$ at one frequency and $\tau_\nu = 100$ at another. Describe what an observer sees at each frequency.
 
-> **A3.** In TE, both matter and radiation are in equilibrium at one temperature: $I_\nu = J_\nu = B_\nu(T)$ is isotropic and there is no net flux. In LTE the *matter* is in equilibrium at the local temperature $T(\mathbf{r})$ (Maxwell, Boltzmann and Saha distributions hold), which gives $j_\nu = \alpha_\nu B_\nu(T)$, i.e. $S_\nu = B_\nu(T)$. The *radiation field* may differ from $B_\nu$. The statement is **false**: in LTE $S_\nu = B_\nu$, not $I_\nu = B_\nu$. At the surface of a star, for example, $I_\nu(\mu<0) = 0$ (no incoming radiation) while $B_\nu \neq 0$.
-
-**Q4.** Define optical depth. A medium has $\tau_\nu = 0.01$ at one frequency and $\tau_\nu = 100$ at another. Describe what an observer sees at each frequency.
-
-> **A4.** $\tau_\nu = \int\alpha_\nu\,ds$ is the path length measured in photon mean free paths. At $\tau_\nu = 0.01$ (optically thin), 99 % of the background light passes through; the medium adds $\approx\tau_\nu S_\nu$, so we see through it, and its own emission is weak and proportional to its column density. At $\tau_\nu = 100$ (optically thick), the background is blocked ($e^{-100}$), and we see only the medium's own surface layers, $I_\nu \to S_\nu$ evaluated near $\tau_\nu \approx 1$.
-
-**Q5.** Give two reasons why NLTE effects are more important in the upper atmosphere of a star than in its deep photosphere.
-
-> **A5.** (1) The density is lower, so collisional rates ($\propto n_e$) fall below radiative rates. Populations are then set by the radiation field rather than by the local temperature. (2) Near the surface the radiation field is strongly non-Planckian ($J_\nu \neq B_\nu$, because photons escape to space). Radiative excitation and ionisation therefore drive the populations away from Saha–Boltzmann values.
+> **A3.** $\tau_\nu = \int\alpha_\nu\,ds$ is the path length measured in photon mean free paths. At $\tau_\nu = 0.01$ (optically thin), 99 % of the background light passes through; the medium adds $\approx\tau_\nu S_\nu$, so we see through it, and its own emission is weak and proportional to its column density. At $\tau_\nu = 100$ (optically thick), the background is blocked ($e^{-100}$), and we see only the medium's own surface layers, $I_\nu \to S_\nu$ evaluated near $\tau_\nu \approx 1$.

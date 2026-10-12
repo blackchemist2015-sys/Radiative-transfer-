@@ -1,6 +1,6 @@
 # Lecture 10 — Spectral Lines in LTE, and the Limits of LTE
 
-> **Sources:** Collins §9.1c (continuum and spectral lines), §9.2e (redistribution: coherent, complete, isotropic); Chandrasekhar Ch. XII §83–84 (line formation; Milne–Eddington model, residual intensities); Hu Set 1 ("photons escape through the channel of lowest opacity, so lines are dark"); Lectures 4, 6, 7, 9 of this course.
+> **Sources:** Collins §9.1c (continuum and spectral lines), §9.2e (redistribution: coherent, complete, isotropic); Chandrasekhar Ch. XII §83–84 (line formation; Milne–Eddington model, residual intensities); MIT 8.901 Lec. 7 §7.3 (two-layer atmosphere, thermal inversions); Hu Set 1 ("photons escape through the channel of lowest opacity, so lines are dark"); Lectures 4, 6, 7, 9 of this course.
 
 ## Learning goals
 
@@ -36,7 +36,7 @@ The difference lies only in the **depth scale**. With $\eta_\nu\equiv\kappa_l\ph
 - In the **continuum**, $\tau_\nu = 2/3$ at $\tau_c = 2/3$: deep and hot.
 - At **line centre**, $\tau_\nu = 2/3$ at $\tau_c = \frac{2/3}{1+\eta}$: high and cool.
 
-So $F_{\rm line} < F_{\rm cont}$ when $T$ decreases outward. **An LTE absorption line is a map of the temperature gradient.** If $T$ increases outward (a chromosphere), the same physics gives emission lines.
+So $F_{\rm line} < F_{\rm cont}$ when $T$ decreases outward. This is the continuous version of MIT 8.901's two-layer toy star (Lecture 5, §5.4), where the continuum shows $B_\nu(T_H)$ and the lines show $B_\nu(T_C)$. **An LTE absorption line is a map of the temperature gradient.** If $T$ increases outward (a chromosphere), the same physics gives emission lines.
 
 ![LTE line formation: Milne-Eddington](../figures/L10_lines.png)
 
@@ -138,22 +138,6 @@ The strong line's $\tau_\nu = 2/3$ falls at $\tau_c\approx0.01$, where $B$ is la
 
 > **A3.** Linear: the line is optically thin; every atom removes photons independently, so $W\propto Nf$. Flat: the core is saturated ($r\to r_{\min}$), and $W$ grows only as the Doppler core broadens in frequency where $\tau_\nu>1$, i.e. $W\propto\Delta\nu_D\sqrt{\ln\tau_0}$. Square-root: the Lorentzian damping wings ($\propto\gamma/\Delta\nu^2$) become optically thick, giving $W\propto\sqrt{Nf\gamma}$. The linear part is best for abundances because $W$ is insensitive to the poorly known broadening parameters ($\xi$, $\gamma$).
 
-**Q4.** Derive the weak-line formula $W_\lambda = \pi r_e\lambda^2Nf$ starting from $\int\sigma_\nu d\nu = \pi r_ecf$.
+**Q4.** Why are the cores of strong resonance lines in the Sun deeper than LTE models predict?
 
-> **A4.** Optically thin: $1-I_\nu/I_0 = \tau_\nu = N\sigma_\nu$. Then $W_\nu = \int\tau_\nu d\nu = N\pi r_ecf$, and $W_\lambda = (\lambda^2/c)W_\nu = \pi r_e\lambda^2Nf$.
-
-**Q5.** Why are the cores of strong resonance lines in the Sun deeper than LTE models predict?
-
-> **A5.** In the low-density upper photosphere and chromosphere, $C_{21}\ll A_{21}$, so $\varepsilon\ll1$ and $S^{\rm line} = (1-\varepsilon)\bar J+\varepsilon B$. Photons escape from the line core ($\bar J<B$) and the source function drops to $\sim\sqrt\varepsilon\,B$ at the surface. The core intensity $\approx S(\tau_\nu\approx1)$ is therefore lower than $B(T)$, and the line is darker than in LTE.
-
-**Q6.** Compute $\Delta\nu_D$ in velocity units for He I at $T = 20\,000$ K with microturbulence $\xi = 5$ km s$^{-1}$.
-
-> **A6.** $v_{\rm th} = \sqrt{2kT/m_{\rm He}} = \sqrt{2\times1.381\times10^{-23}\times2\times10^4/(4\times1.66\times10^{-27})} = 9.1$ km s$^{-1}$. Total $\sqrt{9.1^2+5^2} = 10.4$ km s$^{-1}$.
-
-**Q7.** List four physical situations where LTE is expected to fail, and explain why in each case.
-
-> **A7.** (1) Low-density atmospheres (supergiants): few collisions, so $\varepsilon\ll1$. (2) Hot O/B stars: an intense UV radiation field drives radiative rates above collisional rates. (3) Strong resonance lines in any star: very large optical depth, so photons escape only from high, low-density layers, and the thermalisation depth $1/\sqrt\varepsilon$ is deep. (4) Metal-poor stars: fewer electrons from metals, so a lower $n_e$ and fewer collisions. Also nebulae and the ISM, where the radiation field is diluted and $n<n_{\rm crit}$.
-
-**Q8.** "The equivalent width of a saturated line still depends on the abundance, but only weakly." Explain quantitatively.
-
-> **A8.** On the flat part, $W\propto\Delta\nu_D\sqrt{\ln\tau_0}$ with $\tau_0\propto N$. Increasing $N$ by a factor 10 raises $\sqrt{\ln\tau_0}$ by only a few per cent to tens of per cent (e.g. from $\sqrt{\ln100} = 2.15$ to $\sqrt{\ln1000} = 2.63$, a 22 % increase). Abundances from saturated lines are therefore very uncertain and depend strongly on the adopted microturbulence $\xi$.
+> **A4.** In the low-density upper photosphere and chromosphere, $C_{21}\ll A_{21}$, so $\varepsilon\ll1$ and $S^{\rm line} = (1-\varepsilon)\bar J+\varepsilon B$. Photons escape from the line core ($\bar J<B$) and the source function drops to $\sim\sqrt\varepsilon\,B$ at the surface. The core intensity $\approx S(\tau_\nu\approx1)$ is therefore lower than $B(T)$, and the line is darker than in LTE.

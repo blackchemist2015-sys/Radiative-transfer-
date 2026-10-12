@@ -162,30 +162,14 @@ $F(0) = 2\pi\int_0^\infty S(t)E_2(t)dt = 4\pi H\Rightarrow\int_0^\infty SE_2\,dt
 
 > **A1.** Assumptions: plane-parallel, static, LTE ($S = B$), gray ($\kappa_\nu = \kappa$), radiative equilibrium with $F = \sigma T_{\rm eff}^4$. Derivation: (i) RE with gray opacity gives $J = B$; (ii) $dH/d\tau = J - B = 0\Rightarrow H = F/4\pi$; (iii) $dK/d\tau = H\Rightarrow K = H\tau + c$ (exact). **(iv) Eddington:** $K = J/3\Rightarrow J = 3H(\tau + C)$. **(v) Eddington boundary condition** $J(0) = 2H$ gives $C = 2/3$. (vi) $J = B = \sigma T^4/\pi$ and $H = \sigma T_{\rm eff}^4/4\pi$ give $T^4 = \frac34T_{\rm eff}^4(\tau+\frac23)$.
 
-**Q2.** Show that $T = T_{\rm eff}$ at $\tau = 2/3$ and $T(0) = 0.841\,T_{\rm eff}$. What are the exact values?
+**Q2.** Derive the limb-darkening law $I(\mu)/I(1) = \frac25(1+\frac32\mu)$ and verify that it gives the correct flux.
 
-> **A2.** At $\tau = 2/3$: $T^4 = \frac34\cdot\frac43T_{\rm eff}^4 = T_{\rm eff}^4$. At $\tau = 0$: $T^4 = \frac34\cdot\frac23T_{\rm eff}^4 = \frac12T_{\rm eff}^4$, so $T = 2^{-1/4}T_{\rm eff} = 0.841\,T_{\rm eff}$. Exact: $q(0) = 1/\sqrt3$, so $T(0) = (\sqrt3/4)^{1/4}T_{\rm eff} = 0.811\,T_{\rm eff}$; and $T = T_{\rm eff}$ where $\tau + q(\tau) = 4/3$, i.e. $\tau\approx0.64$.
+> **A2.** $S = 3H(\tau + 2/3)$ is linear, so $I(0,\mu) = S(\mu) = 3H(\mu+2/3)$, and $I(\mu)/I(1) = (\mu + 2/3)/(5/3) = (2+3\mu)/5$. Flux: $2\pi\int_0^1 3H(\mu+\frac23)\mu\,d\mu = 6\pi H(\frac13+\frac13) = 4\pi H = F$ ✓.
 
-**Q3.** Derive the limb-darkening law $I(\mu)/I(1) = \frac25(1+\frac32\mu)$ and verify that it gives the correct flux.
+**Q3.** What is the Hopf function? Give $q(0)$ and $q(\infty)$, and explain how the Eddington solution approximates it.
 
-> **A3.** $S = 3H(\tau + 2/3)$ is linear, so $I(0,\mu) = S(\mu) = 3H(\mu+2/3)$, and $I(\mu)/I(1) = (\mu + 2/3)/(5/3) = (2+3\mu)/5$. Flux: $2\pi\int_0^1 3H(\mu+\frac23)\mu\,d\mu = 6\pi H(\frac13+\frac13) = 4\pi H = F$ ✓.
+> **A3.** The exact solution of Milne's equation is $J = 3H[\tau+q(\tau)]$, where $q$ increases monotonically from $q(0) = 1/\sqrt3 = 0.577$ (Hopf–Bronstein) to $q(\infty) = 0.7104$. Eddington replaces it by the constant $2/3 = 0.667$, which lies between the two limits; the maximum error in $T$ is 3.6 %, at the surface.
 
-**Q4.** Why does $J = S$ in a gray LTE atmosphere, and why is the problem then mathematically identical to pure isotropic scattering?
+**Q4.** Explain why the emergent spectrum of a gray LTE atmosphere is not a black body at $T_{\rm eff}$, and why it shows an excess in the UV.
 
-> **A4.** RE requires $\int\kappa_\nu(J_\nu - S_\nu)d\nu = 0$; with $\kappa_\nu = \kappa$ this is $J = S$ (frequency-integrated). In conservative isotropic scattering, $S = J$ as well. Both lead to Milne's integral equation $S = \Lambda[S]$ with constant flux, so the solutions (Hopf function, $H$-function) are the same.
-
-**Q5.** What is the Hopf function? Give $q(0)$ and $q(\infty)$, and explain how the Eddington solution approximates it.
-
-> **A5.** The exact solution of Milne's equation is $J = 3H[\tau+q(\tau)]$, where $q$ increases monotonically from $q(0) = 1/\sqrt3 = 0.577$ (Hopf–Bronstein) to $q(\infty) = 0.7104$. Eddington replaces it by the constant $2/3 = 0.667$, which lies between the two limits; the maximum error in $T$ is 3.6 %, at the surface.
-
-**Q6.** A gray atmosphere is computed for $T_{\rm eff} = 10\,000$ K. At what $\tau$ (Eddington) does $T = 15\,000$ K? How does this depth depend on $T_{\rm eff}$?
-
-> **A6.** $(1.5)^4 = 5.0625 = \frac34(\tau+\frac23)\Rightarrow\tau = 6.75 - 0.667 = 6.08$. Since $T/T_{\rm eff}$ depends only on $\tau$, this depth is the same for every $T_{\rm eff}$ (self-similarity of the gray solution).
-
-**Q7.** Explain why the emergent spectrum of a gray LTE atmosphere is not a black body at $T_{\rm eff}$, and why it shows an excess in the UV.
-
-> **A7.** $F_\nu = 2\pi\int B_\nu(T(\tau))E_2(\tau)d\tau$ is a weighted average of Planck functions over a range of temperatures. Because $B_\nu$ is a convex, steep function of $T$ in the Wien (UV) regime, the hotter layers contribute disproportionately there, so the UV flux exceeds $\pi B_\nu(T_{\rm eff})$. Energy conservation then requires a slight deficit elsewhere. The total $\int F_\nu d\nu$ equals $\sigma T_{\rm eff}^4$ exactly.
-
-**Q8.** Combine the gray solution with hydrostatic equilibrium to get $P(\tau)$. Which observable parameters fully specify the model?
-
-> **A8.** $dP/d\tau = g/\kappa\Rightarrow P = g\tau/\kappa$ (constant $\kappa$). $T(\tau)$ depends on $T_{\rm eff}$; $P(\tau)$ depends on $g/\kappa$; and $\kappa$ depends on composition (through Saha–Boltzmann in a real atmosphere). So $(T_{\rm eff}, \log g, {\rm composition})$ specify the model, which is why spectroscopists fit exactly these three parameters.
+> **A4.** $F_\nu = 2\pi\int B_\nu(T(\tau))E_2(\tau)d\tau$ is a weighted average of Planck functions over a range of temperatures. Because $B_\nu$ is a convex, steep function of $T$ in the Wien (UV) regime, the hotter layers contribute disproportionately there, so the UV flux exceeds $\pi B_\nu(T_{\rm eff})$. Energy conservation then requires a slight deficit elsewhere. The total $\int F_\nu d\nu$ equals $\sigma T_{\rm eff}^4$ exactly.

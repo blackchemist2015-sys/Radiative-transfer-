@@ -138,3 +138,16 @@ print(f"   Milne-Eddington max depth (beta=1.5): 1 - 1/(1+2beta/3) = {1-1/(1+2*b
 for eta in (1, 10):
     r = (1 + 2 * beta / (3 * (1 + eta))) / (1 + 2 * beta / 3)
     print(f"   eta={eta}: central residual flux = {r:.3f}")
+
+hdr("L5  MIT 8.901 two-layer toy atmosphere at H-alpha")
+lam = 656.3e-9
+BH, BC = planck_lambda(lam, 6500.0), planck_lambda(lam, 4500.0)
+print(f"   B(6500 K) = {BH:.3e}, B(4500 K) = {BC:.3e}  (W m^-3 sr^-1)")
+for tau_ in (0.02, 0.1, 2.0):
+    exact = BH * np.exp(-tau_) + BC * (1 - np.exp(-tau_))
+    lin = BH - tau_ * (BH - BC)
+    print(f"   tau = {tau_}: exact I/B_H = {exact/BH:.4f} ; MIT linearised I/B_H = {lin/BH:.4f}")
+cont = BH * np.exp(-0.02) + BC * (1 - np.exp(-0.02))
+line = BH * np.exp(-2.02) + BC * (1 - np.exp(-2.02))
+print(f"   line depth (tau_line=2, tau_c=0.02): 1 - I_line/I_cont = {1-line/cont:.3f}")
+print(f"   maximum possible depth (tau->inf): {1-BC/cont:.3f}")

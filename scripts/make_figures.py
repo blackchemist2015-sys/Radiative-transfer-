@@ -532,9 +532,84 @@ def fig_gray_spectrum():
     save(fig, "L09_gray_spectrum.png")
 
 
+# =====================================================================
+# MIT 8.901 Lecture 7 material: RTE build-up, thin cloud, two-layer star
+# =====================================================================
+def fig_mit_rte_panels():
+    """MIT 8.901 Fig. 9: vacuum -> absorbing -> absorbing + emitting."""
+    fig, axs = plt.subplots(1, 3, figsize=(12, 3.0))
+    titles = [r"vacuum: $dI_\nu/ds=0$", r"absorber: $dI_\nu/ds=-\alpha_\nu I_\nu$",
+              r"absorber + emitter: $dI_\nu/ds=j_\nu-\alpha_\nu I_\nu$"]
+    rng = np.random.default_rng(4)
+    for i, (ax, t) in enumerate(zip(axs, titles)):
+        ax.set_xlim(0, 10); ax.set_ylim(0, 4); ax.axis("off"); ax.set_title(t, fontsize=11)
+        if i > 0:
+            ax.add_patch(Rectangle((3, 0.6), 4, 2.8, color="#9ec5e8", alpha=0.6))
+            pts = rng.uniform([3.2, 0.8], [6.8, 3.2], size=(25, 2))
+            ax.plot(pts[:, 0], pts[:, 1], "o", ms=2.5, color="#1f5fa8")
+        widths = {0: (2.6, 2.6), 1: (2.6, 1.0), 2: (2.6, 1.8)}[i]
+        arrow(ax, (0.3, 2.0), (2.9, 2.0), color=C[1], lw=widths[0])
+        arrow(ax, (7.1, 2.0), (9.7, 2.0), color=C[1], lw=widths[1])
+        ax.text(1.6, 2.35, r"$I_0$", ha="center", color=C[1])
+        lab = {0: r"$I=I_0$", 1: r"$I=I_0e^{-\tau}$", 2: r"$I=I_0e^{-\tau}+S(1-e^{-\tau})$"}[i]
+        ax.text(8.4, 2.35 if i < 2 else 0.2, lab, ha="center", color=C[1], fontsize=10)
+        if i == 2:
+            for y in (1.2, 2.6):
+                arrow(ax, (5.0, y), (6.4, y + 0.5), color=C[3], lw=1.2, ms=9)
+            ax.text(5.0, 3.55, r"$j_\nu$", color=C[3], ha="center")
+    save(fig, "L05_mit_rte_panels.png")
+
+
+def _hydrogen_lines(lam_nm, tau0=3.0, width_nm=1.2, n1_list=(2, 3)):
+    """Optical depth profile of Balmer + Paschen lines (Rydberg formula).
+    Lines are artificially broadened (width_nm) so they are visible on the plot."""
+    R_H = 1.09678e7
+    tau = np.zeros_like(lam_nm)
+    for n1 in n1_list:
+        for n2 in range(n1 + 1, n1 + 12):
+            lam0 = 1e9 / (R_H * (1 / n1**2 - 1 / n2**2))
+            strength = tau0 * ((n1 + 1) / n2) ** 3 * (1.0 if n1 == 2 else 0.6)
+            tau += strength * np.exp(-((lam_nm - lam0) / width_nm) ** 2)
+    return tau
+
+
+def fig_mit_two_layer():
+    """MIT 8.901 Figs. 10-11: thin hot cloud, two-layer star, thermal inversion."""
+    lam = np.linspace(360, 1000, 4000)
+    L = lam * 1e-9
+    tau_l = _hydrogen_lines(lam)
+    tau_c = 0.02
+    fig, axs = plt.subplots(1, 3, figsize=(15, 4.2))
+    # (a) thin hot cloud on dark sky
+    T = 8000.0
+    tau = tau_c + 0.15 * tau_l
+    I = rt.planck_lambda(L, T) * (1 - np.exp(-tau))
+    axs[0].plot(lam, I / 1e12, color=C[1])
+    axs[0].set_title(r"(a) thin H cloud, $T=8000$ K, dark background:" "\n" r"$I_\nu\approx\tau_\nu B_\nu(T)$ → emission lines")
+    # (b) two-layer star T_H > T_C
+    TH, TC = 6500.0, 4500.0
+    for ax, (Tbase, Ttop, ttl) in zip(axs[1:], ((TH, TC, "(b) two-layer star, $T_C<T_H$:\nabsorption lines"),
+                                               (TC, TH, "(c) thermal inversion, $T_{top}>T_{base}$:\nemission lines"))):
+        tau = tau_c + tau_l
+        I = rt.planck_lambda(L, Tbase) * np.exp(-tau) + rt.planck_lambda(L, Ttop) * (1 - np.exp(-tau))
+        ax.plot(lam, I / 1e12, color=C[0], lw=1.3, label=r"$I_\nu=B_\nu(T_{base})e^{-\tau_\nu}+B_\nu(T_{top})(1-e^{-\tau_\nu})$")
+        ax.plot(lam, rt.planck_lambda(L, Tbase) / 1e12, "k--", lw=1, label=fr"$B_\lambda$({Tbase:.0f} K) base")
+        ax.plot(lam, rt.planck_lambda(L, Ttop) / 1e12, ":", color=C[1], lw=1.4, label=fr"$B_\lambda$({Ttop:.0f} K) top layer")
+        ax.set_title(ttl)
+        ax.legend(fontsize=8, loc="upper right")
+    for ax in axs:
+        ax.set_xlabel(r"$\lambda$ [nm]  (Balmer + Paschen series; lines widened for display)")
+        ax.set_ylabel(r"$I_\lambda$ [$10^{12}$ W m$^{-3}$ sr$^{-1}$]")
+        ax.xaxis.label.set_size(9)
+    axs[1].set_ylim(0, 1.45 * rt.planck_lambda(L, TH).max() / 1e12)
+    axs[2].set_ylim(0, 1.45 * rt.planck_lambda(L, TH).max() / 1e12)
+    save(fig, "L05_mit_two_layer.png")
+
+
 if __name__ == "__main__":
     np.random.seed(1)
     fig_overview(); fig_intensity_geometry(); fig_constancy(); fig_planck()
     fig_processes(); fig_random_walk(); fig_slab(); fig_saha(); fig_regimes()
     fig_plane_parallel(); fig_En(); fig_eddington_barbier(); fig_scattering()
     fig_two_stream(); fig_gray(); fig_gray_spectrum(); fig_lines()
+    fig_mit_rte_panels(); fig_mit_two_layer()

@@ -129,30 +129,18 @@ Insert $g_2n_1/(g_1n_2) = e^{h\nu/kT_{\rm ex}}$ into $S_\nu = (2h\nu^3/c^2)/[g_2
 
 ## Exam questions and answers — Lecture 4
 
-**Q1.** Show that $\alpha_\nu = n\sigma_\nu$ and explain the meaning of the mean free path.
+**Q1.** Derive the Einstein relations. Explain why they hold even when the gas is not in TE.
 
-> **A1.** In a slab $dA\times ds$ with $n\,dA\,ds$ absorbers each blocking area $\sigma_\nu$ (non-overlapping because the slab is thin), the blocked fraction is $n\sigma_\nu\,ds = dI/I$. Hence $\alpha_\nu = n\sigma_\nu$. The mean free path $\ell = 1/(n\sigma_\nu)$ is the average distance a photon travels before interacting; $I$ falls by $1/e$ over one $\ell$.
+> **A1.** See §4.4. Detailed balance plus Boltzmann populations, required to reproduce $B_\nu(T)$ for all $T$, gives $g_1B_{12} = g_2B_{21}$ (high-$T$ limit) and $A_{21} = (2h\nu^3/c^2)B_{21}$. The coefficients depend only on the atomic wavefunctions (matrix elements), not on the environment, so once found in TE they apply everywhere.
 
-**Q2.** Derive the Einstein relations. Explain why they hold even when the gas is not in TE.
+**Q2.** Write $\alpha_\nu$ including stimulated emission. What happens physically when $n_2/g_2 > n_1/g_1$? Give an astrophysical example.
 
-> **A2.** See §4.4. Detailed balance plus Boltzmann populations, required to reproduce $B_\nu(T)$ for all $T$, gives $g_1B_{12} = g_2B_{21}$ (high-$T$ limit) and $A_{21} = (2h\nu^3/c^2)B_{21}$. The coefficients depend only on the atomic wavefunctions (matrix elements), not on the environment, so once found in TE they apply everywhere.
+> **A2.** $\alpha_\nu = \frac{h\nu}{4\pi}\phi(\nu)(n_1B_{12} - n_2B_{21}) = \frac{h\nu}{4\pi}\phi\,n_1B_{12}(1-\frac{g_1n_2}{g_2n_1})$. With an inversion, $\alpha_\nu<0$ and $\tau_\nu<0$, so $I_\nu$ grows as $e^{|\tau|}$: maser amplification. Examples: OH (1665/1667 MHz) and H$_2$O (22 GHz) masers in star-forming regions and the envelopes of AGB stars.
 
-**Q3.** Write $\alpha_\nu$ including stimulated emission. What happens physically when $n_2/g_2 > n_1/g_1$? Give an astrophysical example.
+**Q3.** Derive $S_\nu = \varepsilon B_\nu + (1-\varepsilon)J_\nu$ and give the meaning of $\varepsilon$.
 
-> **A3.** $\alpha_\nu = \frac{h\nu}{4\pi}\phi(\nu)(n_1B_{12} - n_2B_{21}) = \frac{h\nu}{4\pi}\phi\,n_1B_{12}(1-\frac{g_1n_2}{g_2n_1})$. With an inversion, $\alpha_\nu<0$ and $\tau_\nu<0$, so $I_\nu$ grows as $e^{|\tau|}$: maser amplification. Examples: OH (1665/1667 MHz) and H$_2$O (22 GHz) masers in star-forming regions and the envelopes of AGB stars.
+> **A3.** $j = \alpha^aB + \alpha^{\rm sc}J$ (thermal emission by Kirchhoff, plus scattering) and $\alpha = \alpha^a+\alpha^{\rm sc}$. Divide to get $S = \varepsilon B + (1-\varepsilon)J$ with $\varepsilon = \alpha^a/(\alpha^a+\alpha^{\rm sc})$, the probability that an interaction destroys the photon (converts it into thermal energy of the gas).
 
-**Q4.** Show that for coherent isotropic scattering $S_\nu = J_\nu$. Why does this make the RTE hard to solve?
+**Q4.** A cloud has $\tau = 100$ for pure scattering. Roughly how many scatterings does a photon undergo before escaping, and how far does it travel in total?
 
-> **A4.** The energy scattered out of all beams per unit volume is $\alpha^{\rm sc}\oint I d\Omega = 4\pi\alpha^{\rm sc}J$; re-emitted isotropically, this gives $j^{\rm sc} = \alpha^{\rm sc}J$, so $S = J$. The source function at a point then depends on the radiation field in all directions, which depends on the source function everywhere else. The problem becomes a global integral equation, not a local ODE.
-
-**Q5.** Derive $S_\nu = \varepsilon B_\nu + (1-\varepsilon)J_\nu$ and give the meaning of $\varepsilon$.
-
-> **A5.** $j = \alpha^aB + \alpha^{\rm sc}J$ (thermal emission by Kirchhoff, plus scattering) and $\alpha = \alpha^a+\alpha^{\rm sc}$. Divide to get $S = \varepsilon B + (1-\varepsilon)J$ with $\varepsilon = \alpha^a/(\alpha^a+\alpha^{\rm sc})$, the probability that an interaction destroys the photon (converts it into thermal energy of the gas).
-
-**Q6.** A cloud has $\tau = 100$ for pure scattering. Roughly how many scatterings does a photon undergo before escaping, and how far does it travel in total?
-
-> **A6.** $N\approx\tau^2 = 10^4$; total path $N\ell = \tau^2\ell = 100\,L$, where $L = \tau\ell$ is the size of the cloud. So the photon travels 100 times the cloud size, and the escape time is $100\,L/c$.
-
-**Q7.** Estimate the Thomson opacity of fully ionised hydrogen (in m$^2$ kg$^{-1}$) and the corresponding mean free path at $\rho = 10^{-4}$ kg m$^{-3}$.
-
-> **A7.** $\kappa = \sigma_T/m_H = 6.65\times10^{-29}/1.67\times10^{-27} = 0.040$ m$^2$ kg$^{-1}$ (0.40 cm$^2$ g$^{-1}$). $\ell = 1/(\rho\kappa) = 1/(4\times10^{-6}) = 2.5\times10^5$ m = 250 km.
+> **A4.** $N\approx\tau^2 = 10^4$; total path $N\ell = \tau^2\ell = 100\,L$, where $L = \tau\ell$ is the size of the cloud. So the photon travels 100 times the cloud size, and the escape time is $100\,L/c$.

@@ -130,22 +130,10 @@ So $K = J/3$ even though the field is **anisotropic** and carries a flux $F = 4\
 
 > **A2.** See §2.3: energy conservation between two areas $dA_1$, $dA_2$ at distance $r$ gives $I_1dA_1(dA_2/r^2) = I_2dA_2(dA_1/r^2)$, so $I_1 = I_2$. From Mars the flux is lower by $(1/1.52)^2 = 0.43$, but the Sun's solid angle is smaller by the same factor. The surface brightness, i.e. $I_\nu$, is the same.
 
-**Q3.** Show that for an isotropic radiation field $F_\nu = 0$ and $P_\nu = u_\nu/3$.
+**Q3.** A surface emits $I(\mu) = I_0$ for $\mu > 0$ and nothing for $\mu < 0$. Find $J$, $F$ and $K$ at the surface. What is $J/F$?
 
-> **A3.** $F_\nu = I\int_0^{2\pi}d\phi\int_{-1}^1\mu\,d\mu = 0$ (odd integrand). $u_\nu = 4\pi I/c$; $P_\nu = \frac{2\pi I}{c}\int_{-1}^{1}\mu^2d\mu = \frac{4\pi I}{3c} = u_\nu/3$.
+> **A3.** $J = \tfrac12\int_0^1 I_0d\mu = I_0/2$; $F = 2\pi\int_0^1I_0\mu\,d\mu = \pi I_0$; $K = \tfrac12\int_0^1I_0\mu^2d\mu = I_0/6$. So $J/F = 1/(2\pi)$, i.e. $J = 2H$ where $H = F/4\pi$. This is **Eddington's surface boundary condition** $J(0) = 2H(0)$, used in Lecture 9.
 
-**Q4.** A surface emits $I(\mu) = I_0$ for $\mu > 0$ and nothing for $\mu < 0$. Find $J$, $F$ and $K$ at the surface. What is $J/F$?
+**Q4.** A star of radius $R$ and uniform surface intensity $I$ is observed from distance $d \gg R$. Derive $F = \pi I(R/d)^2$, and hence $L = 4\pi R^2\pi I$.
 
-> **A4.** $J = \tfrac12\int_0^1 I_0d\mu = I_0/2$; $F = 2\pi\int_0^1I_0\mu\,d\mu = \pi I_0$; $K = \tfrac12\int_0^1I_0\mu^2d\mu = I_0/6$. So $J/F = 1/(2\pi)$, i.e. $J = 2H$ where $H = F/4\pi$. This is **Eddington's surface boundary condition** $J(0) = 2H(0)$, used in Lecture 9.
-
-**Q5.** Show that $I_\lambda = (c/\lambda^2)I_\nu$. A spectrum has $I_\nu$ = constant. Is $I_\lambda$ constant?
-
-> **A5.** The energy in a band must be the same whichever variable we use: $I_\nu|d\nu| = I_\lambda|d\lambda|$, and $|d\nu/d\lambda| = c/\lambda^2$. No: if $I_\nu$ is flat, then $I_\lambda\propto\lambda^{-2}$. Spectral "shapes" and peak positions depend on whether you plot per unit $\nu$ or per unit $\lambda$.
-
-**Q6.** A star of radius $R$ and uniform surface intensity $I$ is observed from distance $d \gg R$. Derive $F = \pi I(R/d)^2$, and hence $L = 4\pi R^2\pi I$.
-
-> **A6.** $F = \int I\cos\theta\,d\Omega$ over the cone $\theta\le\theta_c$, $\sin\theta_c = R/d$: $F = 2\pi I\int_0^{\theta_c}\cos\theta\sin\theta\,d\theta = \pi I\sin^2\theta_c = \pi I R^2/d^2$. Then $L = 4\pi d^2F = 4\pi R^2(\pi I)$, consistent with a surface flux $\pi I$.
-
-**Q7.** Explain why cosmological surface brightness dims as $(1+z)^{-4}$.
-
-> **A7.** $I_\nu/\nu^3$ is conserved (Liouville, $f$ conserved). Frequencies redshift as $\nu\propto(1+z)^{-1}$, so $I_\nu\propto(1+z)^{-3}$ at a corresponding frequency, and the bolometric $I = \int I_\nu d\nu$ picks up one more factor $(1+z)^{-1}$ from $d\nu$. Total: $(1+z)^{-4}$ (Tolman dimming).
+> **A4.** $F = \int I\cos\theta\,d\Omega$ over the cone $\theta\le\theta_c$, $\sin\theta_c = R/d$: $F = 2\pi I\int_0^{\theta_c}\cos\theta\sin\theta\,d\theta = \pi I\sin^2\theta_c = \pi I R^2/d^2$. Then $L = 4\pi d^2F = 4\pi R^2(\pi I)$, consistent with a surface flux $\pi I$.

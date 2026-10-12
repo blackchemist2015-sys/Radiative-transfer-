@@ -21,6 +21,7 @@ $$\boxed{\;\mu\,\frac{dI_\nu(\tau_\nu,\mu)}{d\tau_\nu} = I_\nu(\tau_\nu,\mu) - S
 Note the sign change compared with Lecture 5, because $\tau$ is now measured against the outgoing direction.
 
 **Boundary conditions** for a semi-infinite stellar atmosphere:
+
 - no incident radiation at the top: $I_\nu(0,\mu<0) = 0$;
 - the intensity does not grow faster than $e^{\tau}$ at depth: $\lim_{\tau\to\infty}I_\nu e^{-\tau/\mu} = 0$.
 
@@ -67,6 +68,7 @@ $$F_\nu(0) = 2\pi\int_0^1(a+b\mu)\mu\,d\mu = \pi\left(a+\tfrac23b\right)\ \Right
 *Figure 7.3 — Left: the weighting kernel $e^{-\tau/\mu}/\mu$ peaks at the surface but has mean depth $\langle\tau\rangle = \mu$. Right: limb darkening. At disk centre we see down to $\tau\approx1$ (hot); at the limb, rays graze the atmosphere and we see $\tau\approx0$ (cool).*
 
 **Physical meaning:**
+
 - "We see down to $\tau\approx1$ along the line of sight," i.e. to vertical depth $\tau\approx\mu$.
 - Toward the limb we see higher, cooler layers. If $S$ increases inward ($b>0$), the limb is **darker**.
 - The observed flux of a star reflects the conditions at $\tau\approx2/3$, which is why the "photosphere" is defined there and why $T(\tau = 2/3)\approx T_{\rm eff}$ (Lecture 9).
@@ -110,30 +112,18 @@ $I^+(0,\mu) = a+b\mu$ and $I^-(0) = 0$, so $J(0) = \tfrac12\int_0^1(a+b\mu)d\mu 
 
 ## Exam questions and answers — Lecture 7
 
-**Q1.** Starting from $dI/ds = \alpha(S-I)$, derive $\mu\,dI/d\tau = I - S$ for a plane-parallel atmosphere with $\tau$ increasing inward.
+**Q1.** Derive the formal solution for the emergent intensity of a semi-infinite atmosphere.
 
-> **A1.** $ds = dz/\mu$ and $d\tau = -\alpha dz$, so $dI/ds = \mu\,dI/dz = -\alpha\mu\,dI/d\tau$. Then $-\alpha\mu\,dI/d\tau = \alpha(S-I)$, i.e. $\mu\,dI/d\tau = I-S$.
+> **A1.** $\frac{d}{d\tau}(Ie^{-\tau/\mu}) = -\frac{S}{\mu}e^{-\tau/\mu}$. Integrate from $0$ to $\infty$ with $Ie^{-\tau/\mu}\to0$: $-I(0,\mu) = -\int_0^\infty S e^{-t/\mu}dt/\mu$, so $I(0,\mu) = \int_0^\infty S(t)e^{-t/\mu}dt/\mu$.
 
-**Q2.** Derive the formal solution for the emergent intensity of a semi-infinite atmosphere.
+**Q2.** Prove the Eddington–Barbier relations $I(0,\mu) = S(\tau = \mu)$ and $F(0) = \pi S(\tau = 2/3)$ for $S = a+b\tau$.
 
-> **A2.** $\frac{d}{d\tau}(Ie^{-\tau/\mu}) = -\frac{S}{\mu}e^{-\tau/\mu}$. Integrate from $0$ to $\infty$ with $Ie^{-\tau/\mu}\to0$: $-I(0,\mu) = -\int_0^\infty S e^{-t/\mu}dt/\mu$, so $I(0,\mu) = \int_0^\infty S(t)e^{-t/\mu}dt/\mu$.
+> **A2.** See §7.4: $I(0,\mu) = a+b\mu = S(\mu)$; $F = 2\pi\int_0^1(a+b\mu)\mu d\mu = 2\pi(a/2+b/3) = \pi(a+2b/3) = \pi S(2/3)$.
 
-**Q3.** Prove the Eddington–Barbier relations $I(0,\mu) = S(\tau = \mu)$ and $F(0) = \pi S(\tau = 2/3)$ for $S = a+b\tau$.
+**Q3.** Explain limb darkening physically. Under what condition would we see limb **brightening**?
 
-> **A3.** See §7.4: $I(0,\mu) = a+b\mu = S(\mu)$; $F = 2\pi\int_0^1(a+b\mu)\mu d\mu = 2\pi(a/2+b/3) = \pi(a+2b/3) = \pi S(2/3)$.
+> **A3.** At disk centre the line of sight is perpendicular to the layers, so $\tau = 1$ is reached at vertical depth $\tau_{\rm vert} = 1$. Near the limb the ray is oblique, and $\tau = 1$ along it occurs at $\tau_{\rm vert} = \mu$, in higher layers. If $S$ (in LTE, $T$) decreases outward, the limb is darker. If $S$ increases outward, as in the chromosphere at UV, EUV and radio wavelengths, the limb is brighter.
 
-**Q4.** Explain limb darkening physically. Under what condition would we see limb **brightening**?
+**Q4.** The solar limb darkening at some wavelength is $I(\mu)/I(1) = 0.3+0.7\mu$. In LTE and using Eddington–Barbier, at what optical depth does $S$ equal half its value at $\tau = 1$?
 
-> **A4.** At disk centre the line of sight is perpendicular to the layers, so $\tau = 1$ is reached at vertical depth $\tau_{\rm vert} = 1$. Near the limb the ray is oblique, and $\tau = 1$ along it occurs at $\tau_{\rm vert} = \mu$, in higher layers. If $S$ (in LTE, $T$) decreases outward, the limb is darker. If $S$ increases outward, as in the chromosphere at UV, EUV and radio wavelengths, the limb is brighter.
-
-**Q5.** Show that $J(\tau) = \frac12\int_0^\infty S(t)E_1|t-\tau|dt$.
-
-> **A5.** $J = \frac12\int_0^1I^+d\mu+\frac12\int_0^1I^-d|\mu|$. Substitute the formal solutions: $\frac12\int_0^1\int_\tau^\infty S(t)e^{-(t-\tau)/\mu}\frac{dt}{\mu}d\mu + \dots$. Swap integrals: $\int_0^1e^{-x/\mu}\frac{d\mu}{\mu} = \int_1^\infty e^{-xw}\frac{dw}{w} = E_1(x)$ (with $w = 1/\mu$). Both halves combine to $\frac12\int_0^\infty S(t)E_1(|t-\tau|)dt$.
-
-**Q6.** The solar limb darkening at some wavelength is $I(\mu)/I(1) = 0.3+0.7\mu$. In LTE and using Eddington–Barbier, at what optical depth does $S$ equal half its value at $\tau = 1$?
-
-> **A6.** $S(\tau)/S(1) = 0.3+0.7\tau = 0.5\Rightarrow\tau = 0.29$.
-
-**Q7.** Why is the emergent flux of a star (and hence its colour) characteristic of $\tau\approx2/3$ rather than of $\tau = 1$?
-
-> **A7.** The flux weights the outgoing intensity by $\mu$ and integrates over the hemisphere. Rays at $\mu<1$ probe shallower layers, so the angle-averaged depth is $\langle\tau\rangle = 2/3$ (exact for linear $S$).
+> **A4.** $S(\tau)/S(1) = 0.3+0.7\tau = 0.5\Rightarrow\tau = 0.29$.

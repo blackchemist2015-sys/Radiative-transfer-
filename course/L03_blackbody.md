@@ -42,7 +42,7 @@ Set $\partial B_\nu/\partial\nu = 0$: with $x = h\nu/kT$ we need $3(1-e^{-x}) = 
 $$\nu_{\max} = 2.821\frac{kT}{h} = 5.879\times10^{10}\ {\rm Hz\,K^{-1}}\times T .$$
 Set $\partial B_\lambda/\partial\lambda = 0$: $5(1-e^{-y}) = y$ with $y = hc/\lambda kT$, so $y = 4.965$:
 $$\lambda_{\max}T = 2.898\times10^{-3}\ {\rm m\,K}.$$
-Note that $\lambda_{\max}\neq c/\nu_{\max}$: the peak depends on the variable used (Lecture 2, Q5).
+Note that $\lambda_{\max}\neq c/\nu_{\max}$: the peak depends on the variable used, because $I_\lambda = (c/\lambda^2)I_\nu$ (Lecture 2, §2.2).
 
 ## 3.4 Stefan–Boltzmann law
 
@@ -121,18 +121,6 @@ For $\lambda = 500$ nm and $B_\lambda = 4.0\times10^{13}$ W m$^{-3}$ sr$^{-1}$: 
 
 > **A3.** $F = \pi\int B_\nu d\nu = \pi\frac{2h}{c^2}\left(\frac{kT}{h}\right)^4\frac{\pi^4}{15} = \frac{2\pi^5k^4}{15c^2h^3}T^4 = \sigma T^4$.
 
-**Q4.** Write the RJ and Wien limits. In which limit is a black body's intensity linear in $T$? Why is the RJ limit used in radio astronomy?
+**Q4.** Why is $T_b$ of an optically thin source **less** than its kinetic temperature? Under what condition are they equal?
 
-> **A4.** RJ: $B_\nu\approx2\nu^2kT/c^2$ (linear in $T$). Wien: $B_\nu\approx(2h\nu^3/c^2)e^{-h\nu/kT}$. At radio frequencies $h\nu/k\sim0.05$–$1$ K $\ll T$ for almost all sources, so $I_\nu\propto T_b$ and the RTE becomes linear in temperature (Lecture 5).
-
-**Q5.** Two stars have the same $T_{\rm eff}$ but radii differing by a factor 10. Compare their surface fluxes, surface brightnesses and luminosities.
-
-> **A5.** Surface flux $\sigma T_{\rm eff}^4$ and surface brightness ($I\approx F/\pi$) are the **same**. Luminosity $\propto R^2$ differs by a factor 100.
-
-**Q6.** Show that $dB/dT = 4\sigma T^3/\pi$ and that $\partial B_\nu/\partial T > 0$ at every frequency.
-
-> **A6.** $B = \sigma T^4/\pi$, so $dB/dT = 4\sigma T^3/\pi$. $\partial B_\nu/\partial T = \frac{2h\nu^3}{c^2}\frac{(h\nu/kT^2)e^{h\nu/kT}}{(e^{h\nu/kT}-1)^2} > 0$. So Planck curves never cross: hotter means brighter at every frequency. This is why absorption lines form where $T$ decreases outward (Lecture 10).
-
-**Q7.** Why is $T_b$ of an optically thin source **less** than its kinetic temperature? Under what condition are they equal?
-
-> **A7.** For an isothermal slab with no background, $I_\nu = B_\nu(T)(1-e^{-\tau_\nu})$ (Lecture 5), so in RJ $T_b = T(1-e^{-\tau})<T$, and $T_b\approx T\tau$ when $\tau\ll1$. They are equal only when $\tau_\nu\gg1$ (and the source is thermal, $S_\nu = B_\nu$).
+> **A4.** For an isothermal slab with no background, $I_\nu = B_\nu(T)(1-e^{-\tau_\nu})$ (Lecture 5), so in RJ $T_b = T(1-e^{-\tau})<T$, and $T_b\approx T\tau$ when $\tau\ll1$. They are equal only when $\tau_\nu\gg1$ (and the source is thermal, $S_\nu = B_\nu$).
