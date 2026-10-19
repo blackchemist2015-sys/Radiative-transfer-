@@ -1,6 +1,14 @@
 # Radiative Transfer: a Graduated Course for Pre-Master Students (with LTE Solutions)
 
-A self-contained, illustrated course in **radiative transfer** for students preparing for an **Astrophysics master's programme**. It is built in 10 lectures that go from the definition of specific intensity to the full solution of the **gray LTE stellar atmosphere** and **LTE line formation**. Every lecture contains derivations, figures, worked numerical examples, and **3–4 exam questions with complete answers**. A final exam with full solutions and a formula sheet close the course.
+A self-contained, illustrated course in **radiative transfer** for students preparing for an **Astrophysics master's programme**. It is built in 10 lectures that go from the definition of specific intensity to the full solution of the **gray LTE stellar atmosphere** and **LTE line formation**. Every lecture follows the same structure:
+
+1. **Learning goals**
+2. **Key concepts in plain words**: each idea explained physically, with everyday analogies, before any mathematics
+3. **Theory and derivations** with figures
+4. **Worked numerical examples**
+5. **Common misconceptions**: the mistakes students most often make
+6. **Lecture summary**
+7. **3–4 exam questions with complete answers** A final exam with full solutions and a formula sheet close the course.
 
 📘 **Read the whole course as one PDF:** [`Radiative_Transfer_Course.pdf`](Radiative_Transfer_Course.pdf)
 

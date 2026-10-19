@@ -8,6 +8,23 @@
 2. Derive the formal solutions for outgoing and incoming intensity and the Schwarzschild–Milne integrals for $J$, $H$ and $K$.
 3. Prove the Eddington–Barbier relations and use them to invert limb darkening into a temperature structure.
 
+
+## Key concepts in plain words
+
+**Plane-parallel atmosphere — a thin skin on a big ball.** The solar photosphere is only a few hundred km thick, while the Sun's radius is 700 000 km. Locally the atmosphere looks like a stack of flat, horizontal layers, just as the Earth looks flat when you stand on it. Every layer is uniform horizontally, so quantities depend only on depth.
+
+**Optical depth as the vertical coordinate.** Instead of measuring depth in kilometres, we count how many photon mean free paths lie between a point and outer space: $\tau = 0$ at the top, increasing inward. This is natural because what we see depends on optical depth, not on kilometres. "$\tau = 1$" means "one mean free path below space": the typical depth from which photons escape.
+
+**Slanted rays and $\mu$.** A ray leaving at angle $\theta$ to the vertical crosses each layer obliquely, so it accumulates optical depth faster: a vertical optical depth $\tau$ corresponds to $\tau/\mu$ along the ray ($\mu = \cos\theta$). Rays near the edge of the stellar disk (the limb) are almost horizontal, so they reach $\tau_{\rm ray} = 1$ while still very high in the atmosphere.
+
+**The emergent intensity is a weighted average over depth.** What leaves the surface in direction $\mu$ is the source function at all depths, weighted by $e^{-\tau/\mu}$ (the fraction that survives the trip out). Deep layers are hidden; shallow layers are seen. In practice the weight is concentrated within about one optical depth along the ray.
+
+**Eddington–Barbier — "we see down to $\tau\approx1$".** The weighted average turns out to be very close to the value of the source function at vertical depth $\tau = \mu$. At the centre of the disk ($\mu = 1$) we see down to $\tau = 1$; near the limb ($\mu\to0$) we see only the top layers. The total flux comes from about $\tau = 2/3$. This is the single most useful rule for interpreting stellar spectra.
+
+**Limb darkening is a depth probe.** Because the limb shows higher layers, and in the Sun the temperature decreases outward, the limb looks darker and redder. Measuring how the brightness changes from centre to limb therefore maps the temperature as a function of depth, without ever going there.
+
+**The $\Lambda$ operator — "what light does this source produce?".** If you know the source function everywhere, the operator $\Lambda$ tells you the mean intensity $J$ at any depth. It is the mathematical form of "light at one place comes from everywhere else", which is why radiative transfer is non-local.
+
 ---
 
 ## 7.1 Geometry and sign conventions
@@ -107,6 +124,22 @@ $\int_0^\infty t^2e^{-t/\mu}dt/\mu = 2\mu^2$, so $I(0,\mu) = a + b\mu + 2c\mu^2$
 *$S = a+b\tau$. Compute $J(0)$ and $H(0)$, and show that $J(0)\neq S(0)$.*
 
 $I^+(0,\mu) = a+b\mu$ and $I^-(0) = 0$, so $J(0) = \tfrac12\int_0^1(a+b\mu)d\mu = \tfrac a2 + \tfrac b4$ and $H(0) = \tfrac12\int_0^1(a+b\mu)\mu\,d\mu = \tfrac a4 + \tfrac b6$. With $b = 0$: $J(0) = a/2 = S(0)/2$. **The radiation field at the surface is not in equilibrium with the local source function**, a signature of photon escape.
+
+---
+
+## Common misconceptions
+
+1. **"Optical depth increases outward."** In stellar atmospheres it is measured *inward* from the surface.
+2. **"The limb is darker because it is farther away."** The difference in distance is negligible; the limb is darker because we see higher, cooler layers there.
+3. **"Eddington–Barbier is exact."** It is exact only for a source function linear in $\tau$.
+4. **"The photosphere is at the same geometric height at all wavelengths."** $\tau_\nu = 2/3$ occurs at different depths for different frequencies; line cores form higher than the continuum.
+
+## Lecture summary
+
+- Plane-parallel RTE: $\mu\,dI/d\tau = I - S$, with $\tau$ inward and $\mu = \cos\theta$.
+- Emergent intensity: $I(0,\mu) = \int_0^\infty S\,e^{-\tau/\mu}d\tau/\mu$ (a Laplace transform of $S$).
+- Schwarzschild–Milne: $J = \Lambda[S]$ with the kernel $\tfrac12E_1$; flux with $E_2$; $K$ with $E_3$.
+- Eddington–Barbier: $I(0,\mu)\approx S(\mu)$, $F\approx\pi S(2/3)$; limb darkening reveals $T(\tau)$.
 
 ---
 

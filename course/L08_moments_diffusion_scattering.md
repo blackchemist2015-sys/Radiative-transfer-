@@ -9,6 +9,23 @@
 3. Derive the diffusion approximation and the Rosseland mean opacity.
 4. Solve an isothermal atmosphere with scattering, obtain the $\sqrt\varepsilon$ law and the thermalisation depth, and understand why $\Lambda$-iteration fails.
 
+
+## Key concepts in plain words
+
+**Moments trade detail for simplicity.** Instead of following $I(\mu)$ in every direction, we follow a few averages ($J$, $H$, $K$). The price is that each equation for one moment involves the next one, so we always have one equation too few. This is the **closure problem**, exactly as in fluid dynamics, where the momentum equation needs an equation of state to close it. In RT, the closure is an assumption about the angular shape of the radiation, such as $K = J/3$.
+
+**Radiative equilibrium — every parcel is a perfect thermostat.** In a static atmosphere with no energy sources, each small piece of gas must emit exactly as much energy as it absorbs; otherwise it would heat up or cool down. The equation $\int\kappa_\nu(J_\nu - B_\nu)d\nu = 0$ says precisely that. It is this condition that **fixes the temperature** at each depth. Scattering drops out because it only redirects photons and neither gives energy to the gas nor takes it.
+
+**Diffusion — radiation behaves like heat conduction deep inside.** Deep in a star, photons are absorbed after very short distances and the radiation is almost the same in every direction, with a tiny excess flowing outward. The net flow is then proportional to the temperature gradient, $F\propto-dT/dz$, just like heat flowing down a metal rod. The "conductivity" is inversely proportional to the opacity.
+
+**Rosseland mean — traffic takes the easy lanes.** When the opacity varies with frequency, the energy flows mainly through the frequencies where the gas is most transparent, as cars on a motorway crowd into the fastest lanes. Mathematically this is a harmonic mean, like adding electrical resistors in parallel: the low-resistance (low-opacity) paths dominate.
+
+**The Eddington approximation.** Eddington assumed that the radiation is "almost isotropic" everywhere, so $K = J/3$ even near the surface, and that the outgoing light at the surface is uniform over angles, so $J(0) = 2H(0)$. Both assumptions are a little wrong, but their errors partly cancel, and the results are usually accurate to a few per cent.
+
+**Thermalisation — how long a photon survives.** With scattering, a photon may bounce many times before being truly absorbed. If the destruction probability per event is $\varepsilon$, a photon survives about $1/\varepsilon$ scatterings, during which it wanders about $1/\sqrt\varepsilon$ optical depths. Only below this **thermalisation depth** does the gas "lock" the radiation to its own temperature ($S\to B$). Above it, photons leak out, $J$ falls below $B$, and so does $S$, all the way to $S(0) = \sqrt\varepsilon B$ at the surface. A useful image is water in a sieve: the deeper the water, the longer it stays.
+
+**Why simple iteration fails.** $\Lambda$-iteration is like passing a message down a long line of people, where each person only talks to their neighbours: the news that "the surface is leaking" travels only one optical depth per iteration. With a thermalisation depth of 1000, you need about a million iterations. Modern methods (direct solution, ALI) send the message along the whole line at once.
+
 ---
 
 ## 8.1 Moments of the RTE
@@ -116,6 +133,22 @@ The flux flows through the transparent band. Adding many strong lines (line blan
 $F = L_\odot/(4\pi r^2) = 3.828\times10^{26}/(4\pi(3.48\times10^8)^2) = 2.5\times10^{8}$ W m$^{-2}$.
 $$\left|\frac{dT}{dr}\right| = \frac{3\kappa_R\rho F}{16\sigma T^3} = \frac{3\times1\times1.3\times10^3\times2.5\times10^8}{16\times5.67\times10^{-8}\times(3.4\times10^6)^3} = 2.7\times10^{-2}\ {\rm K\,m^{-1}}.$$
 That is about 27 K per km, or roughly $T/R_\odot\times5$: the right order of magnitude for the solar interior.
+
+---
+
+## Common misconceptions
+
+1. **"Scattering heats the gas."** Coherent scattering conserves photon energy; it drops out of radiative equilibrium.
+2. **"The Rosseland mean is an ordinary average of the opacity."** It is a weighted *harmonic* mean, dominated by the most transparent frequencies.
+3. **"An isothermal atmosphere has $S = B$ everywhere."** With scattering, $S$ falls to $\sqrt\varepsilon B$ at the surface even though $T$ is constant.
+4. **"If the solution changes very little between iterations, it has converged."** In $\Lambda$-iteration tiny changes per step can hide large remaining errors.
+
+## Lecture summary
+
+- Moments: $dH/d\tau = J - S$, $dK/d\tau = H$; a closure ($K = J/3$) is needed.
+- Radiative equilibrium $\int\kappa_\nu(J_\nu-B_\nu)d\nu = 0$ fixes $T(\tau)$; scattering drops out.
+- Deep inside: diffusion, $F = -\frac{16\sigma T^3}{3\kappa_R\rho}\frac{dT}{dz}$ with the Rosseland mean.
+- Scattering atmospheres: $S(0) = \sqrt\varepsilon B$, thermalisation depth $\sim1/\sqrt\varepsilon$; $\Lambda$-iteration converges slowly.
 
 ---
 

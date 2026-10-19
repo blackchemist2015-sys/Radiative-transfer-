@@ -9,6 +9,23 @@
 3. Describe scattering as absorption followed by re-emission, and write the mixed source function.
 4. Use the random walk to estimate photon escape times.
 
+
+## Key concepts in plain words
+
+**Absorption coefficient — probability per metre.** $\alpha_\nu$ is the probability that a photon is removed from the beam per unit length travelled. If $\alpha_\nu = 0.01$ m$^{-1}$, a photon has a 1 % chance of being stopped in each metre. Its inverse, the **mean free path** $\ell = 1/\alpha_\nu$, is the typical distance a photon travels before something happens to it; it plays the role of "visibility" in fog.
+
+**Cross-section — the effective size of a target.** Each atom or electron acts like a little target of area $\sigma_\nu$ that photons can hit. This area is not a physical size: an electron has no measurable size, yet it has a Thomson cross-section of $6.65\times10^{-29}$ m$^2$. Multiply the target area by the number of targets per volume and you get $\alpha_\nu = n\sigma_\nu$. Many tiny targets can make a medium very opaque.
+
+**Opacity — absorption per kilogram.** Writing $\alpha_\nu = \rho\kappa_\nu$ separates "how much stuff there is" ($\rho$) from "how good each kilogram is at stopping light" ($\kappa_\nu$, the opacity). Opacity depends strongly on temperature, composition and frequency, and that frequency dependence is what produces spectral features.
+
+**Emission coefficient.** $j_\nu$ is the energy that matter emits per unit volume, time, frequency and solid angle. It does not depend on how much light is already present: hot, excited atoms emit spontaneously anyway.
+
+**Stimulated emission — photon cloning.** A photon passing an excited atom can trigger it to emit a second photon identical to the first (same frequency, direction and phase). Because this process grows with the light already present, it acts like *negative absorption*. If more atoms are in the upper level than in the lower one (a population inversion), light is amplified instead of absorbed: this is a laser in the lab and a **maser** in space.
+
+**Absorption versus scattering — sponge versus pinball.** In *true absorption* the photon's energy is given to the gas (it becomes heat) and the photon disappears; the gas may later emit a different photon according to its temperature. In *scattering* the photon only bounces off in a new direction, like a pinball, keeping its energy. Scattering does not heat the gas and does not "know" the gas temperature; it only redistributes the light that is already there. The number $\varepsilon$ is the probability that an interaction is a true absorption (photon destroyed) rather than a scattering.
+
+**Random walk — why light leaves stars slowly.** A photon in a scattering medium moves like a drunk person who takes steps in random directions: after $N$ steps it is typically only $\sqrt N$ steps from the start. To escape from an optical depth $\tau$ it needs about $\tau^2$ scatterings. Light that would cross the Sun in 2 seconds takes thousands of years to diffuse out.
+
 ---
 
 ## 4.1 The four radiative processes
@@ -124,6 +141,23 @@ H$\alpha$ (656 nm, 5772 K): $h\nu/kT = 3.8$, so the factor is $0.98$; stimulated
 *Show that if the level populations are Boltzmann at temperature $T_{\rm ex}$, then $S_\nu = B_\nu(T_{\rm ex})$.*
 
 Insert $g_2n_1/(g_1n_2) = e^{h\nu/kT_{\rm ex}}$ into $S_\nu = (2h\nu^3/c^2)/[g_2n_1/(g_1n_2)-1]$ to get $S_\nu = B_\nu(T_{\rm ex})$. **The line source function only measures the excitation temperature.** LTE is the special case $T_{\rm ex} = T_{\rm kin}$.
+
+---
+
+## Common misconceptions
+
+1. **"Scattering removes energy from the radiation."** It removes photons from one beam but puts them into others; the total energy is conserved.
+2. **"Stimulated emission is a small correction that can always be ignored."** At radio wavelengths ($h\nu\ll kT$) it cancels almost all of the absorption.
+3. **"Opacity is a fixed property of a material."** It depends on temperature, density (through ionisation and excitation) and, above all, frequency.
+4. **"A photon from the Sun's core reaches us directly."** The energy random-walks out over thousands of years, being absorbed and re-emitted many times on the way.
+
+## Lecture summary
+
+- $\alpha_\nu = n\sigma_\nu = \rho\kappa_\nu$; mean free path $\ell = 1/\alpha_\nu$.
+- Einstein relations link absorption, spontaneous and stimulated emission; they are atomic properties.
+- Stimulated emission is negative absorption; population inversion gives masers.
+- Scattering gives $S = J$; absorption plus scattering gives $S = \varepsilon B+(1-\varepsilon)J$.
+- Random walk: $N\approx\tau^2$ scatterings to escape from optical depth $\tau$.
 
 ---
 

@@ -12,6 +12,21 @@ By the end of this lecture you should be able to:
 3. Distinguish **thermodynamic equilibrium (TE)**, **local thermodynamic equilibrium (LTE)** and **non-LTE (NLTE)** in words.
 4. List the main astrophysical applications of the RTE.
 
+
+## Key concepts in plain words
+
+**Radiative transfer is photon bookkeeping.** Imagine following one narrow beam of light as it travels from a star to your telescope. At every step along the way, some photons are removed from the beam (absorbed, or knocked sideways by scattering), and some new photons are added to it (emitted by the gas, or scattered into the beam from other directions). Radiative transfer is simply careful accounting of these gains and losses. The radiative transfer equation (RTE) is that account written as a differential equation: *change of the beam = gains − losses*.
+
+**Why astronomers care.** We cannot visit stars or gas clouds; we only receive their light. The light we receive is not the light that was originally produced: it has been processed by every layer it crossed. RT is the "translation dictionary" between the physical conditions (temperature, density, composition, motion) and the spectrum we record. Without RT we could not measure the temperature of the Sun's surface, the chemical composition of a distant star, or the density of an interstellar cloud.
+
+**Specific intensity — the brightness of one beam.** The basic quantity is the *specific intensity* $I_\nu$: the energy carried by light of one frequency, travelling in one direction, through a unit area, per unit time. It is what one pixel of a camera measures when it looks at an extended object. All other radiation quantities (flux, energy density, pressure) are built from it by averaging over directions.
+
+**Optical depth — distance measured in "fog units".** Optical depth $\tau_\nu$ counts how many photon mean free paths lie along a path. On a foggy day, visibility might be 50 m: an object 50 m away is at $\tau\approx1$, and one 500 m away is at $\tau\approx10$, completely hidden. In the same way, $\tau\ll1$ means "transparent" (optically thin) and $\tau\gg1$ means "opaque" (optically thick). Optical depth, not geometrical distance, decides what we can see.
+
+**Source function — what the gas would like the beam to be.** The ratio $S_\nu = j_\nu/\alpha_\nu$ (emission divided by absorption) is the brightness the gas tends to impose on any beam passing through it. If the beam is brighter than $S_\nu$ it is dimmed; if it is fainter it is brightened. A thick layer always ends up "painting" the beam with its own $S_\nu$.
+
+**TE, LTE and NLTE — three levels of equilibrium.** In *thermodynamic equilibrium* (TE) everything, matter and light, shares one temperature, as inside a closed hot oven. In *local thermodynamic equilibrium* (LTE) the **matter** at each place behaves as if it were in an oven at the local temperature, because collisions between particles are frequent; the **light**, however, can stream freely and need not be in equilibrium. In *non-LTE* (NLTE) collisions are too rare, and the radiation field itself controls how atoms are excited and ionised. Most of this course works in LTE, because it is the first and most important model for stellar atmospheres.
+
 ---
 
 ## 1.1 What is radiative transfer?
@@ -124,6 +139,23 @@ This compact form is the one we will use throughout the course. Lectures 2–5 d
 *The solar photosphere has a density scale height of about $H \approx 150$ km, and the opacity rises steeply with depth. Why does the solar limb look sharp even though the Sun is gaseous?*
 
 **Solution.** We see down to optical depth $\tau \approx 1$. Because $\alpha \propto \rho$ (and the opacity also rises with $T$), the optical depth changes from $\tau \approx 0.1$ to $\tau \approx 10$ within a few scale heights, i.e. a few hundred km. Seen from Earth, $1'' \approx 725$ km on the Sun, so the transition from transparent to opaque happens within less than $1''$, and the edge looks sharp. RT defines what "the surface" of a star means: the layer where $\tau \approx 2/3$ (Lecture 9).
+
+---
+
+## Common misconceptions
+
+1. **"In LTE the intensity equals the Planck function."** No: in LTE the *source function* equals $B_\nu(T)$. The intensity is set by the RTE and carries information from many different depths.
+2. **"Optical depth is a distance."** It is a *number of mean free paths*. One kilometre of air and one millimetre of a stellar interior can have very different optical depths.
+3. **"Absorption lines always mean cold gas between us and the star."** In a stellar atmosphere the lines form because the temperature *decreases outward*; no separate cold cloud is needed (Lectures 5 and 10).
+4. **"A star has a solid surface."** The "surface" is simply the layer from which photons can escape, at optical depth $\tau\approx2/3$.
+
+## Lecture summary
+
+- Radiative transfer follows a beam of light and adds up what matter removes and adds.
+- The RTE, $dI_\nu/ds = -\alpha_\nu I_\nu + j_\nu$, is the mathematical form of this bookkeeping.
+- Optical depth measures transparency; the source function measures what the gas emits per unit absorption.
+- LTE is a statement about **matter** (local temperature controls excitation and ionisation), not about light.
+- RT is used everywhere in astrophysics: stars, the ISM, nebulae, planets, accretion disks and cosmology.
 
 ---
 

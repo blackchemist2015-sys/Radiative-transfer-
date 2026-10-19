@@ -9,6 +9,19 @@
 3. Solve the uniform slab, including its optically thin and thick limits.
 4. Explain Kirchhoff's three laws of spectroscopy with RT, including MIT's two-layer star and thermal inversions.
 
+
+## Key concepts in plain words
+
+**The RTE is a tug of war.** Along a beam, two effects compete: the gas removes a fraction of the light (absorption), and the gas adds its own light (emission). If the beam is brighter than the gas's source function $S_\nu$, absorption wins and the beam fades toward $S_\nu$. If the beam is fainter, emission wins and the beam brightens toward $S_\nu$. Either way, after about one optical depth the beam "forgets" where it came from and approaches $S_\nu$.
+
+**The formal solution — looking down a foggy street of lamps.** Imagine looking down a long, foggy street lined with lamps. The light reaching your eye is the sum of the light from every lamp, each one dimmed by the fog between it and you. Nearby lamps contribute strongly; distant lamps contribute only a little, because their light is attenuated by a factor $e^{-\tau}$. That is exactly the formal solution: $I = I_0e^{-\tau}+\int S\,e^{-(\tau-t)}dt$. It also explains why we "see" only about one optical depth into any medium.
+
+**Optically thin versus optically thick.** A *thin* medium ($\tau\ll1$) is like a light mist: you see the background through it, and its own glow is weak and proportional to how much gas there is (each atom contributes independently). A *thick* medium ($\tau\gg1$) is like a wall: you see only its surface layer, and its brightness is $S_\nu$, independent of how much more gas lies behind.
+
+**Why lines appear — Kirchhoff's three laws explained.** Atoms absorb strongly only at certain frequencies (the spectral lines). At those frequencies the gas is "thicker", so we see less deeply into it. If the background (or the deeper gas) is brighter than the gas in front, the line frequencies look darker: an *absorption line*. If there is no bright background, the gas glows mostly at the line frequencies: *emission lines*. If the gas is thick at all frequencies and at one temperature, we see a smooth continuum.
+
+**The MIT two-layer star.** The simplest star that shows lines is a hot, thick base with a cooler, thin layer on top. In the continuum we see through the cool layer to the hot base; at the lines the cool layer blocks the view and we see its lower brightness. If the upper layer is *hotter* than the base (a **thermal inversion**), the same lines appear in emission. Thus line spectra are, at heart, thermometers of how temperature changes with height.
+
 ---
 
 ## 5.1 The equation, built up in three steps (MIT 8.901 §7.1)
@@ -138,6 +151,23 @@ $B_\lambda(6500\ {\rm K}) = 3.474\times10^{13}$ and $B_\lambda(4500\ {\rm K}) = 
 **(b)** The linearised form $B_H-\tau(B_H-B_C)$ gives $0.984\,B_H$ for $\tau = 0.02$ (correct to 0.02 %) but $-0.57\,B_H$ for $\tau = 2$: **negative and meaningless**. The linear form holds only for $\tau_\nu\ll1$; strong lines need the full exponential.
 
 **(c)** For $\tau\to\infty$, $I_l\to B_C$, so the maximum depth is $1-B_C/I_c = 0.78$. **The depth of a saturated line measures the temperature contrast of the atmosphere**, which is the same conclusion as the Milne–Eddington model of Lecture 10.
+
+---
+
+## Common misconceptions
+
+1. **"The formal solution solves the transfer problem."** Only if $S_\nu$ is known in advance (e.g. LTE with known $T$). With scattering, $S$ depends on $I$, and the formal solution becomes an integral equation.
+2. **"An optically thick object always emits a black-body spectrum."** Only if it is also isothermal and $S = B$. A real star is thick but not isothermal.
+3. **"Emission lines require a hot gas."** They require gas whose $S_\nu$ is larger than the background intensity, e.g. thin gas on a dark sky, or a temperature that rises outward.
+4. **"The linearised two-layer formula works for every line."** It assumes $\tau\ll1$; for strong lines it can even give negative intensities.
+
+## Lecture summary
+
+- $dI_\nu/d\tau_\nu = S_\nu - I_\nu$: intensity relaxes toward the source function.
+- Formal solution: background dimmed by $e^{-\tau}$ plus emission from each layer, each dimmed by the gas in front.
+- Constant $S$: $I = I_0e^{-\tau}+S(1-e^{-\tau})$; thin ⇒ $I\approx I_0+\tau(S-I_0)$, thick ⇒ $I\to S$.
+- Absorption lines need background brighter than $S$; emission lines need the opposite.
+- MIT toy models: thin cloud (emission lines), two-layer star (absorption lines), inversion (emission lines).
 
 ---
 

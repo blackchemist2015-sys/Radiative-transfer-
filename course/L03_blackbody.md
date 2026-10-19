@@ -8,6 +8,21 @@
 2. Obtain its Rayleigh–Jeans and Wien limits, Wien's displacement law and the Stefan–Boltzmann law.
 3. Define and use brightness, colour and effective temperatures.
 
+
+## Key concepts in plain words
+
+**What a black body is.** A black body is an object that absorbs every photon that falls on it. The best laboratory example is a closed oven with a tiny hole: light entering the hole bounces around inside and is absorbed long before it can come out again, so the hole looks perfectly black when the oven is cold. When the oven is hot, the hole glows, and the light that escapes has a spectrum that depends **only on the temperature**, not on what the oven is made of. That universal spectrum is the Planck function $B_\nu(T)$.
+
+**Why the Planck curve has its shape.** Two competing effects meet. (1) At higher frequencies there are many more possible "slots" (modes) for photons in a box: their number grows as $\nu^2$. (2) Each photon of frequency $\nu$ costs energy $h\nu$, and thermal energy $kT$ cannot easily pay for very expensive photons, so their occupation falls exponentially, as $e^{-h\nu/kT}$. Rising number of slots times falling occupation gives a curve that rises, peaks, and then drops steeply.
+
+**Colour tells temperature (Wien's law).** The peak moves to shorter wavelengths as $T$ increases: $\lambda_{\max}T = 2.9\times10^{-3}$ m K. Cool red stars ($\sim3000$ K) peak in the infrared; the Sun (5800 K) peaks in the green-blue; hot blue stars ($\sim20\,000$ K) peak in the ultraviolet. This is why star colours are a thermometer.
+
+**Total power rises steeply with temperature (Stefan–Boltzmann).** The total flux from a black body is $\sigma T^4$. Doubling the temperature multiplies the emitted power by $2^4 = 16$. Small temperature differences therefore give large brightness differences, a fact used constantly in stellar astrophysics ($L = 4\pi R^2\sigma T_{\rm eff}^4$).
+
+**Two useful limits.** At low frequency (radio) the Planck function becomes the classical Rayleigh–Jeans law, which is simply proportional to $T$, so radio astronomers quote intensities as *brightness temperatures*. At high frequency (UV, X-rays) it becomes Wien's law, an exponential tail that is extremely sensitive to $T$.
+
+**Many different "temperatures".** Astronomers use several temperatures because each answers a different question: *effective* temperature (which black body emits the same total flux?), *brightness* temperature (which black body has the same intensity at this frequency?), *colour* temperature (which black body has the same spectral shape?), *excitation* temperature (which temperature explains these level populations?). For a real star they differ; they coincide only for a true black body.
+
 ---
 
 ## 3.1 Black-body radiation
@@ -104,6 +119,22 @@ If the source is an optically thin H II region with $T_e = 8000$ K, then $T_b = 
 *An observed intensity equals $B_\lambda$; solve for $T$.*
 $$T = \frac{hc}{\lambda k}\;\frac{1}{\ln\!\left(1+\dfrac{2hc^2}{\lambda^5B_\lambda}\right)}.$$
 For $\lambda = 500$ nm and $B_\lambda = 4.0\times10^{13}$ W m$^{-3}$ sr$^{-1}$: $T = 28\,776/\ln(1+95.3) = 6300$ K. We use this formula in Lecture 7 to map out the solar temperature from limb darkening.
+
+---
+
+## Common misconceptions
+
+1. **"Black bodies look black."** Only when they are cold. The Sun is very nearly a black body.
+2. **"$\lambda_{\max} = c/\nu_{\max}$."** False: the peak of $B_\lambda$ and the peak of $B_\nu$ are at different places.
+3. **"Brightness temperature is the real temperature."** Only for an optically thick, thermal source. Thin gas has $T_b\approx\tau T<T$; non-thermal sources (pulsars, masers) can have $T_b$ far above any physical temperature.
+4. **"Stars emit exact black-body spectra."** They are approximately Planckian, but their spectra show lines, edges and depth-dependent temperature effects (Lecture 9).
+
+## Lecture summary
+
+- The Planck function is the spectrum of radiation in equilibrium; it depends only on $T$.
+- Wien: $\lambda_{\max}T = 2.898\times10^{-3}$ m K. Stefan–Boltzmann: $F = \sigma T^4$, $u = aT^4$.
+- Radio: Rayleigh–Jeans, $I_\nu\propto T_b$. UV: Wien tail, very sensitive to $T$.
+- Different "temperatures" ($T_{\rm eff}$, $T_b$, $T_c$, $T_{\rm ex}$) answer different questions.
 
 ---
 

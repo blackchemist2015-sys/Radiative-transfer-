@@ -10,6 +10,23 @@
 3. Know the exact solution (Hopf function $q(\tau)$, Chandrasekhar's $H$-function) and its numerical values.
 4. Compute the emergent intensity, limb darkening, spectrum and pressure structure of a gray LTE model.
 
+
+## Key concepts in plain words
+
+**The "hydrogen atom" of stellar atmospheres.** The gray atmosphere is the simplest model that is still physically self-consistent: one opacity for all frequencies, LTE, a flat geometry, and all energy carried by radiation. Like the hydrogen atom in quantum mechanics, it can be solved exactly, and its solution explains the main features of real stars: why they are hotter inside, what $T_{\rm eff}$ means, why their disks are limb-darkened, and why their spectra are close to (but not exactly) black bodies.
+
+**Why $J = B$ in a gray LTE atmosphere.** Radiative equilibrium says each layer emits as much as it absorbs. With the same opacity at all frequencies, "absorbed = emitted" becomes simply "the average radiation bathing the gas ($J$) equals what the gas emits per unit absorption ($B$)". So the gas temperature is set by how strongly it is illuminated: $\sigma T^4/\pi = J$.
+
+**Why the temperature rises inward.** The flux must be the same at every depth (no energy is created or lost). Carrying a constant flux outward through an opaque medium requires a gradient, exactly as heat flows from hot to cold only if there is a temperature difference. The deeper you go, the more optical depth the energy must still cross, so the hotter the gas must be: $T^4\propto\tau+$ constant.
+
+**Why the surface is not at zero temperature.** At the top, the gas still receives radiation from below (about half the sky is "bright"), so it stays warm: $T(0)\approx0.81$–$0.84\,T_{\rm eff}$. It cannot cool to zero, because it is constantly heated by the light passing through it.
+
+**What $T_{\rm eff}$ really means.** The effective temperature is defined from the total flux, $F = \sigma T_{\rm eff}^4$. The gray solution shows that it equals the actual gas temperature at $\tau\approx2/3$. This is exactly the depth from which, by Eddington–Barbier, the flux escapes. "The photosphere" is therefore the layer at $\tau\approx2/3$, where the gas temperature equals $T_{\rm eff}$.
+
+**Approximate versus exact.** Eddington's approximation gives $T^4 = \frac34T_{\rm eff}^4(\tau+\frac23)$. The exact solution replaces the constant $\frac23$ by the slowly varying Hopf function $q(\tau)$, between 0.577 at the top and 0.710 deep down. The difference is only a few per cent in temperature, and it matters mainly near the surface. Our numerical solver reproduces the exact values of Chandrasekhar's 1950 tables.
+
+**Why the spectrum is not a black body.** Each frequency sees a mixture of layers at different temperatures. Because the Planck function rises very steeply with $T$ in the ultraviolet, the hot deeper layers contribute disproportionately there, so a gray star is slightly brighter than a black body in the UV. The **total** flux, though, is exactly $\sigma T_{\rm eff}^4$.
+
 ---
 
 ## 9.1 The problem
@@ -153,6 +170,22 @@ Detailed solar models give $\rho\approx2.5\times10^{-4}$ kg m$^{-3}$ at $\tau_{5
 *Show that if $S = J$ and $H$ = const, then $\int_0^\infty J(t)E_2(t)dt = 2H$ (the flux from the Schwarzschild–Milne equation at $\tau = 0$), and check it for the Eddington solution.*
 
 $F(0) = 2\pi\int_0^\infty S(t)E_2(t)dt = 4\pi H\Rightarrow\int_0^\infty SE_2\,dt = 2H$. Eddington: $S = 3H(t+2/3)$, and $\int_0^\infty tE_2dt = 1/3$, $\int_0^\infty E_2dt = E_3(0) = 1/2$. So $\int SE_2 = 3H(1/3+1/3) = 2H$ ✓. The Eddington solution satisfies the **surface** flux condition exactly, but not Milne's equation at every depth. The exact $q(\tau)$ corrects that.
+
+---
+
+## Common misconceptions
+
+1. **"$T_{\rm eff}$ is the temperature of the stellar surface."** It is the temperature at $\tau\approx2/3$; the top of the atmosphere is cooler (about $0.81\,T_{\rm eff}$).
+2. **"A gray atmosphere emits a black-body spectrum at $T_{\rm eff}$."** Its spectrum is a blend of Planck functions from many depths.
+3. **"The Eddington solution satisfies the transfer equation exactly."** It satisfies the moment equations with an approximate closure; the exact solution needs the Hopf function.
+4. **"Gray means the opacity is small."** Gray means *independent of frequency*, whatever its size.
+
+## Lecture summary
+
+- Gray + LTE + radiative equilibrium ⇒ $J = B$, $H$ = constant, $K = H\tau+$ const.
+- Eddington: $T^4 = \frac34T_{\rm eff}^4(\tau+\frac23)$; $T(0) = 0.841\,T_{\rm eff}$; $T = T_{\rm eff}$ at $\tau = 2/3$.
+- Exact: $q(\tau)$ from $0.577$ to $0.710$; $T(0) = 0.811\,T_{\rm eff}$; limb darkening $H(\mu)/H(1)$.
+- Emergent spectrum is not a black body; total flux $= \sigma T_{\rm eff}^4$; add $P = g\tau/\kappa$ for a full model.
 
 ---
 

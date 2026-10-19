@@ -10,6 +10,23 @@
 4. Explain the curve of growth and use the weak-line formula to measure abundances.
 5. Recognise when LTE fails for lines, and what NLTE changes.
 
+
+## Key concepts in plain words
+
+**A spectral line is a narrow window of high opacity.** Atoms absorb strongly only at the frequencies of their transitions. At those frequencies the atmosphere is much more opaque than in the neighbouring continuum.
+
+**Why lines have a width.** A line is never infinitely narrow, for three reasons: (1) atoms move, so each one sees the light Doppler-shifted (thermal and turbulent motions: a Gaussian core); (2) excited states live only a finite time, so by the uncertainty principle their energy is slightly uncertain (natural broadening); (3) collisions with other particles interrupt the emission (pressure broadening, which grows with density and therefore with surface gravity). The combination is the Voigt profile: a Gaussian core with Lorentzian "damping wings".
+
+**Why lines are dark — we see higher, cooler gas.** Because the line frequencies are more opaque, at those frequencies we see only down to a higher layer (Eddington–Barbier at $\tau_\nu = 2/3$). In a star whose temperature decreases outward, that layer is cooler and emits less, so the line looks dark. An absorption line in a stellar spectrum is therefore a map of the temperature gradient, not evidence of a separate cold cloud.
+
+**Saturation — a line cannot be darker than its top layer.** Adding more absorbing atoms makes us see from ever-higher layers, but the source function there approaches a minimum value (the surface value). Once the line core reaches that floor, it cannot get darker: it is *saturated*. Further absorbers only widen the line.
+
+**Equivalent width — the "bite" taken out of the spectrum.** The equivalent width is the width of a perfectly black rectangle that removes the same amount of light as the line. It measures the total strength of the line, independent of the instrument's resolution, like measuring the area of a bite taken from a biscuit rather than its exact shape.
+
+**Curve of growth — from counting atoms to filling the core.** For weak lines, each atom removes light independently, so the equivalent width is proportional to the number of absorbers: ideal for measuring abundances. When the core saturates, the width grows very slowly (the flat part). When there are enough atoms to make the damping wings opaque, the width grows again as the square root of the number of atoms.
+
+**When LTE fails for lines.** In the thin upper layers, collisions are too rare to keep the atomic levels at the local temperature. Line photons escape, the radiation field in the line drops, and the line source function falls below $B$. Strong-line cores are then *darker* than LTE predicts. Departure coefficients $b_i = n_i/n_i^{\rm LTE}$ measure how far each level is from its LTE population.
+
 ---
 
 ## 10.1 Line opacity
@@ -121,6 +138,23 @@ $r = \dfrac{1+1/(1+\eta)}{2}$: for $\eta = 1$, $r = 0.75$; for $\eta = 10$, $r =
 *Suppose that above the temperature minimum $T$ rises outward, so that near the surface $B = B_0(1-\beta'\tau_c)$ with $\beta'>0$ for $\tau_c<0.1$. What does LTE predict for a strong line formed at $\tau_c\approx0.01$?*
 
 The strong line's $\tau_\nu = 2/3$ falls at $\tau_c\approx0.01$, where $B$ is larger than at $\tau_c\approx0.1$ (the temperature minimum), so the core shows an **emission reversal** inside the broad absorption profile. This is seen in the Ca II H & K lines (the K$_2$ peaks). In reality NLTE decoupling ($S<B$) makes the emission weaker than LTE predicts.
+
+---
+
+## Common misconceptions
+
+1. **"Line depth is proportional to abundance."** Only for weak lines; saturated lines barely respond to abundance changes.
+2. **"Absorption lines in a stellar spectrum come from a cold gas layer in front of the star."** They come from the outward decrease of temperature in the atmosphere itself.
+3. **"LTE always overestimates line strengths."** For strong resonance lines LTE usually predicts cores that are too *bright*; NLTE makes them darker.
+4. **"Line width only measures temperature."** It also includes microturbulence, rotation, pressure broadening (gravity) and natural damping.
+
+## Lecture summary
+
+- Line opacity uses Saha–Boltzmann populations (LTE) and a Voigt profile.
+- Lines are dark because, at line frequencies, $\tau_\nu = 2/3$ lies in higher, cooler layers.
+- Milne–Eddington: $r = [1+2\beta/3(1+\eta)]/(1+2\beta/3)$; saturation depth is set by $\beta$.
+- Curve of growth: linear ($W\propto Nf$, abundances) → flat → square-root (damping).
+- NLTE: $S^{\rm line} = (1-\varepsilon)\bar J+\varepsilon B$; strong-line cores are darker than in LTE.
 
 ---
 

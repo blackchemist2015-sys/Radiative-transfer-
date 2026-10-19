@@ -9,6 +9,25 @@
 3. Prove that $I_\nu$ is constant along a ray in empty space.
 4. Use these definitions to compute fluxes from stars.
 
+
+## Key concepts in plain words
+
+**Intensity versus flux: brightness versus net flow.** Think of standing in a room lit by many lamps. *Intensity* answers "how bright does the room look when I point a narrow tube in one particular direction?" *Flux* answers "how much energy crosses this window per second, counting light going one way as positive and the other way as negative?" A single bright star seen through a narrow telescope gives an intensity; a light meter lying flat on a table measures a flux.
+
+**Solid angle — the two-dimensional angle.** Just as an ordinary angle measures how much of a circle an object covers, a *solid angle* measures how much of the whole sky an object covers. The whole sky is $4\pi$ steradians (sr). The Sun, seen from Earth, covers only $6.8\times10^{-5}$ sr. Intensity is "energy per steradian", so it tells you how bright each little patch of the sky is.
+
+**Why intensity does not fall with distance.** When you walk away from a lamp, the energy reaching you falls as $1/r^2$, but the lamp also looks smaller, and its solid angle also falls as $1/r^2$. The ratio, the brightness per steradian, stays the same. This is why a photograph of the Sun's surface from Mars would be exactly as bright, pixel by pixel, as one taken from Earth; the Sun would only look smaller. This conservation law ($I_\nu$ = constant along a ray in vacuum) is why intensity, not flux, is the natural quantity for transfer.
+
+**Moments: replacing directions by averages.** Following the intensity in every direction is complicated, so we often use averages over directions, called *moments*:
+
+- the **mean intensity** $J_\nu$ is the simple average: how strongly a point is bathed in light from all sides (it decides how fast atoms there absorb);
+- the **flux** $F_\nu$ is the average weighted by $\cos\theta$: the *net* flow of energy in one direction (it decides how much light leaves a star);
+- the **K-integral** $K_\nu$ is weighted by $\cos^2\theta$: it measures the momentum carried, i.e. the radiation *pressure*.
+
+**Isotropic light carries no flux.** In a uniform fog, light arrives equally from all directions. Each point is strongly illuminated ($J$ large) but as much energy flows left as right, so the net flux is zero. A star shines only because its radiation is slightly **anisotropic**: a little more light goes outward than inward.
+
+**Where the factor $\pi$ comes from.** If a surface glows with the same intensity $I$ in every outward direction, the flux it emits is $\pi I$, not $2\pi I$, because light leaving at a slant crosses the surface less efficiently (factor $\cos\theta$). This is why a black body emits $F = \pi B = \sigma T^4$.
+
 ---
 
 ## 2.1 The four observables
@@ -117,6 +136,22 @@ $$J = \tfrac12\int_{-1}^1(I_0+I_1\mu)\,d\mu = I_0,\quad
 H = \tfrac12\int_{-1}^1(I_0+I_1\mu)\mu\,d\mu = \frac{I_1}{3},\quad
 K = \tfrac12\int_{-1}^1(I_0+I_1\mu)\mu^2d\mu = \frac{I_0}{3}.$$
 So $K = J/3$ even though the field is **anisotropic** and carries a flux $F = 4\pi H = 4\pi I_1/3$. This is why the Eddington approximation works well deep in a star, where $I$ is very nearly linear in $\mu$.
+
+---
+
+## Common misconceptions
+
+1. **"Intensity falls as $1/r^2$."** Flux does; intensity (surface brightness) does not, in empty static space.
+2. **"Zero flux means no light."** A perfectly isotropic radiation field can be extremely intense and still carry zero net flux, as deep inside a star.
+3. **"Every book's flux is the same flux."** Watch for $F$ (physical), $H = F/4\pi$ (Eddington) and $\mathcal F = F/\pi$ (astrophysical). Mixing them up gives errors of $\pi$ or $4\pi$.
+4. **"The peak of a spectrum is a fixed property."** Its position depends on whether you plot per unit frequency or per unit wavelength.
+
+## Lecture summary
+
+- $I_\nu$ is energy per time, area, frequency and solid angle: the brightness of one beam.
+- $I_\nu$ is conserved along rays in vacuum; flux falls as $1/r^2$ only because objects look smaller.
+- $J_\nu$, $F_\nu$ and $K_\nu$ are the 0th, 1st and 2nd angular moments: illumination, net flow and pressure.
+- Isotropic radiation has $F = 0$ and $P = u/3$; a surface of uniform intensity emits $F = \pi I$.
 
 ---
 

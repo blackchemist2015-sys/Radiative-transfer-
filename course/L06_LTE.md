@@ -9,6 +9,23 @@
 3. Use the Boltzmann and Saha equations; explain the strength of the Balmer lines along the spectral sequence.
 4. Derive the two-level-atom source function and the condition for LTE to be valid.
 
+
+## Key concepts in plain words
+
+**Equilibrium means "the most probable arrangement".** When particles collide very often, energy is shared out in the most probable way, and every distribution (speeds, excitation, ionisation, photons) is fixed by a single number: the temperature. That is thermodynamic equilibrium (TE). It is like a crowded room where everyone constantly exchanges coins: after a while the distribution of coins no longer depends on how it started.
+
+**Why the radiation is the first to leave equilibrium.** In a stellar atmosphere, particles (atoms, ions, electrons) travel only a tiny distance between collisions, but photons can travel much farther, especially near the surface where the gas is thin. Photons near the top can simply escape into space, and no photons come back from space to replace them. So the radiation field becomes **non-equilibrium** (anisotropic, deficient in outward-escaping light) long before the particles notice anything. Collins calls this the key asymmetry between photons and massive particles.
+
+**LTE — a local thermostat for matter.** If collisions are still frequent enough, each small volume of gas keeps its particles in equilibrium at the **local** temperature: Maxwellian speeds, Boltzmann excitation, Saha ionisation. That is LTE. The radiation passing through can be anything it likes. In LTE the gas emits exactly as much, per unit absorption, as a black body at the local temperature would (Kirchhoff's law), so $S_\nu = B_\nu(T)$.
+
+**Kirchhoff's law in words.** Good absorbers are good emitters. A material that absorbs strongly at some frequency also emits strongly at that frequency, and the ratio of emission to absorption is the same universal function $B_\nu(T)$ for every material in equilibrium. This is why a thick, isothermal piece of anything glows as a black body.
+
+**Boltzmann — a tax on climbing the energy ladder.** Atomic levels are like steps on a ladder. Occupying a higher step costs energy $\Delta E$, and in equilibrium the fraction of atoms on that step is reduced by the factor $e^{-\Delta E/kT}$ (a "tax" that is heavy when $kT$ is small), multiplied by the number of available states $g$.
+
+**Saha — energy cost versus freedom.** Ionising an atom costs a large energy $\chi$, which discourages ionisation. But a freed electron gains an enormous number of possible states (positions and velocities), which favours ionisation. Saha's equation balances these two effects. Because the number of free-electron states is huge, hydrogen becomes ionised at about 10 000 K, even though $\chi/k$ is 158 000 K. Low density favours ionisation too (an electron that is set free rarely meets an ion to recombine with).
+
+**Who controls the atoms: collisions or radiation?** An excited atom can be de-excited by a collision (energy goes to the gas, pushing toward LTE) or by emitting a photon (energy goes to the radiation, which may escape). If collisions are much faster ($C\gg A$, high density), the populations follow the local temperature: LTE. If radiation wins (low density, strong lines), the populations follow the radiation field: NLTE. The **critical density** $n_{\rm crit} = A/q$ marks the change-over.
+
 ---
 
 ## 6.1 Strict (full) thermodynamic equilibrium
@@ -132,6 +149,22 @@ The ionised fraction is $1.94/2.94 = 0.66$. Then $N_2/N_{\rm tot} = (2.6\times10
 *$A_{21} = 2.9\times10^{-15}$ s$^{-1}$, and the collisional de-excitation rate coefficient is $q_{21}\approx10^{-16}$ m$^3$ s$^{-1}$ (H–H collisions at 100 K). Is the line in LTE at $n_{\rm H} = 10^6$ m$^{-3}$ (1 cm$^{-3}$)?*
 
 $n_{\rm crit} = A_{21}/q_{21}\approx29$ m$^{-3}$ $\ll10^6$ m$^{-3}$. Collisions dominate, so the spin temperature is close to the kinetic temperature (the populations are thermalised). By contrast, optical forbidden lines such as [O III] have $A\sim10^{-2}$ s$^{-1}$ and $n_{\rm crit}\sim10^{11}$–$10^{12}$ m$^{-3}$, above nebular densities, so they are strongly NLTE.
+
+---
+
+## Common misconceptions
+
+1. **"LTE means the radiation is Planckian."** LTE concerns matter; $I_\nu$ can be far from $B_\nu$ (e.g. no incoming light at the surface).
+2. **"Hydrogen ionises when $kT\approx13.6$ eV."** It ionises at $kT\approx0.9$ eV, because of the huge number of free-electron states (Saha).
+3. **"If a gas is dense it is in LTE for every line."** Strong lines can still be NLTE in the upper layers, because photons escape there.
+4. **"Excitation temperature always equals kinetic temperature."** Only in LTE. In NLTE they can differ greatly (e.g. masers have negative $T_{\rm ex}$).
+
+## Lecture summary
+
+- TE: one temperature for matter and radiation, $I_\nu = B_\nu$. LTE: matter at local $T$, radiation free.
+- Kirchhoff: $j_\nu = \alpha_\nu B_\nu(T)$ ⇒ $S_\nu = B_\nu(T)$ in LTE.
+- Boltzmann (excitation) and Saha (ionisation) give populations; together they explain the spectral sequence.
+- Two-level atom: $S = (1-\varepsilon)\bar J+\varepsilon B$. LTE when collisions dominate ($\varepsilon\to1$).
 
 ---
 
