@@ -1,0 +1,993 @@
+<title>Radiative Transfer Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a lab bench. Sticky lecture rail on the left (chips on phones), one experiment
+   at a time on the right: equation -> controls -> live readouts -> plots -> what to notice. */
+:root {
+  --bg: #f3f5f8; --panel: #ffffff; --panel-2: #eef2f7; --ink: #15202d; --ink-2: #45526a;
+  --muted: #6f7c90; --line: #d9e0ea; --accent: #2448b8; --accent-soft: #e3e9fb; --on-accent: #ffffff;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #6250d6; --s6: #e34948;
+  --good: #1f7a4d; --warn: #9a5b00;
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e131a; --panel: #151c25; --panel-2: #1b2430; --ink: #e9eef5; --ink-2: #b6c1cf;
+    --muted: #8a97a9; --line: #2a3543; --accent: #8aa6ff; --accent-soft: #1f2a44; --on-accent: #0e131a;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #9085e9; --s6: #e66767;
+    --good: #58c08c; --warn: #e0a54a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e131a; --panel: #151c25; --panel-2: #1b2430; --ink: #e9eef5; --ink-2: #b6c1cf;
+  --muted: #8a97a9; --line: #2a3543; --accent: #8aa6ff; --accent-soft: #1f2a44; --on-accent: #0e131a;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #9085e9; --s6: #e66767;
+  --good: #58c08c; --warn: #e0a54a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 40px; }
+.wrap { max-width: 1240px; margin: 0 auto; }
+header.top { display: grid; gap: 6px; padding-block: 22px 14px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(28px, 4.2vw, 44px); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+.lede { color: var(--ink-2); max-width: 68ch; margin: 0; }
+#strip { width: 100%; height: 30px; border-radius: 6px; display: block; margin-top: 8px; border: 1px solid var(--line); }
+.striplabel { font-family: var(--f-mono); font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
+.layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 22px; align-items: start; margin-top: 14px; }
+nav.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); display: grid; gap: 4px; }
+nav.rail button { all: unset; cursor: pointer; display: grid; grid-template-columns: 30px 1fr; gap: 8px; align-items: baseline;
+  padding: 8px 10px; border-radius: 8px; color: var(--ink-2); font-size: 15px; line-height: 1.25; }
+nav.rail button .n { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+nav.rail button:hover { background: var(--panel-2); color: var(--ink); }
+nav.rail button[aria-current="true"] { background: var(--accent); color: var(--on-accent); }
+nav.rail button[aria-current="true"] .n { color: var(--on-accent); opacity: .85; }
+nav.rail button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+main { min-width: 0; }
+section.mod { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px clamp(16px, 2.5vw, 28px) 26px; display: grid; gap: 18px; }
+.modhead { display: grid; gap: 4px; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); margin: 0; line-height: 1.15; text-wrap: balance; }
+.intro { margin: 0; color: var(--ink-2); max-width: 75ch; }
+.eq { background: var(--panel-2); border-radius: var(--r); padding: 12px 14px; overflow-x: auto; font-size: 18px; }
+.eq math { font-family: math, "STIX Two Math", "Cambria Math", "Latin Modern Math", serif; }
+.eq .katex-display, .eq .katex { display: block; text-align: center; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px 22px; }
+.ctl { display: grid; gap: 4px; min-width: 0; }
+.ctl label { display: flex; justify-content: space-between; gap: 8px; font-weight: 600; font-size: 14px; color: var(--ink); }
+.ctl label output { font-family: var(--f-mono); font-weight: 400; font-size: 13px; color: var(--accent); white-space: nowrap; }
+input[type="range"] { width: 100%; accent-color: var(--accent); height: 22px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chips .lab { font-size: 13px; color: var(--muted); margin-right: 2px; }
+button.chip, label.chip { font: inherit; font-size: 14px; border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  border-radius: 999px; padding: 4px 12px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+button.chip:hover, label.chip:hover { border-color: var(--accent); }
+button.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--ink); }
+button.chip:focus-visible, label.chip:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.readout { border: 1px solid var(--line); border-radius: var(--r); padding: 10px 14px; display: grid; gap: 2px; }
+.readout h3 { font-size: 12px; font-family: var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; font-weight: 400; }
+.readout dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 14px; margin: 0; }
+.readout dt { color: var(--ink-2); font-size: 14px; }
+.readout dd { margin: 0; font-family: var(--f-mono); font-size: 14px; font-variant-numeric: tabular-nums; text-align: right; color: var(--ink); }
+.subst { font-family: var(--f-mono); font-size: 14px; color: var(--ink); background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; overflow-x: auto; white-space: nowrap; }
+.notice { border-left: 3px solid var(--accent); padding: 4px 0 4px 12px; color: var(--ink); max-width: 80ch; }
+.notice strong { font-weight: 700; }
+.pill { display: inline-block; font-family: var(--f-mono); font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid currentColor; margin-right: 6px; vertical-align: 1px; }
+.pill.thin { color: var(--good); } .pill.thick { color: var(--warn); } .pill.mid { color: var(--accent); }
+.plot { display: grid; gap: 6px; min-width: 0; }
+.plot .title { font-weight: 600; font-size: 14px; color: var(--ink); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { display: inline-block; width: 18px; height: 0; border-top: 2.5px solid; }
+.legend i.dash { border-top-style: dashed; }
+.legend i.dot { border-top-style: dotted; }
+.canvaswrap { position: relative; width: 100%; }
+.canvaswrap canvas { width: 100%; display: block; touch-action: pan-y; }
+.tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px;
+  font-family: var(--f-mono); font-size: 12px; color: var(--ink); box-shadow: 0 4px 14px rgba(0,0,0,.12); white-space: nowrap; z-index: 2; }
+.tip b { font-weight: 600; }
+.tip .sw { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px; }
+.disk { width: 100%; max-width: 240px; aspect-ratio: 1; display: block; margin: 0 auto; }
+.small { font-size: 13px; color: var(--muted); }
+footer { margin-top: 26px; color: var(--muted); font-size: 13px; max-width: 90ch; }
+@media (max-width: 860px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  nav.rail { position: static; display: flex; overflow-x: auto; gap: 6px; padding-bottom: 6px; scrollbar-width: thin; }
+  nav.rail button { white-space: nowrap; grid-template-columns: auto auto; padding: 6px 10px; border: 1px solid var(--line); background: var(--panel); }
+  .grid2 { grid-template-columns: minmax(0, 1fr); }
+  .eq { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Interactive companion · Radiative Transfer course · 10 experiments</div>
+  <h1>Radiative Transfer Lab</h1>
+  <p class="lede">Move the sliders and watch the physics respond. Every curve on this page is computed live in your browser from the same equations, solvers and exact tables as the course notes (Planck, Saha–Boltzmann, the Λ operator, the Hopf function, Milne–Eddington lines).</p>
+  <canvas id="strip" aria-label="Solar-type spectrum with absorption lines, computed with the Milne–Eddington model"></canvas>
+  <div class="striplabel"><span>380 nm</span><span>a Sun-like LTE spectrum: Balmer, Na D, Mg b, Ca II H&amp;K lines</span><span>750 nm</span></div>
+</header>
+
+<div class="layout">
+  <nav class="rail" id="rail" aria-label="Experiments"></nav>
+  <main id="main"></main>
+</div>
+
+<footer>Units are SI unless stated. Plots: hover or touch a chart to read exact values. Numerical methods: Λ matrix with piecewise-linear source function (as in <code>scripts/lte_solvers.py</code>); exact gray-atmosphere Hopf function and Chandrasekhar H-function tabulated from the course solver; Voigt function by Humlíček's W4 algorithm (accurate to ~10⁻⁴).</footer>
+</div>
+
+<script>// Radiative Transfer Lab: physics core (shared with the course scripts' methods).
+// SI units throughout. Works in the browser (global RT) and in Node (module.exports).
+(function (root) {
+  const h = 6.62607015e-34, c = 2.99792458e8, k = 1.380649e-23, sigma = 5.670374e-8;
+  const me = 9.1093837e-31, eV = 1.602176634e-19, mH = 1.6735e-27, re = 2.8179403e-15;
+  const a_rad = 4 * sigma / c;
+
+  const planckLam = (lam, T) => 2 * h * c * c / Math.pow(lam, 5) / Math.expm1(h * c / (lam * k * T));
+  const planckNu = (nu, T) => 2 * h * nu * nu * nu / (c * c) / Math.expm1(h * nu / (k * T));
+
+  // Exponential integrals (Numerical Recipes style)
+  function E1(x) {
+    if (x <= 0) return Infinity;
+    if (x < 1) {
+      let sum = 0, term = 1;
+      for (let n = 1; n < 60; n++) {
+        term *= -x / n;
+        const add = -term / n;
+        sum += add;
+        if (Math.abs(add) < 1e-16 * Math.abs(sum)) break;
+      }
+      return -0.5772156649015329 - Math.log(x) + sum;
+    }
+    // continued fraction (Lentz)
+    let b = x + 1, cc = 1e300, d = 1 / b, hh = d;
+    for (let i = 1; i < 200; i++) {
+      const an = -i * i;
+      b += 2;
+      d = 1 / (an * d + b);
+      cc = b + an / cc;
+      const del = cc * d;
+      hh *= del;
+      if (Math.abs(del - 1) < 1e-15) break;
+    }
+    return hh * Math.exp(-x);
+  }
+  function En(n, x) {
+    if (x <= 0) return n > 1 ? 1 / (n - 1) : Infinity;
+    let e = E1(x);
+    for (let m = 2; m <= n; m++) e = (Math.exp(-x) - x * e) / (m - 1);
+    return e;
+  }
+
+  // Voigt function H(a,v) = Re w(v + i a), Humlicek (1982) W4 algorithm
+  function voigt(a, v) {
+    const x = v, y = a;
+    const tr = y, ti = -x;                       // t = y - i x
+    const s = Math.abs(x) + y;
+    const cmul = (ar, ai, br, bi) => [ar * br - ai * bi, ar * bi + ai * br];
+    const cdiv = (ar, ai, br, bi) => { const d = br * br + bi * bi; return [(ar * br + ai * bi) / d, (ai * br - ar * bi) / d]; };
+    let w;
+    if (s >= 15) {
+      const [ur, ui] = cmul(tr, ti, tr, ti);
+      const num = [tr * 0.5641896, ti * 0.5641896];
+      w = cdiv(num[0], num[1], 0.5 + ur, ui);
+    } else if (s >= 5.5) {
+      const [ur, ui] = cmul(tr, ti, tr, ti);
+      const n1 = cmul(tr, ti, 1.410474 + ur * 0.5641896, ui * 0.5641896);
+      const d1 = cmul(ur, ui, 3 + ur, ui);
+      w = cdiv(n1[0], n1[1], 0.75 + d1[0], d1[1]);
+    } else if (y >= 0.195 * Math.abs(x) - 0.176) {
+      const poly = (coefs) => { let r = [coefs[coefs.length - 1], 0]; for (let i = coefs.length - 2; i >= 0; i--) { r = cmul(r[0], r[1], tr, ti); r[0] += coefs[i]; } return r; };
+      const num = poly([16.4955, 20.20933, 11.96482, 3.778987, 0.5642236]);
+      const den = poly([16.4955, 38.82363, 39.27121, 21.69274, 6.699398, 1]);
+      w = cdiv(num[0], num[1], den[0], den[1]);
+    } else {
+      const [ur, ui] = cmul(tr, ti, tr, ti);
+      const polyU = (coefs) => { let r = [coefs[coefs.length - 1], 0]; for (let i = coefs.length - 2; i >= 0; i--) { r = cmul(r[0], r[1], ur, ui); r[0] += coefs[i]; } return r; };
+      const num = polyU([36183.31, -3321.9905, 1540.787, -219.0313, 35.76683, -1.320522, 0.56419]);
+      const den = polyU([32066.6, -24322.84, 9022.228, -2186.181, 364.2191, -61.57037, 1.841439, -1]);
+      const ratio = cdiv(num[0], num[1], den[0], den[1]);
+      const tq = cmul(tr, ti, ratio[0], ratio[1]);
+      const ex = Math.exp(ur);
+      w = [ex * Math.cos(ui) - tq[0], ex * Math.sin(ui) - tq[1]];
+    }
+    return w[0];
+  }
+
+  // Lambda operator matrix for piecewise-linear S on grid tau (constant tail beyond last point)
+  function lambdaMatrix(tau) {
+    const n = tau.length;
+    const L = Array.from({ length: n }, () => new Float64Array(n));
+    const E2 = (x) => En(2, Math.max(x, 0)), E3 = (x) => En(3, Math.max(x, 0));
+    for (let i = 0; i < n; i++) {
+      const ti = tau[i];
+      for (let kk = 0; kk < n - 1; kk++) {
+        const at = tau[kk], bt = tau[kk + 1], hs = bt - at;
+        let M0, M1;
+        if (at >= ti) {
+          const a = at - ti, b = bt - ti;
+          M0 = E2(a) - E2(b);
+          M1 = (a * E2(a) + E3(a)) - (b * E2(b) + E3(b));
+        } else {
+          const a = ti - bt, b = ti - at;
+          M0 = E2(a) - E2(b);
+          M1 = -((a * E2(a) + E3(a)) - (b * E2(b) + E3(b)));
+        }
+        L[i][kk] += 0.5 * ((bt - ti) / hs * M0 - M1 / hs);
+        L[i][kk + 1] += 0.5 * ((ti - at) / hs * M0 + M1 / hs);
+      }
+      L[i][n - 1] += 0.5 * E2(tau[n - 1] - ti);
+    }
+    return L;
+  }
+
+  function solveLinear(A, b) {
+    const n = b.length, M = A.map((r, i) => { const row = Array.from(r); row.push(b[i]); return row; });
+    for (let col = 0; col < n; col++) {
+      let piv = col;
+      for (let r = col + 1; r < n; r++) if (Math.abs(M[r][col]) > Math.abs(M[piv][col])) piv = r;
+      [M[col], M[piv]] = [M[piv], M[col]];
+      for (let r = col + 1; r < n; r++) {
+        const f = M[r][col] / M[col][col];
+        if (f === 0) continue;
+        for (let cc = col; cc <= n; cc++) M[r][cc] -= f * M[col][cc];
+      }
+    }
+    const x = new Array(n).fill(0);
+    for (let r = n - 1; r >= 0; r--) {
+      let s = M[r][n];
+      for (let cc = r + 1; cc < n; cc++) s -= M[r][cc] * x[cc];
+      x[r] = s / M[r][r];
+    }
+    return x;
+  }
+
+  function tauGrid(tmax, n) {
+    const g = [0];
+    const lo = Math.log10(1e-4), hi = Math.log10(tmax);
+    for (let i = 0; i < n; i++) g.push(Math.pow(10, lo + (hi - lo) * i / (n - 1)));
+    return g;
+  }
+
+  // Isothermal scattering atmosphere S = eps B + (1-eps) J, B = 1
+  function scatteringAtmosphere(eps, nIter, n) {
+    n = n || 230;
+    const tau = tauGrid(Math.max(40, 30 / Math.sqrt(eps)), n);
+    const L = lambdaMatrix(tau);
+    const N = tau.length;
+    const A = L.map((row, i) => Array.from(row, (v, j) => (i === j ? 1 : 0) - (1 - eps) * v));
+    const exact = solveLinear(A, new Array(N).fill(eps));
+    let S = new Array(N).fill(1);
+    for (let it = 0; it < nIter; it++) {
+      const Sn = new Array(N);
+      for (let i = 0; i < N; i++) { let s = 0; const row = L[i]; for (let j = 0; j < N; j++) s += row[j] * S[j]; Sn[i] = eps + (1 - eps) * s; }
+      S = Sn;
+    }
+    const k3 = Math.sqrt(3 * eps), C = -1 / (1 + 2 * Math.sqrt(eps / 3));
+    const edd = tau.map(t => eps + (1 - eps) * (1 + C * Math.exp(-k3 * t)));
+    return { tau, exact, iter: S, edd };
+  }
+
+  // Saha for hydrogen: N_II/N_I with U_I = 2, U_II = 1, Pe in Pa
+  function sahaH(T, Pe) {
+    const ne = Pe / (k * T);
+    return Math.pow(2 * Math.PI * me * k * T / (h * h), 1.5) * Math.exp(-13.598 * eV / (k * T)) / ne;
+  }
+  function balmerFraction(T, Pe) {
+    const r21 = 4 * Math.exp(-10.199 * eV / (k * T));
+    const x = sahaH(T, Pe);
+    return (r21 / (1 + r21)) / (1 + x);
+  }
+
+  // Milne-Eddington residual flux
+  function meResidual(v, eta0, beta, a) {
+    const phi = a > 0 ? voigt(a, v) : Math.exp(-v * v);
+    const eta = eta0 * phi;
+    return (1 + 2 * beta / (3 * (1 + eta))) / (1 + 2 * beta / 3);
+  }
+  function equivalentWidth(eta0, beta, a) {
+    // integrate 1 - r over v on a sinh-stretched grid (handles damping wings)
+    const vmax = a > 0 ? Math.max(12, 20 * Math.sqrt(eta0 * a) + 12) : 12;
+    const n = 1200, sMax = Math.asinh(vmax / 2);
+    let W = 0, prevV = 0, prevF = 1 - meResidual(0, eta0, beta, a);
+    for (let i = 1; i <= n; i++) {
+      const v = 2 * Math.sinh(sMax * i / n), f = 1 - meResidual(v, eta0, beta, a);
+      W += 0.5 * (f + prevF) * (v - prevV);
+      prevV = v; prevF = f;
+    }
+    // analytic far-wing tail: H(a,v) ~ a / (sqrt(pi) v^2), 1 - r ~ C eta
+    if (a > 0) W += (2 * beta / 3) / (1 + 2 * beta / 3) * eta0 * a / (Math.sqrt(Math.PI) * vmax);
+    return 2 * W;
+  }
+
+  function interp(x, xs, ys) {
+    if (x <= xs[0]) return ys[0];
+    if (x >= xs[xs.length - 1]) return ys[ys.length - 1];
+    let lo = 0, hi = xs.length - 1;
+    while (hi - lo > 1) { const m = (lo + hi) >> 1; if (xs[m] > x) hi = m; else lo = m; }
+    const t = (x - xs[lo]) / (xs[hi] - xs[lo]);
+    return ys[lo] + t * (ys[hi] - ys[lo]);
+  }
+
+  const RT = { h, c, k, sigma, me, eV, mH, re, a_rad, planckLam, planckNu, E1, En, voigt,
+    lambdaMatrix, solveLinear, tauGrid, scatteringAtmosphere, sahaH, balmerFraction,
+    meResidual, equivalentWidth, interp };
+  if (typeof module !== 'undefined' && module.exports) module.exports = RT; else root.RT = RT;
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+const TABLES = {"hopf_tau": [0.0, 0.0001, 0.00012, 0.000144, 0.000173, 0.000208, 0.000249, 0.000299, 0.000359, 0.000432, 0.000518, 0.000622, 0.000747, 0.000896, 0.001076, 0.001292, 0.001551, 0.001862, 0.002236, 0.002684, 0.003222, 0.003869, 0.004645, 0.005576, 0.006694, 0.008037, 0.009649, 0.011584, 0.013907, 0.016696, 0.020044, 0.024063, 0.028889, 0.034683, 0.041638, 0.049989, 0.060014, 0.072049, 0.086498, 0.103845, 0.124671, 0.149673, 0.179689, 0.215725, 0.258987, 0.310926, 0.373281, 0.44814, 0.538013, 0.645909, 0.775443, 0.930954, 1.117653, 1.341793, 1.610884, 1.933939, 2.321781, 2.787404, 3.346404, 4.01751, 4.823203, 5.790474, 6.951727, 8.345863, 10.019587, 12.028969, 14.441323, 17.337463, 20.814411, 24.988644, 30.0], "hopf_q": [0.57732, 0.577559, 0.577601, 0.57765, 0.577707, 0.577774, 0.577852, 0.577943, 0.578049, 0.578173, 0.578316, 0.578484, 0.578678, 0.578904, 0.579165, 0.579468, 0.579818, 0.580222, 0.580688, 0.581225, 0.581842, 0.58255, 0.58336, 0.584287, 0.585345, 0.586549, 0.587915, 0.589462, 0.59121, 0.593178, 0.595385, 0.597853, 0.600601, 0.603652, 0.607018, 0.610714, 0.614754, 0.619144, 0.623879, 0.628948, 0.634337, 0.640017, 0.64594, 0.652044, 0.658269, 0.664531, 0.670726, 0.67674, 0.682478, 0.687829, 0.692683, 0.696946, 0.700577, 0.703546, 0.705859, 0.707556, 0.708733, 0.709489, 0.709933, 0.710167, 0.710278, 0.710325, 0.710344, 0.710354, 0.710362, 0.71037, 0.71038, 0.710392, 0.710407, 0.710424, 0.710446], "H_mu": [0.0, 0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2, 0.225, 0.25, 0.275, 0.3, 0.325, 0.35, 0.375, 0.4, 0.425, 0.45, 0.475, 0.5, 0.525, 0.55, 0.575, 0.6, 0.625, 0.65, 0.675, 0.7, 0.725, 0.75, 0.775, 0.8, 0.825, 0.85, 0.875, 0.9, 0.925, 0.95, 0.975, 1.0], "H": [1.0, 1.07544, 1.136575, 1.193248, 1.24735, 1.299723, 1.350834, 1.400977, 1.450351, 1.499099, 1.547326, 1.595113, 1.642522, 1.689606, 1.736404, 1.782951, 1.829276, 1.875402, 1.92135, 1.967137, 2.012779, 2.058288, 2.103677, 2.148956, 2.194133, 2.239217, 2.284214, 2.329132, 2.373975, 2.418749, 2.46346, 2.50811, 2.552704, 2.597246, 2.641739, 2.686185, 2.730588, 2.774949, 2.819272, 2.863559, 2.907811]};
+const TEX = {"L1":"<span class=\"katex\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><msub><mi>I</mi><mi>ν</mi></msub><mo stretchy=\"false\">(</mo><mi>s</mi><mo stretchy=\"false\">)</mo><mo>=</mo><msub><mi>I</mi><mi>ν</mi></msub><mo stretchy=\"false\">(</mo><mn>0</mn><mo stretchy=\"false\">)</mo><mtext> </mtext><msup><mi>e</mi><mrow><mo>−</mo><msub><mi>τ</mi><mi>ν</mi></msub></mrow></msup><mo separator=\"true\">,</mo><mspace width=\"2em\"/><msub><mi>τ</mi><mi>ν</mi></msub><mo>=</mo><msubsup><mo>∫</mo><mn>0</mn><mi>s</mi></msubsup><msub><mi>α</mi><mi>ν</mi></msub><mtext> </mtext><mi>d</mi><msup><mi>s</mi><mo mathvariant=\"normal\" lspace=\"0em\" rspace=\"0em\">′</mo></msup><mo>=</mo><msub><mi>α</mi><mi>ν</mi></msub><mtext> </mtext><mi>s</mi><mo separator=\"true\">,</mo><mspace width=\"2em\"/><mi>A</mi><mo>=</mo><mn>2.5</mn><msub><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><msup><mi>e</mi><mi>τ</mi></msup><mo>=</mo><mn>1.086</mn><mtext> </mtext><mi>τ</mi><mtext> mag</mtext></mrow><annotation encoding=\"application/x-tex\">I_\\nu(s)=I_\\nu(0)\\,e^{-\\tau_\\nu},\\qquad \\tau_\\nu=\\int_0^{s}\\alpha_\\nu\\,ds&#x27;=\\alpha_\\nu\\,s,\\qquad A=2.5\\log_{10}e^{\\tau}=1.086\\,\\tau\\ \\text{mag}</annotation></semantics></math></span>","L2":"<span class=\"katex\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><mi>F</mi><mo stretchy=\"false\">(</mo><mi>d</mi><mo stretchy=\"false\">)</mo><mo>=</mo><mi>σ</mi><msubsup><mi>T</mi><mrow><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">f</mi><mi mathvariant=\"normal\">f</mi></mrow><mn>4</mn></msubsup><msup><mrow><mo fence=\"true\">(</mo><mfrac><mi>R</mi><mi>d</mi></mfrac><mo fence=\"true\">)</mo></mrow><mn>2</mn></msup><mo separator=\"true\">,</mo><mspace width=\"2em\"/><mi mathvariant=\"normal\">Ω</mi><mo>=</mo><mi>π</mi><msup><mrow><mo fence=\"true\">(</mo><mfrac><mi>R</mi><mi>d</mi></mfrac><mo fence=\"true\">)</mo></mrow><mn>2</mn></msup><mo separator=\"true\">,</mo><mspace width=\"2em\"/><mi>I</mi><mo>=</mo><mfrac><mi>F</mi><mi mathvariant=\"normal\">Ω</mi></mfrac><mo>=</mo><mfrac><mrow><mi>σ</mi><msubsup><mi>T</mi><mrow><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">f</mi><mi mathvariant=\"normal\">f</mi></mrow><mn>4</mn></msubsup></mrow><mi>π</mi></mfrac><mo>=</mo><mtext>const</mtext></mrow><annotation encoding=\"application/x-tex\">F(d)=\\sigma T_{\\rm eff}^4\\left(\\frac{R}{d}\\right)^{2},\\qquad \\Omega=\\pi\\left(\\frac{R}{d}\\right)^{2},\\qquad I=\\frac{F}{\\Omega}=\\frac{\\sigma T_{\\rm eff}^4}{\\pi}=\\text{const}</annotation></semantics></math></span>","L3":"<span class=\"katex\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><msub><mi>B</mi><mi>λ</mi></msub><mo stretchy=\"false\">(</mo><mi>T</mi><mo stretchy=\"false\">)</mo><mo>=</mo><mfrac><mrow><mn>2</mn><mi>h</mi><msup><mi>c</mi><mn>2</mn></msup></mrow><msup><mi>λ</mi><mn>5</mn></msup></mfrac><mtext>  </mtext><mfrac><mn>1</mn><mrow><msup><mi>e</mi><mrow><mi>h</mi><mi>c</mi><mi mathvariant=\"normal\">/</mi><mi>λ</mi><mi>k</mi><mi>T</mi></mrow></msup><mo>−</mo><mn>1</mn></mrow></mfrac><mo separator=\"true\">,</mo><mspace width=\"2em\"/><msub><mi>λ</mi><mi>max</mi><mo>⁡</mo></msub><mi>T</mi><mo>=</mo><mn>2.898</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>3</mn></mrow></msup><mtext> m K</mtext><mo separator=\"true\">,</mo><mspace width=\"2em\"/><mi>F</mi><mo>=</mo><mi>π</mi><mtext> ⁣</mtext><mo>∫</mo><mtext> ⁣</mtext><msub><mi>B</mi><mi>λ</mi></msub><mtext> </mtext><mi>d</mi><mi>λ</mi><mo>=</mo><mi>σ</mi><msup><mi>T</mi><mn>4</mn></msup></mrow><annotation encoding=\"application/x-tex\">B_\\lambda(T)=\\frac{2hc^{2}}{\\lambda^{5}}\\;\\frac{1}{e^{hc/\\lambda kT}-1},\\qquad \\lambda_{\\max}T=2.898\\times10^{-3}\\ \\text{m K},\\qquad F=\\pi\\!\\int\\! B_\\lambda\\,d\\lambda=\\sigma T^{4}</annotation></semantics></math></span>","L4":"<span class=\"katex\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><mo stretchy=\"false\">⟨</mo><msup><mi>R</mi><mn>2</mn></msup><mo stretchy=\"false\">⟩</mo><mo>=</mo><mi>N</mi><msup><mi mathvariant=\"normal\">ℓ</mi><mn>2</mn></msup><mtext>  </mtext><mo>⇒</mo><mtext>  </mtext><msub><mi>N</mi><mrow><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">s</mi><mi mathvariant=\"normal\">c</mi><mi mathvariant=\"normal\">a</mi><mi mathvariant=\"normal\">p</mi><mi mathvariant=\"normal\">e</mi></mrow></msub><mo>≃</mo><msup><mi>τ</mi><mn>2</mn></msup><mo separator=\"true\">,</mo><mspace width=\"2em\"/><msub><mi>τ</mi><mrow><mi mathvariant=\"normal\">t</mi><mi mathvariant=\"normal\">h</mi></mrow></msub><mo>≃</mo><mfrac><mn>1</mn><msqrt><mi>ε</mi></msqrt></mfrac></mrow><annotation encoding=\"application/x-tex\">\\langle R^{2}\\rangle=N\\ell^{2}\\;\\Rightarrow\\;N_{\\rm escape}\\simeq\\tau^{2},\\qquad \\tau_{\\rm th}\\simeq\\frac{1}{\\sqrt{\\varepsilon}}</annotation></semantics></math></span>","L5":"<span class=\"katex\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><msub><mi>I</mi><mi>ν</mi></msub><mo>=</mo><msub><mi>I</mi><mi>ν</mi></msub><mo stretchy=\"false\">(</mo><mn>0</mn><mo stretchy=\"false\">)</mo><mtext> </mtext><msup><mi>e</mi><mrow><mo>−</mo><msub><mi>τ</mi><mi>ν</mi></msub></mrow></msup><mo>+</mo><msub><mi>S</mi><mi>ν</mi></msub><mrow><mo fence=\"true\">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><msub><mi>τ</mi><mi>ν</mi></msub></mrow></msup><mo fence=\"true\">)</mo></mrow><mo separator=\"true\">,</mo><mspace width=\"2em\"/><msub><mi>I</mi><mi>ν</mi></msub><mo>=</mo><msub><mi>B</mi><mi>ν</mi></msub><mo stretchy=\"false\">(</mo><msub><mi>T</mi><mrow><mi mathvariant=\"normal\">b</mi><mi mathvariant=\"normal\">a</mi><mi mathvariant=\"normal\">s</mi><mi mathvariant=\"normal\">e</mi></mrow></msub><mo stretchy=\"false\">)</mo><mtext> </mtext><msup><mi>e</mi><mrow><mo>−</mo><msub><mi>τ</mi><mi>ν</mi></msub></mrow></msup><mo>+</mo><msub><mi>B</mi><mi>ν</mi></msub><mo stretchy=\"false\">(</mo><msub><mi>T</mi><mrow><mi mathvariant=\"normal\">t</mi><mi mathvariant=\"normal\">o</mi><mi mathvariant=\"normal\">p</mi></mrow></msub><mo stretchy=\"false\">)</mo><mrow><mo fence=\"true\">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><msub><mi>τ</mi><mi>ν</mi></msub></mrow></msup><mo fence=\"true\">)</mo></mrow></mrow><annotation encoding=\"application/x-tex\">I_\\nu=I_\\nu(0)\\,e^{-\\tau_\\nu}+S_\\nu\\left(1-e^{-\\tau_\\nu}\\right),\\qquad I_\\nu=B_\\nu(T_{\\rm base})\\,e^{-\\tau_\\nu}+B_\\nu(T_{\\rm top})\\left(1-e^{-\\tau_\\nu}\\right)</annotation></semantics></math></span>","L6":"<span class=\"katex\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><mfrac><mrow><msub><mi>N</mi><mrow><mi mathvariant=\"normal\">I</mi><mi mathvariant=\"normal\">I</mi></mrow></msub><mtext> </mtext><msub><mi>n</mi><mi>e</mi></msub></mrow><msub><mi>N</mi><mi mathvariant=\"normal\">I</mi></msub></mfrac><mo>=</mo><mfrac><mrow><mn>2</mn><msub><mi>U</mi><mrow><mi mathvariant=\"normal\">I</mi><mi mathvariant=\"normal\">I</mi></mrow></msub></mrow><msub><mi>U</mi><mi mathvariant=\"normal\">I</mi></msub></mfrac><msup><mrow><mo fence=\"true\">(</mo><mfrac><mrow><mn>2</mn><mi>π</mi><msub><mi>m</mi><mi>e</mi></msub><mi>k</mi><mi>T</mi></mrow><msup><mi>h</mi><mn>2</mn></msup></mfrac><mo fence=\"true\">)</mo></mrow><mrow><mn>3</mn><mi mathvariant=\"normal\">/</mi><mn>2</mn></mrow></msup><msup><mi>e</mi><mrow><mo>−</mo><mi>χ</mi><mi mathvariant=\"normal\">/</mi><mi>k</mi><mi>T</mi></mrow></msup><mo separator=\"true\">,</mo><mspace width=\"2em\"/><mfrac><msub><mi>N</mi><mn>2</mn></msub><msub><mi>N</mi><mn>1</mn></msub></mfrac><mo>=</mo><mfrac><msub><mi>g</mi><mn>2</mn></msub><msub><mi>g</mi><mn>1</mn></msub></mfrac><mtext> </mtext><msup><mi>e</mi><mrow><mo>−</mo><mn>10.2</mn><mtext> </mtext><mtext>eV</mtext><mi mathvariant=\"normal\">/</mi><mi>k</mi><mi>T</mi></mrow></msup><mo separator=\"true\">,</mo><mspace width=\"2em\"/><msub><mi>P</mi><mi>e</mi></msub><mo>=</mo><msub><mi>n</mi><mi>e</mi></msub><mi>k</mi><mi>T</mi></mrow><annotation encoding=\"application/x-tex\">\\frac{N_{\\rm II}\\,n_e}{N_{\\rm I}}=\\frac{2U_{\\rm II}}{U_{\\rm I}}\\left(\\frac{2\\pi m_e kT}{h^{2}}\\right)^{3/2}e^{-\\chi/kT},\\qquad \\frac{N_2}{N_1}=\\frac{g_2}{g_1}\\,e^{-10.2\\,\\text{eV}/kT},\\qquad P_e=n_ekT</annotation></semantics></math></span>","L7":"<span class=\"katex\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><mi>I</mi><mo stretchy=\"false\">(</mo><mn>0</mn><mo separator=\"true\">,</mo><mi>μ</mi><mo stretchy=\"false\">)</mo><mo>=</mo><msubsup><mo>∫</mo><mn>0</mn><mi mathvariant=\"normal\">∞</mi></msubsup><mi>S</mi><mo stretchy=\"false\">(</mo><mi>τ</mi><mo stretchy=\"false\">)</mo><mtext> </mtext><msup><mi>e</mi><mrow><mo>−</mo><mi>τ</mi><mi mathvariant=\"normal\">/</mi><mi>μ</mi></mrow></msup><mtext> </mtext><mfrac><mrow><mi>d</mi><mi>τ</mi></mrow><mi>μ</mi></mfrac><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mi>μ</mi><mo>+</mo><mn>2</mn><mi>c</mi><msup><mi>μ</mi><mn>2</mn></msup><mtext>  </mtext><mo>≈</mo><mtext>  </mtext><mi>S</mi><mo stretchy=\"false\">(</mo><mi>τ</mi><mo>=</mo><mi>μ</mi><mo stretchy=\"false\">)</mo><mo separator=\"true\">,</mo><mspace width=\"2em\"/><mi>F</mi><mo stretchy=\"false\">(</mo><mn>0</mn><mo stretchy=\"false\">)</mo><mo>≈</mo><mi>π</mi><mi>S</mi><mo stretchy=\"false\">(</mo><mn>2</mn><mi mathvariant=\"normal\">/</mi><mn>3</mn><mo stretchy=\"false\">)</mo></mrow><annotation encoding=\"application/x-tex\">I(0,\\mu)=\\int_0^{\\infty}S(\\tau)\\,e^{-\\tau/\\mu}\\,\\frac{d\\tau}{\\mu}=a+b\\mu+2c\\mu^{2}\\;\\approx\\;S(\\tau=\\mu),\\qquad F(0)\\approx\\pi S(2/3)</annotation></semantics></math></span>","L8":"<span class=\"katex\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><mi>S</mi><mo>=</mo><mi>ε</mi><mi>B</mi><mo>+</mo><mo stretchy=\"false\">(</mo><mn>1</mn><mo>−</mo><mi>ε</mi><mo stretchy=\"false\">)</mo><mi>J</mi><mo separator=\"true\">,</mo><mspace width=\"2em\"/><mi>J</mi><mo stretchy=\"false\">(</mo><mi>τ</mi><mo stretchy=\"false\">)</mo><mo>=</mo><msub><mi mathvariant=\"normal\">Λ</mi><mi>τ</mi></msub><mo stretchy=\"false\">[</mo><mi>S</mi><mo stretchy=\"false\">]</mo><mo>=</mo><mstyle displaystyle=\"false\" scriptlevel=\"0\"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mtext> ⁣</mtext><msubsup><mo>∫</mo><mn>0</mn><mi mathvariant=\"normal\">∞</mi></msubsup><mtext> ⁣</mtext><mi>S</mi><mo stretchy=\"false\">(</mo><mi>t</mi><mo stretchy=\"false\">)</mo><mtext> </mtext><msub><mi>E</mi><mn>1</mn></msub><mi mathvariant=\"normal\">∣</mi><mi>t</mi><mo>−</mo><mi>τ</mi><mi mathvariant=\"normal\">∣</mi><mtext> </mtext><mi>d</mi><mi>t</mi><mo separator=\"true\">,</mo><mspace width=\"2em\"/><mi>S</mi><mo stretchy=\"false\">(</mo><mn>0</mn><mo stretchy=\"false\">)</mo><mo>=</mo><msqrt><mi>ε</mi></msqrt><mtext> </mtext><mi>B</mi></mrow><annotation encoding=\"application/x-tex\">S=\\varepsilon B+(1-\\varepsilon)J,\\qquad J(\\tau)=\\Lambda_\\tau[S]=\\tfrac12\\!\\int_0^{\\infty}\\!S(t)\\,E_1|t-\\tau|\\,dt,\\qquad S(0)=\\sqrt{\\varepsilon}\\,B</annotation></semantics></math></span>","L9":"<span class=\"katex\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><msup><mi>T</mi><mn>4</mn></msup><mo>=</mo><mstyle displaystyle=\"false\" scriptlevel=\"0\"><mfrac><mn>3</mn><mn>4</mn></mfrac></mstyle><msubsup><mi>T</mi><mrow><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">f</mi><mi mathvariant=\"normal\">f</mi></mrow><mn>4</mn></msubsup><mrow><mo fence=\"true\">[</mo><mi>τ</mi><mo>+</mo><mi>q</mi><mo stretchy=\"false\">(</mo><mi>τ</mi><mo stretchy=\"false\">)</mo><mo fence=\"true\">]</mo></mrow><mo separator=\"true\">,</mo><mspace width=\"2em\"/><msub><mi>I</mi><mi>λ</mi></msub><mo stretchy=\"false\">(</mo><mn>0</mn><mo separator=\"true\">,</mo><mi>μ</mi><mo stretchy=\"false\">)</mo><mo>=</mo><msubsup><mo>∫</mo><mn>0</mn><mi mathvariant=\"normal\">∞</mi></msubsup><msub><mi>B</mi><mi>λ</mi></msub><mo fence=\"false\" stretchy=\"true\" minsize=\"1.2em\" maxsize=\"1.2em\">(</mo><mi>T</mi><mo stretchy=\"false\">(</mo><mi>τ</mi><mo stretchy=\"false\">)</mo><mo fence=\"false\" stretchy=\"true\" minsize=\"1.2em\" maxsize=\"1.2em\">)</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>τ</mi><mi mathvariant=\"normal\">/</mi><mi>μ</mi></mrow></msup><mfrac><mrow><mi>d</mi><mi>τ</mi></mrow><mi>μ</mi></mfrac><mo separator=\"true\">,</mo><mspace width=\"2em\"/><msub><mi>F</mi><mi>λ</mi></msub><mo>=</mo><mn>2</mn><mi>π</mi><mtext> ⁣</mtext><msubsup><mo>∫</mo><mn>0</mn><mi mathvariant=\"normal\">∞</mi></msubsup><mtext> ⁣</mtext><msub><mi>B</mi><mi>λ</mi></msub><msub><mi>E</mi><mn>2</mn></msub><mo stretchy=\"false\">(</mo><mi>τ</mi><mo stretchy=\"false\">)</mo><mtext> </mtext><mi>d</mi><mi>τ</mi><mo separator=\"true\">,</mo><mspace width=\"2em\"/><mi>P</mi><mo>=</mo><mfrac><mrow><mi>g</mi><mi>τ</mi></mrow><mi>κ</mi></mfrac></mrow><annotation encoding=\"application/x-tex\">T^{4}=\\tfrac34T_{\\rm eff}^{4}\\left[\\tau+q(\\tau)\\right],\\qquad I_\\lambda(0,\\mu)=\\int_0^{\\infty}B_\\lambda\\big(T(\\tau)\\big)e^{-\\tau/\\mu}\\frac{d\\tau}{\\mu},\\qquad F_\\lambda=2\\pi\\!\\int_0^{\\infty}\\!B_\\lambda E_2(\\tau)\\,d\\tau,\\qquad P=\\frac{g\\tau}{\\kappa}</annotation></semantics></math></span>","L10":"<span class=\"katex\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><mfrac><msub><mi>F</mi><mi>ν</mi></msub><msub><mi>F</mi><mi>c</mi></msub></mfrac><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><mfrac><mrow><mn>2</mn><mi>β</mi></mrow><mrow><mn>3</mn><mo stretchy=\"false\">(</mo><mn>1</mn><mo>+</mo><msub><mi>η</mi><mi>ν</mi></msub><mo stretchy=\"false\">)</mo></mrow></mfrac></mrow><mrow><mn>1</mn><mo>+</mo><mfrac><mrow><mn>2</mn><mi>β</mi></mrow><mn>3</mn></mfrac></mrow></mfrac><mo separator=\"true\">,</mo><mspace width=\"2em\"/><msub><mi>η</mi><mi>ν</mi></msub><mo>=</mo><msub><mi>η</mi><mn>0</mn></msub><mtext> </mtext><mi>H</mi><mo stretchy=\"false\">(</mo><mi>a</mi><mo separator=\"true\">,</mo><mi>v</mi><mo stretchy=\"false\">)</mo><mo separator=\"true\">,</mo><mspace width=\"2em\"/><mi>W</mi><mo>=</mo><mo>∫</mo><mrow><mo fence=\"true\">(</mo><mn>1</mn><mo>−</mo><mfrac><msub><mi>F</mi><mi>ν</mi></msub><msub><mi>F</mi><mi>c</mi></msub></mfrac><mo fence=\"true\">)</mo></mrow><mi>d</mi><mi>ν</mi><mo separator=\"true\">,</mo><mspace width=\"2em\"/><mi mathvariant=\"normal\">Δ</mi><msub><mi>λ</mi><mi>D</mi></msub><mo>=</mo><mfrac><msub><mi>λ</mi><mn>0</mn></msub><mi>c</mi></mfrac><msqrt><mrow><mfrac><mrow><mn>2</mn><mi>k</mi><mi>T</mi></mrow><mi>m</mi></mfrac><mo>+</mo><msup><mi>ξ</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding=\"application/x-tex\">\\frac{F_\\nu}{F_c}=\\frac{1+\\dfrac{2\\beta}{3(1+\\eta_\\nu)}}{1+\\dfrac{2\\beta}{3}},\\qquad \\eta_\\nu=\\eta_0\\,H(a,v),\\qquad W=\\int\\left(1-\\frac{F_\\nu}{F_c}\\right)d\\nu,\\qquad \\Delta\\lambda_D=\\frac{\\lambda_0}{c}\\sqrt{\\frac{2kT}{m}+\\xi^{2}}</annotation></semantics></math></span>"};
+const $ = (s, el = document) => el.querySelector(s);
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const SUP = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+function sci(x, d = 3) {
+  if (!isFinite(x)) return '∞';
+  if (x === 0) return '0';
+  const ax = Math.abs(x);
+  if (ax >= 1e-2 && ax < 1e4) return String(Number(x.toPrecision(d)));
+  const e = Math.floor(Math.log10(ax)); const m = Number((x / Math.pow(10, e)).toPrecision(d));
+  return (m === 10 ? '1' : String(m)) + '×10' + String(m === 10 ? e + 1 : e).split('').map(ch => SUP[ch]).join('');
+}
+const fix = (x, d) => Number(x).toFixed(d);
+
+/* ------------------------------------------------------------------ plotting */
+function niceTicks(lo, hi, n = 5) {
+  const span = hi - lo; if (span <= 0) return [lo];
+  const step0 = span / n, mag = Math.pow(10, Math.floor(Math.log10(step0))), r = step0 / mag;
+  const step = (r < 1.5 ? 1 : r < 3 ? 2 : r < 7 ? 5 : 10) * mag;
+  const out = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9 * step; v += step) out.push(Math.abs(v) < 1e-12 * step ? 0 : v);
+  return out;
+}
+function fmtTick(v, log) {
+  if (log) { const e = Math.round(Math.log10(v)); if (e >= -1 && e <= 3) return String(Math.round(v * 1000) / 1000); return '10' + String(e).split('').map(ch => SUP[ch]).join(''); }
+  const a = Math.abs(v); if (a !== 0 && (a < 1e-3 || a >= 1e5)) return sci(v, 2);
+  return String(Math.round(v * 1e6) / 1e6);
+}
+class Plot {
+  constructor(host, opts = {}) {
+    this.host = host; this.opts = opts;
+    host.classList.add('plot');
+    host.innerHTML = (opts.title ? `<div class="title">${opts.title}</div>` : '') + '<div class="legend"></div><div class="canvaswrap"><canvas></canvas><div class="tip" hidden></div></div>';
+    this.canvas = $('canvas', host); this.tip = $('.tip', host); this.legendEl = $('.legend', host);
+    this.h = opts.height || 300;
+    this.canvas.style.height = this.h + 'px';
+    const move = (e) => { const r = this.canvas.getBoundingClientRect(); this.hover = { x: e.clientX - r.left, y: e.clientY - r.top }; this.render(); };
+    this.canvas.addEventListener('pointermove', move);
+    this.canvas.addEventListener('pointerdown', move);
+    this.canvas.addEventListener('pointerleave', () => { this.hover = null; this.render(); });
+    new ResizeObserver(() => this.render()).observe(this.canvas);
+  }
+  draw(spec) { this.spec = spec; this.renderLegend(); this.render(); }
+  renderLegend() {
+    const s = this.spec; if (!s) return;
+    const items = s.series.filter(q => q.name && !q.noLegend).map(q => `<span><i class="${q.dash ? (q.dash[0] <= 2 ? 'dot' : 'dash') : ''}" style="border-color:${css(q.color)}"></i>${q.name}</span>`);
+    this.legendEl.innerHTML = items.length > 1 || this.opts.forceLegend ? items.join('') : '';
+  }
+  render() {
+    const s = this.spec; if (!s) return;
+    const cv = this.canvas, dpr = window.devicePixelRatio || 1, W = cv.clientWidth, H = this.h;
+    if (!W) return;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+    const ink = css('--ink'), muted = css('--muted'), line = css('--line'), font = css('--f-body');
+    const pad = { l: 58, r: 14, t: 10, b: 42 };
+    const X = s.x, Y = s.y;
+    const tx = X.log ? (v => Math.log10(v)) : (v => v), ty = Y.log ? (v => Math.log10(v)) : (v => v);
+    const x0 = tx(X.min), x1 = tx(X.max), y0 = ty(Y.min), y1 = ty(Y.max);
+    const px = v => pad.l + (tx(v) - x0) / (x1 - x0) * (W - pad.l - pad.r);
+    const py = v => H - pad.b - (ty(v) - y0) / (y1 - y0) * (H - pad.t - pad.b);
+    const invx = p => { const t = x0 + (p - pad.l) / (W - pad.l - pad.r) * (x1 - x0); return X.log ? Math.pow(10, t) : t; };
+    // grid + ticks
+    g.font = `12px ${font}`; g.fillStyle = muted; g.strokeStyle = line; g.lineWidth = 1;
+    const xt = X.log ? range10(X.min, X.max) : niceTicks(X.min, X.max, W < 420 ? 4 : 6);
+    const yt = Y.log ? range10(Y.min, Y.max) : niceTicks(Y.min, Y.max, 5);
+    g.textAlign = 'center'; g.textBaseline = 'top';
+    xt.forEach(v => { const p = px(v); g.beginPath(); g.moveTo(p + .5, pad.t); g.lineTo(p + .5, H - pad.b); g.stroke(); g.fillText(fmtTick(v, X.log), p, H - pad.b + 6); });
+    g.textAlign = 'right'; g.textBaseline = 'middle';
+    yt.forEach(v => { const p = py(v); g.beginPath(); g.moveTo(pad.l, p + .5); g.lineTo(W - pad.r, p + .5); g.stroke(); g.fillText(fmtTick(v, Y.log), pad.l - 6, p); });
+    g.fillStyle = css('--ink-2'); g.textAlign = 'center'; g.textBaseline = 'bottom';
+    g.fillText(X.label || '', pad.l + (W - pad.l - pad.r) / 2, H - 2);
+    g.save(); g.translate(13, pad.t + (H - pad.t - pad.b) / 2); g.rotate(-Math.PI / 2); g.textBaseline = 'middle'; g.fillText(Y.label || '', 0, 0); g.restore();
+    // clip area
+    g.save(); g.beginPath(); g.rect(pad.l, pad.t, W - pad.l - pad.r, H - pad.t - pad.b); g.clip();
+    (s.bands || []).forEach(b => { g.fillStyle = css(b.color); g.globalAlpha = b.alpha || .12; g.fillRect(px(b.x0), pad.t, px(b.x1) - px(b.x0), H - pad.t - pad.b); g.globalAlpha = 1; });
+    (s.vlines || []).forEach(v => { g.strokeStyle = css(v.color || '--muted'); g.setLineDash(v.dash || [4, 4]); g.lineWidth = 1.2; g.beginPath(); g.moveTo(px(v.x), pad.t); g.lineTo(px(v.x), H - pad.b); g.stroke(); g.setLineDash([]);
+      if (v.label) { g.fillStyle = css('--ink-2'); g.textAlign = 'left'; g.textBaseline = 'top'; g.font = `12px ${font}`; g.fillText(v.label, px(v.x) + 4, pad.t + 2); } });
+    (s.hlines || []).forEach(v => { g.strokeStyle = css(v.color || '--muted'); g.setLineDash(v.dash || [4, 4]); g.lineWidth = 1.2; g.beginPath(); g.moveTo(pad.l, py(v.y)); g.lineTo(W - pad.r, py(v.y)); g.stroke(); g.setLineDash([]);
+      if (v.label) { g.fillStyle = css('--ink-2'); g.textAlign = 'right'; g.textBaseline = 'bottom'; g.fillText(v.label, W - pad.r - 4, py(v.y) - 2); } });
+    s.series.forEach(q => {
+      g.strokeStyle = css(q.color); g.lineWidth = q.width || 2; g.setLineDash(q.dash || []); g.lineJoin = 'round';
+      g.beginPath(); let started = false;
+      for (let i = 0; i < q.x.length; i++) {
+        const xv = q.x[i], yv = q.y[i];
+        if (!isFinite(yv) || (Y.log && yv <= 0) || (X.log && xv <= 0)) { started = false; continue; }
+        const a = px(xv), b = py(yv);
+        if (!started) { g.moveTo(a, b); started = true; } else g.lineTo(a, b);
+      }
+      g.stroke(); g.setLineDash([]);
+    });
+    (s.points || []).forEach(p => { g.fillStyle = css(p.color || '--accent'); g.strokeStyle = css('--panel'); g.lineWidth = 2;
+      g.beginPath(); g.arc(px(p.x), py(p.y), p.r || 5, 0, 2 * Math.PI); g.fill(); g.stroke();
+      if (p.label) { g.fillStyle = css('--ink'); g.font = `12px ${font}`; g.textAlign = p.align || 'left'; g.textBaseline = 'bottom'; g.fillText(p.label, px(p.x) + (p.align === 'right' ? -8 : 8), py(p.y) - 6); } });
+    g.restore();
+    g.strokeStyle = css('--ink-2'); g.lineWidth = 1; g.beginPath(); g.moveTo(pad.l, pad.t); g.lineTo(pad.l, H - pad.b); g.lineTo(W - pad.r, H - pad.b); g.stroke();
+    // hover
+    if (this.hover && this.hover.x >= pad.l && this.hover.x <= W - pad.r) {
+      const xv = invx(this.hover.x);
+      g.strokeStyle = css('--ink-2'); g.globalAlpha = .5; g.beginPath(); g.moveTo(this.hover.x, pad.t); g.lineTo(this.hover.x, H - pad.b); g.stroke(); g.globalAlpha = 1;
+      const rows = [];
+      s.series.forEach(q => { if (!q.name) return; const yv = interpSeries(q, xv); if (yv == null || !isFinite(yv)) return;
+        if (Y.log && yv <= 0) return;
+        g.fillStyle = css(q.color); g.beginPath(); g.arc(this.hover.x, py(Math.min(Math.max(yv, Y.log ? Y.min : -Infinity), Y.max)), 4, 0, 2 * Math.PI); g.fill();
+        rows.push(`<div><span class="sw" style="background:${css(q.color)}"></span>${q.name}: <b>${(s.yfmt || sci)(yv)}</b></div>`); });
+      this.tip.innerHTML = `<div>${X.short || X.label} = <b>${(s.xfmt || sci)(xv)}</b></div>` + rows.join('');
+      this.tip.hidden = false;
+      const tw = this.tip.offsetWidth; let left = this.hover.x + 14; if (left + tw > W) left = this.hover.x - tw - 14; if (left < 0) left = 0;
+      this.tip.style.left = left + 'px'; this.tip.style.top = Math.max(0, Math.min(this.hover.y - 10, H - this.tip.offsetHeight)) + 'px';
+    } else this.tip.hidden = true;
+  }
+}
+function range10(lo, hi) { const out = []; for (let e = Math.ceil(Math.log10(lo) - 1e-9); e <= Math.floor(Math.log10(hi) + 1e-9); e++) out.push(Math.pow(10, e));
+  if (out.length > 7) { const step = Math.ceil(out.length / 6); return out.filter((_, i) => i % step === 0); } return out; }
+function interpSeries(q, x) {
+  const xs = q.x; const n = xs.length; if (!n) return null;
+  const asc = xs[n - 1] >= xs[0];
+  if ((asc && (x < xs[0] || x > xs[n - 1])) || (!asc && (x > xs[0] || x < xs[n - 1]))) return null;
+  let lo = 0, hi = n - 1;
+  while (hi - lo > 1) { const m = (lo + hi) >> 1; if ((xs[m] > x) === asc) hi = m; else lo = m; }
+  const t = (x - xs[lo]) / (xs[hi] - xs[lo] || 1); return q.y[lo] + t * (q.y[hi] - q.y[lo]);
+}
+const linspace = (a, b, n) => Array.from({ length: n }, (_, i) => a + (b - a) * i / (n - 1));
+const logspace = (a, b, n) => Array.from({ length: n }, (_, i) => Math.pow(10, a + (b - a) * i / (n - 1)));
+
+/* ------------------------------------------------------------------ controls */
+function slider(id, label, min, max, step, value, fmt, opts = {}) {
+  return { id, label, min, max, step, value, fmt, log: opts.log };
+}
+function buildControls(host, defs, onChange) {
+  const state = {};
+  host.innerHTML = defs.map(d => `<div class="ctl"><label for="${d.id}">${d.label}<output id="${d.id}-o"></output></label>
+    <input type="range" id="${d.id}" min="${d.log ? Math.log10(d.min) : d.min}" max="${d.log ? Math.log10(d.max) : d.max}" step="${d.step}" value="${d.log ? Math.log10(d.value) : d.value}"></div>`).join('');
+  defs.forEach(d => {
+    const el = $('#' + d.id, host), out = $('#' + d.id + '-o', host);
+    const read = () => { const v = parseFloat(el.value); state[d.id] = d.log ? Math.pow(10, v) : v; out.textContent = d.fmt(state[d.id]); };
+    read();
+    el.addEventListener('input', () => { read(); onChange(); });
+    d.set = (v) => { el.value = d.log ? Math.log10(v) : v; read(); };
+  });
+  state._defs = Object.fromEntries(defs.map(d => [d.id, d]));
+  state.set = (vals) => { Object.entries(vals).forEach(([k2, v]) => state._defs[k2] && state._defs[k2].set(v)); onChange(); };
+  return state;
+}
+function readout(title, rows) {
+  return `<div class="readout"><h3>${title}</h3><dl>${rows.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl></div>`;
+}
+const pill = (cls, txt) => `<span class="pill ${cls}">${txt}</span>`;
+
+/* ------------------------------------------------------------------ colour of a black body (for swatches and the strip) */
+function wavelengthRGB(nm) {
+  let r = 0, g = 0, b = 0;
+  if (nm < 440) { r = -(nm - 440) / 60; b = 1; } else if (nm < 490) { g = (nm - 440) / 50; b = 1; }
+  else if (nm < 510) { g = 1; b = -(nm - 510) / 20; } else if (nm < 580) { r = (nm - 510) / 70; g = 1; }
+  else if (nm < 645) { r = 1; g = -(nm - 645) / 65; } else r = 1;
+  const f = nm < 420 ? .35 + .65 * (nm - 380) / 40 : nm > 700 ? .35 + .65 * (750 - nm) / 50 : 1;
+  return [r * f, g * f, b * f];
+}
+function blackbodyCSS(T) {
+  // Tanner Helland approximation, good enough for a swatch
+  const t = T / 100; let r, g, b;
+  r = t <= 66 ? 255 : 329.698727446 * Math.pow(t - 60, -0.1332047592);
+  g = t <= 66 ? 99.4708025861 * Math.log(t) - 161.1195681661 : 288.1221695283 * Math.pow(t - 60, -0.0755148492);
+  b = t >= 66 ? 255 : t <= 19 ? 0 : 138.5177312231 * Math.log(t - 10) - 305.0447927307;
+  const cl = v => Math.max(0, Math.min(255, Math.round(v)));
+  return `rgb(${cl(r)},${cl(g)},${cl(b)})`;
+}
+
+/* ------------------------------------------------------------------ modules */
+const MODULES = [];
+const R_H = 1.09678e7;
+
+/* L1 ---------------------------------------------------------------- */
+MODULES.push({ id: 'L1', n: 1, nav: 'Optical depth', lecture: 'Lecture 1 · Introduction',
+  title: 'How much light gets through a slab of gas?',
+  intro: 'Absorption removes a fixed fraction of the beam per unit length. Optical depth counts how many mean free paths the light must cross. Make the gas denser or the path longer and see when the medium turns from transparent to opaque.',
+  eq: String.raw`I_\nu(s)=I_\nu(0)\,e^{-\tau_\nu},\qquad \tau_\nu=\int_0^{s}\alpha_\nu\,ds'=\alpha_\nu\,s,\qquad A=2.5\log_{10}e^{\tau}=1.086\,\tau\ \text{mag}`,
+  build(el) {
+    el.insertAdjacentHTML('beforeend', `<div class="controls" data-c></div><div class="subst" data-s></div>
+      <div class="grid2"><div data-p1></div><div data-r></div></div><div class="notice" data-n></div>`);
+    const p1 = new Plot($('[data-p1]', el), { title: 'Fraction of the beam left after distance s', height: 280 });
+    const st = buildControls($('[data-c]', el), [
+      slider('a1', 'Absorption coefficient α', 0.01, 10, 0.01, 0.5, v => sci(v, 3) + ' km⁻¹', { log: true }),
+      slider('L1', 'Path length L', 0.1, 20, 0.1, 4, v => fix(v, 1) + ' km'),
+    ], upd);
+    function upd() {
+      const a = st.a1, L = st.L1, tau = a * L, T = Math.exp(-tau), xmax = Math.max(L * 1.4, 1);
+      const xs = linspace(0, xmax, 200);
+      p1.draw({ x: { min: 0, max: xmax, label: 'distance s [km]', short: 's' }, y: { min: 0, max: 1.05, label: 'I(s) / I(0)' },
+        series: [{ name: 'I/I₀', x: xs, y: xs.map(s => Math.exp(-a * s)), color: '--s1' }],
+        vlines: [{ x: L, label: 'L', color: '--accent' }, ...(1 / a < xmax ? [{ x: 1 / a, label: 'τ = 1 (one mean free path)', color: '--muted' }] : [])],
+        points: [{ x: L, y: T, label: (100 * T).toPrecision(3) + ' % left' }] });
+      $('[data-s]', el).textContent = `τ = α·L = ${sci(a, 3)} km⁻¹ × ${fix(L, 1)} km = ${sci(tau, 3)}   →   I/I₀ = e^(−${sci(tau, 3)}) = ${sci(T, 3)}`;
+      const reg = tau < 0.3 ? pill('thin', 'optically thin') : tau < 3 ? pill('mid', 'intermediate') : pill('thick', 'optically thick');
+      $('[data-r]', el).innerHTML = readout('Your values', [['optical depth τ', sci(tau, 3)], ['transmitted fraction', (100 * T).toPrecision(3) + ' %'],
+        ['extinction A', fix(1.086 * tau, 2) + ' mag'], ['mean free path ℓ = 1/α', sci(1 / a, 3) + ' km'], ['regime', reg]]);
+      $('[data-n]', el).innerHTML = tau < 0.3 ? '<strong>Thin:</strong> almost all light passes. The loss is ≈ τ, proportional to the amount of gas.'
+        : tau < 3 ? '<strong>Around τ ≈ 1</strong> the medium changes character: e⁻¹ = 37 % of the light remains after one mean free path.'
+        : `<strong>Thick:</strong> only ${sci(T, 2)} of the light survives. You cannot see through; you would see only the medium's own glow from its outer τ ≈ 1 layer.`;
+    }
+    upd();
+  } });
+
+/* L2 ---------------------------------------------------------------- */
+MODULES.push({ id: 'L2', n: 2, nav: 'Intensity vs flux', lecture: 'Lecture 2 · The radiation field',
+  title: 'Why does a star look equally bright per square arcsecond from any distance?',
+  intro: 'Walk away from a star. The flux you receive falls as 1/d², but the solid angle the star covers falls in exactly the same way. Their ratio, the specific intensity, does not change along a ray in empty space.',
+  eq: String.raw`F(d)=\sigma T_{\rm eff}^4\left(\frac{R}{d}\right)^{2},\qquad \Omega=\pi\left(\frac{R}{d}\right)^{2},\qquad I=\frac{F}{\Omega}=\frac{\sigma T_{\rm eff}^4}{\pi}=\text{const}`,
+  build(el) {
+    el.insertAdjacentHTML('beforeend', `<div class="chips" data-pre><span class="lab">Presets</span></div><div class="controls" data-c></div><div class="subst" data-s></div>
+      <div class="grid2"><div data-p1></div><div style="display:grid;gap:12px"><canvas class="disk" data-disk aria-label="The star as seen at the chosen distance"></canvas><div data-r></div></div></div><div class="notice" data-n></div>`);
+    const p1 = new Plot($('[data-p1]', el), { title: 'Relative to the value at the stellar surface', height: 300, forceLegend: true });
+    const AU = 1.495978707e11, Rsun = 6.957e8;
+    const st = buildControls($('[data-c]', el), [
+      slider('T2', 'Effective temperature', 2500, 40000, 10, 5772, v => fix(v, 0) + ' K'),
+      slider('R2', 'Stellar radius R', 0.1, 100, 0.01, 1, v => sci(v, 3) + ' R☉', { log: true }),
+      slider('d2', 'Distance d', 0.01, 1e6, 0.01, 1, v => sci(v, 3) + ' AU', { log: true }),
+    ], upd);
+    [['Sun from Earth', { T2: 5772, R2: 1, d2: 1 }], ['Sun from Mars', { T2: 5772, R2: 1, d2: 1.524 }], ['Sun from Neptune', { T2: 5772, R2: 1, d2: 30.07 }],
+     ['Sirius A from Earth', { T2: 9940, R2: 1.711, d2: 543900 }]].forEach(([lab, v]) => {
+      const b = document.createElement('button'); b.className = 'chip'; b.textContent = lab; b.onclick = () => st.set(v); $('[data-pre]', el).appendChild(b); });
+    function upd() {
+      const T = st.T2, R = st.R2 * Rsun, d = Math.max(st.d2 * AU, R), Fs = RT.sigma * T ** 4, ratio = (R / d) ** 2;
+      const F = Fs * ratio, Om = Math.PI * ratio, I = F / Om;
+      const ds = logspace(Math.log10(R / AU), 6, 200);
+      p1.draw({ x: { min: R / AU, max: 1e6, log: true, label: 'distance d [AU]', short: 'd' }, y: { min: 1e-22, max: 10, log: true, label: 'value / surface value' },
+        series: [{ name: 'flux F', x: ds, y: ds.map(x => (R / (x * AU)) ** 2), color: '--s1' },
+                 { name: 'solid angle Ω', x: ds, y: ds.map(x => (R / (x * AU)) ** 2), color: '--s2', dash: [7, 5] },
+                 { name: 'intensity I = F/Ω', x: ds, y: ds.map(() => 1), color: '--s3' }],
+        points: [{ x: d / AU, y: ratio, color: '--s1' }, { x: d / AU, y: 1, color: '--s3' }] });
+      $('[data-s]', el).textContent = `F = σT⁴(R/d)² = ${sci(Fs, 3)} × ${sci(ratio, 3)} = ${sci(F, 3)} W m⁻²;   Ω = ${sci(Om, 3)} sr;   I = F/Ω = ${sci(I, 4)} W m⁻² sr⁻¹`;
+      const angDiam = 2 * Math.asin(Math.min(1, R / d)) * 206264.806;
+      $('[data-r]', el).innerHTML = readout('Your values', [['flux received F', sci(F, 3) + ' W m⁻²'], ['solid angle Ω', sci(Om, 3) + ' sr'],
+        ['angular diameter', angDiam > 3600 ? fix(angDiam / 3600, 2) + '°' : angDiam > 60 ? fix(angDiam / 60, 2) + "′" : sci(angDiam, 3) + '″'],
+        ['intensity I = σT⁴/π', sci(I, 4) + ' W m⁻² sr⁻¹'], ['luminosity', sci(4 * Math.PI * R * R * Fs / 3.828e26, 3) + ' L☉']]);
+      // disk drawing: radius on a log map, colour fixed by T only
+      const cv = $('[data-disk]', el), dpr = window.devicePixelRatio || 1, Wd = cv.clientWidth || 220;
+      cv.width = Wd * dpr; cv.height = Wd * dpr; const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.fillStyle = css('--panel-2'); g.fillRect(0, 0, Wd, Wd);
+      const rpx = Math.max(1.5, Math.min(Wd * .46, Wd * .46 * (Math.log10(angDiam) + 2) / 8));
+      g.fillStyle = blackbodyCSS(T); g.beginPath(); g.arc(Wd / 2, Wd / 2, rpx, 0, 2 * Math.PI); g.fill();
+      g.fillStyle = css('--muted'); g.font = '12px ' + css('--f-body'); g.textAlign = 'center'; g.fillText('apparent size (log scale); same surface brightness', Wd / 2, Wd - 8);
+      $('[data-n]', el).innerHTML = `Moving from ${sci(st.d2, 3)} AU, both F and Ω change by the same factor, so the disk shrinks but each square arcsecond of it stays <strong>exactly as bright</strong>. Changing T changes I as T⁴; changing R changes only the size.`;
+    }
+    upd(); new ResizeObserver(upd).observe($('[data-disk]', el));
+  } });
+
+/* L3 ---------------------------------------------------------------- */
+MODULES.push({ id: 'L3', n: 3, nav: 'Planck function', lecture: 'Lecture 3 · Black-body radiation',
+  title: 'How does a black body change with temperature?',
+  intro: 'Raise the temperature and watch the peak move to shorter wavelengths (Wien) while the area under the curve grows as T⁴ (Stefan–Boltzmann). Turn on the Rayleigh–Jeans and Wien approximations to see where each one works.',
+  eq: String.raw`B_\lambda(T)=\frac{2hc^{2}}{\lambda^{5}}\;\frac{1}{e^{hc/\lambda kT}-1},\qquad \lambda_{\max}T=2.898\times10^{-3}\ \text{m K},\qquad F=\pi\!\int\! B_\lambda\,d\lambda=\sigma T^{4}`,
+  build(el) {
+    el.insertAdjacentHTML('beforeend', `<div class="controls" data-c></div>
+      <div class="chips" data-opts><span class="lab">Show</span>
+        <button class="chip" aria-pressed="true" data-k="sun">Sun (5772 K) for comparison</button>
+        <button class="chip" aria-pressed="false" data-k="rj">Rayleigh–Jeans limit</button>
+        <button class="chip" aria-pressed="false" data-k="wien">Wien limit</button></div>
+      <div class="subst" data-s></div><div class="grid2"><div data-p1></div><div style="display:grid;gap:12px"><div data-r></div><div data-sw style="height:46px;border-radius:10px;border:1px solid var(--line)"></div><div class="small">Approximate colour of a black body at this temperature.</div></div></div><div class="notice" data-n></div>`);
+    const p1 = new Plot($('[data-p1]', el), { title: 'Spectral radiance B_λ(T)', height: 320, forceLegend: true });
+    const opt = { sun: true, rj: false, wien: false };
+    el.querySelectorAll('[data-opts] button').forEach(b => b.onclick = () => { opt[b.dataset.k] = !opt[b.dataset.k]; b.setAttribute('aria-pressed', opt[b.dataset.k]); upd(); });
+    const st = buildControls($('[data-c]', el), [slider('T3', 'Temperature T', 1000, 60000, 0.001, 5772, v => fix(v, 0) + ' K', { log: true })], upd);
+    function upd() {
+      const T = st.T3, lam = logspace(Math.log10(50e-9), Math.log10(1e-4), 400), nm = lam.map(l => l * 1e9);
+      const B = lam.map(l => RT.planckLam(l, T));
+      const lpk = 2.897771955e-3 / T, Bpk = RT.planckLam(lpk, T);
+      const ymax = Math.max(Bpk, RT.planckLam(2.897771955e-3 / 5772, 5772)) * 4;
+      const series = [{ name: `B_λ at ${fix(T, 0)} K`, x: nm, y: B, color: '--s1', width: 2.5 }];
+      if (opt.sun) series.push({ name: 'Sun, 5772 K', x: nm, y: lam.map(l => RT.planckLam(l, 5772)), color: '--muted', dash: [6, 4], width: 1.5 });
+      if (opt.rj) series.push({ name: 'Rayleigh–Jeans 2ckT/λ⁴', x: nm, y: lam.map(l => 2 * RT.c * RT.k * T / l ** 4), color: '--s2', dash: [7, 5] });
+      if (opt.wien) series.push({ name: 'Wien (drop the −1)', x: nm, y: lam.map(l => 2 * RT.h * RT.c ** 2 / l ** 5 * Math.exp(-RT.h * RT.c / (l * RT.k * T))), color: '--s3', dash: [2, 3] });
+      p1.draw({ x: { min: 50, max: 1e5, log: true, label: 'wavelength λ [nm]', short: 'λ (nm)' }, y: { min: ymax * 1e-7, max: ymax, log: true, label: 'B_λ [W m⁻³ sr⁻¹]' },
+        series, bands: [{ x0: 380, x1: 750, color: '--s4', alpha: .13 }], points: [{ x: lpk * 1e9, y: Bpk, label: `peak ${fix(lpk * 1e9, 0)} nm` }] });
+      const F = RT.sigma * T ** 4;
+      $('[data-s]', el).textContent = `λmax = 2.898×10⁻³ / ${fix(T, 0)} = ${sci(lpk * 1e9, 4)} nm;   σT⁴ = 5.670×10⁻⁸ × ${fix(T, 0)}⁴ = ${sci(F, 4)} W m⁻²   (${sci(F / (RT.sigma * 5772 ** 4), 3)} × the Sun)`;
+      const x500 = RT.h * RT.c / (500e-9 * RT.k * T);
+      $('[data-r]', el).innerHTML = readout('Your values', [['peak wavelength λmax', sci(lpk * 1e9, 4) + ' nm'], ['peak frequency νmax = 5.879×10¹⁰ T', sci(5.879e10 * T, 3) + ' Hz'],
+        ['surface flux σT⁴', sci(F, 3) + ' W m⁻²'], ['B_λ at 500 nm', sci(RT.planckLam(500e-9, T), 3)], ['hc/λkT at 500 nm', sci(x500, 3) + (x500 > 3 ? ' (Wien regime)' : x500 < .3 ? ' (RJ regime)' : '')]]);
+      $('[data-sw]', el).style.background = blackbodyCSS(T);
+      $('[data-n]', el).innerHTML = T < 4000 ? '<strong>Cool star:</strong> the peak is in the infrared, so the star looks red and most of its energy is invisible.'
+        : T < 7500 ? '<strong>Sun-like:</strong> the peak sits in the visible band (shaded). Doubling T would multiply the flux by 16.'
+        : '<strong>Hot star:</strong> the peak moves into the ultraviolet. The visible part lies on the Rayleigh–Jeans side, so the star looks blue-white.';
+    }
+    upd();
+  } });
+
+/* L4 ---------------------------------------------------------------- */
+MODULES.push({ id: 'L4', n: 4, nav: 'Random walk', lecture: 'Lecture 4 · Emission, absorption, scattering',
+  title: 'How many scatterings does a photon need to escape?',
+  intro: 'Photons start at the centre of a cloud of optical radius τ and take steps of one mean free path in random directions. Each interaction destroys the photon with probability ε (true absorption) and otherwise scatters it. Run the experiment and compare with N ≈ τ².',
+  eq: String.raw`\langle R^{2}\rangle=N\ell^{2}\;\Rightarrow\;N_{\rm escape}\simeq\tau^{2},\qquad \tau_{\rm th}\simeq\frac{1}{\sqrt{\varepsilon}}`,
+  build(el) {
+    el.insertAdjacentHTML('beforeend', `<div class="controls" data-c></div><div class="chips"><button class="chip" data-run>Run again</button><span class="small">400 photons, 3D random walk, unit steps</span></div>
+      <div class="subst" data-s></div><div class="grid2"><div class="plot"><div class="title">Six photon paths (projected onto a plane)</div><canvas data-walk style="width:100%;aspect-ratio:1;max-width:420px;display:block;margin:0 auto" aria-label="Sample random-walk paths"></canvas></div><div style="display:grid;gap:12px"><div data-r></div><div data-p1></div></div></div><div class="notice" data-n></div>`);
+    const p1 = new Plot($('[data-p1]', el), { title: 'Mean scatterings to escape vs cloud size (ε = 0)', height: 230, forceLegend: true });
+    const st = buildControls($('[data-c]', el), [
+      slider('t4', 'Cloud optical radius τ', 1, 30, 1, 8, v => fix(v, 0)),
+      slider('e4', 'Destruction probability ε', 0, 0.2, 0.001, 0, v => v === 0 ? '0 (pure scattering)' : fix(v, 3)),
+    ], () => { clearTimeout(st._t); st._t = setTimeout(upd, 60); });
+    $('[data-run]', el).onclick = upd;
+    function walk(tau, eps, keepPath) {
+      let x = 0, y = 0, z = 0, n = 0; const path = keepPath ? [[0, 0]] : null;
+      while (true) {
+        const u = 2 * Math.random() - 1, ph = 2 * Math.PI * Math.random(), s = Math.sqrt(1 - u * u);
+        x += s * Math.cos(ph); y += s * Math.sin(ph); z += u; n++;
+        if (path) path.push([x, y]);
+        if (x * x + y * y + z * z >= tau * tau) return { n, esc: true, path };
+        if (eps > 0 && Math.random() < eps) return { n, esc: false, path };
+        if (n > 2e5) return { n, esc: false, path };
+      }
+    }
+    let curve = null;
+    function upd() {
+      const tau = st.t4, eps = st.e4, N = 400;
+      let ns = 0, nesc = 0, steps = 0;
+      for (let i = 0; i < N; i++) { const r = walk(tau, eps, false); steps += r.n; if (r.esc) { nesc++; ns += r.n; } }
+      const meanN = nesc ? ns / nesc : NaN;
+      if (!curve) { const taus = [1, 2, 3, 4, 6, 8, 10, 14, 18, 24, 30]; curve = { taus, N: taus.map(t => { let s = 0; for (let i = 0; i < 160; i++) s += walk(t, 0, false).n; return s / 160; }) }; }
+      p1.draw({ x: { min: 1, max: 30, log: true, label: 'cloud optical radius τ', short: 'τ' }, y: { min: 0.5, max: 2000, log: true, label: 'mean steps N' },
+        series: [{ name: 'simulation', x: curve.taus, y: curve.N, color: '--s1' }, { name: 'τ²', x: linspace(1, 30, 60), y: linspace(1, 30, 60).map(t => t * t), color: '--muted', dash: [6, 4] }],
+        points: isFinite(meanN) ? [{ x: tau, y: meanN, color: '--s2', label: 'this run' }] : [] });
+      $('[data-s]', el).textContent = `predicted N ≈ τ² = ${fix(tau * tau, 0)};   measured mean (escaped photons) = ${isFinite(meanN) ? fix(meanN, 0) : '—'}`;
+      $('[data-r]', el).innerHTML = readout('This run', [['photons escaped', `${nesc} / ${N} (${fix(100 * nesc / N, 1)} %)`], ['photons destroyed', `${N - nesc}`],
+        ['mean scatterings (escaped)', isFinite(meanN) ? fix(meanN, 0) : '—'], ['τ²', fix(tau * tau, 0)],
+        ['thermalisation depth 1/√ε', eps > 0 ? fix(1 / Math.sqrt(eps), 1) : '∞']]);
+      // paths
+      const cv = $('[data-walk]', el), dpr = window.devicePixelRatio || 1, Wd = cv.clientWidth || 360;
+      cv.width = Wd * dpr; cv.height = Wd * dpr; const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.fillStyle = css('--panel-2'); g.fillRect(0, 0, Wd, Wd);
+      const sc = Wd * .45 / tau; g.strokeStyle = css('--ink-2'); g.setLineDash([5, 4]); g.beginPath(); g.arc(Wd / 2, Wd / 2, tau * sc, 0, 2 * Math.PI); g.stroke(); g.setLineDash([]);
+      ['--s1', '--s2', '--s3', '--s4', '--s5', '--s6'].forEach(col => {
+        const r = walk(tau, eps, true); g.strokeStyle = css(col); g.lineWidth = 1.1; g.globalAlpha = .85; g.beginPath();
+        r.path.forEach(([px, py], i) => { const X = Wd / 2 + px * sc, Y = Wd / 2 + py * sc; if (i) g.lineTo(X, Y); else g.moveTo(X, Y); }); g.stroke(); g.globalAlpha = 1;
+        const [lx, ly] = r.path[r.path.length - 1]; g.fillStyle = css(col); g.beginPath(); g.arc(Wd / 2 + lx * sc, Wd / 2 + ly * sc, r.esc ? 4 : 3, 0, 2 * Math.PI); g.fill();
+        if (!r.esc) { g.strokeStyle = css('--ink'); g.beginPath(); g.arc(Wd / 2 + lx * sc, Wd / 2 + ly * sc, 5, 0, 2 * Math.PI); g.stroke(); }
+      });
+      $('[data-n]', el).innerHTML = eps === 0 ? `With pure scattering every photon escapes eventually, but it needs about <strong>τ² = ${fix(tau * tau, 0)}</strong> steps, so it travels τ times further than the cloud is wide. For the Sun, τ ≈ 3×10¹⁰ gives thousands of years.`
+        : `With ε = ${fix(eps, 3)}, a photon survives about 1/ε = ${fix(1 / eps, 0)} interactions and wanders about 1/√ε = ${fix(1 / Math.sqrt(eps), 1)} mean free paths. ${tau > 1 / Math.sqrt(eps) ? '<strong>The cloud is larger than this</strong>, so most photons are destroyed (thermalised) before escaping.' : 'The cloud is smaller than this, so most photons still escape.'} Circled end points mark destroyed photons.`;
+    }
+    upd();
+  } });
+
+/* L5 ---------------------------------------------------------------- */
+MODULES.push({ id: 'L5', n: 5, nav: 'Slab & MIT star', lecture: 'Lecture 5 · The transfer equation',
+  title: 'Absorption lines or emission lines? A slab and the MIT two-layer star',
+  intro: 'Top: a beam enters a uniform slab and relaxes toward the source function S. Bottom: the MIT 8.901 toy star, a thick base at T_base under a thin layer at T_top, with hydrogen lines placed by the Rydberg formula. Swap the temperatures to create a thermal inversion.',
+  eq: String.raw`I_\nu=I_\nu(0)\,e^{-\tau_\nu}+S_\nu\left(1-e^{-\tau_\nu}\right),\qquad I_\nu=B_\nu(T_{\rm base})\,e^{-\tau_\nu}+B_\nu(T_{\rm top})\left(1-e^{-\tau_\nu}\right)`,
+  build(el) {
+    el.insertAdjacentHTML('beforeend', `<div class="controls" data-c1></div><div class="subst" data-s1></div><div data-p1></div>
+      <div class="chips" data-pre><span class="lab">Spectrum presets</span></div><div class="controls" data-c2></div><div class="subst" data-s2></div>
+      <div data-p2></div><div class="notice" data-n></div>`);
+    const p1 = new Plot($('[data-p1]', el), { title: 'Intensity inside a uniform slab', height: 240 });
+    const p2 = new Plot($('[data-p2]', el), { title: 'Emergent spectrum (line widths exaggerated for visibility)', height: 300, forceLegend: true });
+    const s1 = buildControls($('[data-c1]', el), [
+      slider('i5', 'Incoming intensity I(0) / S', 0, 3, 0.05, 2.2, v => fix(v, 2)),
+      slider('t5', 'Slab optical depth τ', 0, 6, 0.05, 1.5, v => fix(v, 2)),
+    ], upd1);
+    function upd1() {
+      const I0 = s1.i5, tau = s1.t5, xs = linspace(0, 6, 200), y = xs.map(t => I0 * Math.exp(-t) + (1 - Math.exp(-t)));
+      const It = I0 * Math.exp(-tau) + (1 - Math.exp(-tau));
+      p1.draw({ x: { min: 0, max: 6, label: 'optical depth into the slab τ', short: 'τ' }, y: { min: 0, max: Math.max(3.1, I0 + .1), label: 'I / S' },
+        series: [{ name: 'I/S', x: xs, y, color: '--s1' }], hlines: [{ y: 1, label: 'S (source function)', color: '--muted' }], vlines: [{ x: tau, color: '--accent' }],
+        points: [{ x: tau, y: It, label: 'emerges: ' + fix(It, 3) + ' S' }] });
+      $('[data-s1]', el).textContent = `I = ${fix(I0, 2)}·e^(−${fix(tau, 2)}) + 1·(1 − e^(−${fix(tau, 2)})) = ${fix(I0 * Math.exp(-tau), 3)} + ${fix(1 - Math.exp(-tau), 3)} = ${fix(It, 3)} S`;
+    }
+    const s2 = buildControls($('[data-c2]', el), [
+      slider('tb5', 'T_base (thick interior)', 3000, 15000, 50, 6500, v => fix(v, 0) + ' K'),
+      slider('tt5', 'T_top (upper layer)', 3000, 15000, 50, 4500, v => fix(v, 0) + ' K'),
+      slider('l5', 'Line strength τ₀ (Hα)', 0.01, 100, 0.01, 2, v => sci(v, 3), { log: true }),
+      slider('c5', 'Continuum optical depth τ_c', 0, 1, 0.01, 0.02, v => fix(v, 2)),
+      slider('b5', 'Background (0 = dark sky, 1 = thick base)', 0, 1, 1, 1, v => v ? 'thick base' : 'dark sky'),
+    ], upd2);
+    [['Thin H cloud on dark sky', { tb5: 6500, tt5: 8000, l5: 0.3, c5: 0.02, b5: 0 }], ['Two-layer star (absorption)', { tb5: 6500, tt5: 4500, l5: 2, c5: 0.02, b5: 1 }],
+     ['Thermal inversion (emission)', { tb5: 4500, tt5: 6500, l5: 2, c5: 0.02, b5: 1 }], ['Isothermal (no lines)', { tb5: 6000, tt5: 6000, l5: 5, c5: 0.02, b5: 1 }]].forEach(([lab, v]) => {
+      const b = document.createElement('button'); b.className = 'chip'; b.textContent = lab; b.onclick = () => s2.set(v); $('[data-pre]', el).appendChild(b); });
+    function lines(nm, tau0) {
+      let t = 0;
+      for (const n1 of [2, 3]) for (let n2 = n1 + 1; n2 < n1 + 12; n2++) {
+        const l0 = 1e9 / (R_H * (1 / n1 ** 2 - 1 / n2 ** 2)); const str = tau0 * ((n1 + 1) / n2) ** 3 * (n1 === 2 ? 1 : .6);
+        t += str * Math.exp(-(((nm - l0) / 1.2) ** 2));
+      }
+      return t;
+    }
+    function upd2() {
+      const Tb = s2.tb5, Tt = s2.tt5, t0 = s2.l5, tc = s2.c5, bg = s2.b5;
+      const nm = linspace(360, 1000, 1500), L = nm.map(x => x * 1e-9);
+      const tau = nm.map(x => tc + lines(x, t0));
+      const I = L.map((l, i) => bg * RT.planckLam(l, Tb) * Math.exp(-tau[i]) + RT.planckLam(l, Tt) * (1 - Math.exp(-tau[i])));
+      const series = [{ name: 'emergent I_λ', x: nm, y: I.map(v => v / 1e12), color: '--s1', width: 1.6 }];
+      if (bg) series.push({ name: `B_λ(T_base = ${Tb} K)`, x: nm, y: L.map(l => RT.planckLam(l, Tb) / 1e12), color: '--ink-2', dash: [6, 4], width: 1.2 });
+      series.push({ name: `B_λ(T_top = ${Tt} K)`, x: nm, y: L.map(l => RT.planckLam(l, Tt) / 1e12), color: '--s2', dash: [2, 3], width: 1.4 });
+      const ymax = Math.max(...series.map(q => Math.max(...q.y))) * 1.08;
+      p2.draw({ x: { min: 360, max: 1000, label: 'wavelength λ [nm]  (Balmer and Paschen series)', short: 'λ (nm)' }, y: { min: 0, max: ymax, label: 'I_λ [10¹² W m⁻³ sr⁻¹]' }, series,
+        vlines: [{ x: 656.47, label: 'Hα', color: '--muted' }] });
+      const lHa = 656.47e-9, tl = tc + lines(656.47, t0), Ic = bg * RT.planckLam(lHa, Tb) * Math.exp(-tc) + RT.planckLam(lHa, Tt) * (1 - Math.exp(-tc));
+      const Il = bg * RT.planckLam(lHa, Tb) * Math.exp(-tl) + RT.planckLam(lHa, Tt) * (1 - Math.exp(-tl));
+      $('[data-s2]', el).textContent = `Hα: continuum I = ${sci(Ic, 3)},  line centre I = ${sci(Il, 3)} (τ = ${sci(tl, 3)})  →  ${Il < Ic ? 'absorption, depth ' + fix(1 - Il / Ic, 3) : 'emission, peak/continuum ' + fix(Il / Ic, 2)}`;
+      $('[data-n]', el).innerHTML = !bg ? '<strong>Dark background:</strong> I ≈ τ B(T_top), so light appears only where τ is large: an <strong>emission-line spectrum</strong>.'
+        : Math.abs(Tb - Tt) < 60 ? '<strong>Isothermal:</strong> every frequency gives B(T), whatever the opacity. No lines at all, however strong τ₀ is.'
+        : Tt < Tb ? '<strong>Temperature falls outward:</strong> at the lines we see only the cool layer, so the lines are dark. Even infinite τ₀ cannot push a line below B(T_top).'
+        : '<strong>Thermal inversion:</strong> the upper layer is hotter, so the same lines now appear in <strong>emission</strong> (as in the solar chromosphere).';
+    }
+    upd1(); upd2();
+  } });
+
+/* L6 ---------------------------------------------------------------- */
+MODULES.push({ id: 'L6', n: 6, nav: 'Saha–Boltzmann', lecture: 'Lecture 6 · LTE',
+  title: 'Why are Balmer lines strongest in A stars?',
+  intro: 'In LTE the populations of hydrogen follow Boltzmann (excitation into n = 2) and Saha (ionisation). Excitation rises with temperature, but ionisation soon removes the neutral atoms. Move T and the electron pressure and follow the n = 2 population that produces Balmer absorption.',
+  eq: String.raw`\frac{N_{\rm II}\,n_e}{N_{\rm I}}=\frac{2U_{\rm II}}{U_{\rm I}}\left(\frac{2\pi m_e kT}{h^{2}}\right)^{3/2}e^{-\chi/kT},\qquad \frac{N_2}{N_1}=\frac{g_2}{g_1}\,e^{-10.2\,\text{eV}/kT},\qquad P_e=n_ekT`,
+  build(el) {
+    el.insertAdjacentHTML('beforeend', `<div class="controls" data-c></div><div class="subst" data-s></div>
+      <div class="grid2"><div data-p1></div><div data-p2></div></div><div data-r></div><div class="notice" data-n></div>`);
+    const p1 = new Plot($('[data-p1]', el), { title: 'Ionised fraction N_II / N_total', height: 260 });
+    const p2 = new Plot($('[data-p2]', el), { title: 'Fraction in level n = 2 (Balmer absorbers)', height: 260 });
+    const st = buildControls($('[data-c]', el), [
+      slider('T6', 'Temperature T', 3000, 30000, 10, 9900, v => fix(v, 0) + ' K'),
+      slider('P6', 'Electron pressure P_e', 0.1, 1000, 0.001, 20, v => sci(v, 3) + ' Pa', { log: true }),
+    ], upd);
+    function upd() {
+      const T = st.T6, Pe = st.P6, Ts = linspace(3000, 30000, 400);
+      const ion = Ts.map(t => { const x = RT.sahaH(t, Pe); return x / (1 + x); }), n2 = Ts.map(t => RT.balmerFraction(t, Pe));
+      let ip = 0; n2.forEach((v, i) => { if (v > n2[ip]) ip = i; });
+      const x = RT.sahaH(T, Pe), f = x / (1 + x), b2 = RT.balmerFraction(T, Pe), r21 = 4 * Math.exp(-10.199 * RT.eV / (RT.k * T));
+      p1.draw({ x: { min: 3000, max: 30000, label: 'temperature T [K]', short: 'T' }, y: { min: 0, max: 1.05, label: 'ionised fraction' }, yfmt: v => fix(v, 3),
+        series: [{ name: 'N_II/N', x: Ts, y: ion, color: '--s1' }], points: [{ x: T, y: f, label: fix(f, 3) }] });
+      p2.draw({ x: { min: 3000, max: 30000, label: 'temperature T [K]', short: 'T' }, y: { min: 0, max: n2[ip] * 1.15, label: 'N₂ / N_total' },
+        series: [{ name: 'N₂/N', x: Ts, y: n2, color: '--s2' }], vlines: [{ x: Ts[ip], label: 'peak ' + fix(Ts[ip], 0) + ' K', color: '--muted' }], points: [{ x: T, y: b2, color: '--s2' }] });
+      const ne = Pe / (RT.k * T), fac = Math.pow(2 * Math.PI * RT.me * RT.k * T / RT.h ** 2, 1.5), bz = Math.exp(-13.598 * RT.eV / (RT.k * T));
+      $('[data-s]', el).textContent = `N_II/N_I = (1/n_e)(2πm_e kT/h²)^1.5 e^(−χ/kT) = (1/${sci(ne, 3)}) × ${sci(fac, 3)} × ${sci(bz, 3)} = ${sci(x, 3)}`;
+      $('[data-r]', el).innerHTML = readout('Your values', [['electron density n_e', sci(ne, 3) + ' m⁻³'], ['kT', fix(RT.k * T / RT.eV, 4) + ' eV'], ['N₂/N₁ (Boltzmann)', sci(r21, 3)],
+        ['N_II/N_I (Saha)', sci(x, 3)], ['ionised fraction', fix(f, 4)], ['N₂/N_total', sci(b2, 3)], ['Balmer peak for this P_e', fix(Ts[ip], 0) + ' K']]);
+      $('[data-n]', el).innerHTML = T < Ts[ip] - 800 ? `<strong>Below the peak:</strong> hydrogen is mostly neutral, but only ${sci(r21, 2)} of the atoms are excited to n = 2. Heating the gas helps.`
+        : T > Ts[ip] + 800 ? `<strong>Above the peak:</strong> ${fix(100 * f, 1)} % of hydrogen is ionised, so there are few neutral atoms left to absorb. Raising P_e pushes the peak to higher T (recombination is easier).`
+        : '<strong>Near the peak:</strong> the best compromise between excitation (Boltzmann) and ionisation (Saha). This is the A0 star regime.';
+    }
+    upd();
+  } });
+
+/* L7 ---------------------------------------------------------------- */
+MODULES.push({ id: 'L7', n: 7, nav: 'Eddington–Barbier', lecture: 'Lecture 7 · Plane-parallel atmospheres',
+  title: 'What depth do we see at each point of the stellar disk?',
+  intro: 'Choose a source function S(τ) = a + bτ + cτ² and a viewing direction μ = cos θ. The emergent intensity is a weighted average of S, with weight e^(−τ/μ)/μ. Eddington–Barbier says the answer is close to S at τ = μ, and exact when c = 0.',
+  eq: String.raw`I(0,\mu)=\int_0^{\infty}S(\tau)\,e^{-\tau/\mu}\,\frac{d\tau}{\mu}=a+b\mu+2c\mu^{2}\;\approx\;S(\tau=\mu),\qquad F(0)\approx\pi S(2/3)`,
+  build(el) {
+    el.insertAdjacentHTML('beforeend', `<div class="controls" data-c></div><div class="subst" data-s></div>
+      <div class="grid2"><div data-p1></div><div data-p2></div></div>
+      <div class="grid2"><div style="display:grid;gap:6px"><canvas class="disk" data-disk aria-label="Limb-darkened stellar disk"></canvas><div class="small" style="text-align:center">Disk brightness I(μ)/I(1); the ring marks your μ.</div></div><div data-r></div></div><div class="notice" data-n></div>`);
+    const p1 = new Plot($('[data-p1]', el), { title: 'Source function and what we observe', height: 260, forceLegend: true });
+    const p2 = new Plot($('[data-p2]', el), { title: 'Weight e^(−τ/μ)/μ: where the light comes from', height: 260 });
+    const st = buildControls($('[data-c]', el), [
+      slider('a7', 'a (surface value of S)', 0, 2, 0.01, 0.4, v => fix(v, 2)),
+      slider('b7', 'b (gradient)', -0.5, 2, 0.01, 0.6, v => fix(v, 2)),
+      slider('c7', 'c (curvature)', -0.2, 0.3, 0.01, 0, v => fix(v, 2)),
+      slider('m7', 'μ = cos θ (1 = disk centre, 0 = limb)', 0.02, 1, 0.01, 0.5, v => fix(v, 2)),
+    ], upd);
+    function upd() {
+      const { a7: a, b7: b, c7: c, m7: mu } = st;
+      const S = t => a + b * t + c * t * t, Iex = m => a + b * m + 2 * c * m * m;
+      const ts = linspace(0, 3, 200);
+      p1.draw({ x: { min: 0, max: 3, label: 'vertical optical depth τ', short: 'τ' }, y: { min: Math.min(0, ...ts.map(S)), max: Math.max(...ts.map(S)) * 1.1 + .05, label: 'S(τ)' },
+        series: [{ name: 'S(τ)', x: ts, y: ts.map(S), color: '--s1' }], hlines: [{ y: Iex(mu), label: 'emergent I(0,μ)', color: '--s2', dash: [6, 4] }],
+        vlines: [{ x: mu, label: 'τ = μ', color: '--accent' }], points: [{ x: mu, y: S(mu), label: 'S(μ)' }] });
+      p2.draw({ x: { min: 0, max: 3, label: 'vertical optical depth τ', short: 'τ' }, y: { min: 0, max: Math.min(8, 1 / mu) * 1.05, label: 'weight' },
+        series: [{ name: 'weight', x: ts, y: ts.map(t => Math.exp(-t / mu) / mu), color: '--s3' }], vlines: [{ x: mu, label: 'mean depth = μ', color: '--accent' }] });
+      const Ie = Iex(mu), Ieb = S(mu), F = Math.PI * (a + 2 * b / 3 + c), Feb = Math.PI * S(2 / 3);
+      $('[data-s]', el).textContent = `I(0, ${fix(mu, 2)}) = ${fix(a, 2)} + ${fix(b, 2)}×${fix(mu, 2)} + 2×${fix(c, 2)}×${fix(mu, 2)}² = ${fix(Ie, 4)};   Eddington–Barbier S(τ=μ) = ${fix(Ieb, 4)}`;
+      $('[data-r]', el).innerHTML = readout('Your values', [['exact I(0,μ)', fix(Ie, 4)], ['Eddington–Barbier S(μ)', fix(Ieb, 4)],
+        ['error', Ie ? fix(100 * (Ieb - Ie) / Ie, 2) + ' %' : '—'], ['flux π(a + 2b/3 + c)', fix(F, 4)], ['π S(2/3)', fix(Feb, 4)],
+        ['limb / centre I(0)/I(1)', Iex(1) ? fix(Iex(0) / Iex(1), 3) : '—']]);
+      const cv = $('[data-disk]', el), dpr = window.devicePixelRatio || 1, Wd = cv.clientWidth || 220, n = Math.round(Wd * dpr);
+      cv.width = n; cv.height = n; const g = cv.getContext('2d'); const img = g.createImageData(n, n); const I1 = Math.max(Iex(1), 1e-9);
+      for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+        const x = (i - n / 2) / (n * .47), y = (j - n / 2) / (n * .47), r2 = x * x + y * y, p = 4 * (j * n + i);
+        if (r2 > 1) { img.data[p + 3] = 0; continue; }
+        const m = Math.sqrt(1 - r2), v = Math.max(0, Math.min(1.2, Iex(m) / I1));
+        img.data[p] = Math.min(255, 255 * v); img.data[p + 1] = Math.min(255, 200 * v); img.data[p + 2] = Math.min(255, 110 * v); img.data[p + 3] = 255;
+      }
+      g.putImageData(img, 0, 0);
+      g.strokeStyle = css('--accent'); g.lineWidth = 2 * dpr; g.setLineDash([5 * dpr, 4 * dpr]); g.beginPath(); g.arc(n / 2, n / 2, n * .47 * Math.sqrt(1 - mu * mu), 0, 2 * Math.PI); g.stroke();
+      $('[data-n]', el).innerHTML = b > 0 ? `<strong>S increases inward</strong>, so the limb (small μ, shallow layers) is darker than the centre: limb darkening, with I(0)/I(1) = ${fix(Iex(0) / I1, 2)}. The Sun at 500 nm has about 0.36.`
+        : b < 0 ? '<strong>S decreases inward:</strong> the limb shows hotter shallow layers and is brighter. This is limb brightening, seen for chromospheric lines and in radio.'
+        : 'With b = 0 the source function is constant, and the disk looks uniform.';
+      if (c !== 0) $('[data-n]', el).innerHTML += ` With curvature c ≠ 0, Eddington–Barbier misses by cμ² = ${fix(c * mu * mu, 4)}.`;
+    }
+    upd(); new ResizeObserver(upd).observe($('[data-disk]', el));
+  } });
+
+/* L8 ---------------------------------------------------------------- */
+MODULES.push({ id: 'L8', n: 8, nav: 'Scattering & Λ-iteration', lecture: 'Lecture 8 · Moments, diffusion, scattering',
+  title: 'Why is S below B at the surface of an isothermal scattering atmosphere?',
+  intro: 'The gas has one temperature (B is constant), but photons scatter many times before being destroyed. Near the surface they leak out, J falls, and S falls with it. The exact curve is solved live with the Λ matrix; compare it with the Eddington approximation and with plain Λ-iteration.',
+  eq: String.raw`S=\varepsilon B+(1-\varepsilon)J,\qquad J(\tau)=\Lambda_\tau[S]=\tfrac12\!\int_0^{\infty}\!S(t)\,E_1|t-\tau|\,dt,\qquad S(0)=\sqrt{\varepsilon}\,B`,
+  build(el) {
+    el.insertAdjacentHTML('beforeend', `<div class="controls" data-c></div><div class="subst" data-s></div>
+      <div class="grid2"><div data-p1></div><div data-r></div></div><div class="notice" data-n></div>`);
+    const p1 = new Plot($('[data-p1]', el), { title: 'Source function S/B versus depth', height: 320, forceLegend: true });
+    let cache = {};
+    const st = buildControls($('[data-c]', el), [
+      slider('e8', 'Destruction probability ε', 0.001, 1, 0.01, 0.01, v => sci(v, 3), { log: true }),
+      slider('n8', 'Λ-iterations', 0, 500, 1, 20, v => fix(v, 0)),
+    ], () => { clearTimeout(cache.t); cache.t = setTimeout(upd, 40); });
+    function upd() {
+      const eps = st.e8, nIt = st.n8;
+      const r = RT.scatteringAtmosphere(eps, nIt);
+      const x = r.tau.map(t => Math.max(t, 1e-4));
+      p1.draw({ x: { min: 1e-4, max: r.tau[r.tau.length - 1], log: true, label: 'optical depth τ', short: 'τ' }, y: { min: 0, max: 1.05, label: 'S / B' }, yfmt: v => fix(v, 4),
+        series: [{ name: 'exact (Λ matrix)', x, y: r.exact, color: '--s1', width: 2.5 }, { name: 'Eddington approximation', x, y: r.edd, color: '--s2', dash: [7, 5] },
+                 { name: `Λ-iteration, ${nIt} steps`, x, y: r.iter, color: '--s3', dash: [2, 3] }],
+        vlines: eps < 1 ? [{ x: 1 / Math.sqrt(eps), label: 'τ = 1/√ε', color: '--muted' }] : [], points: [{ x: 1e-4, y: Math.sqrt(eps), color: '--accent', label: '√ε' }] });
+      const eddS0 = r.edd[0];
+      $('[data-s]', el).textContent = `S(0) exact = ${fix(r.exact[0], 4)};   √ε = ${fix(Math.sqrt(eps), 4)};   Eddington = ${fix(eddS0, 4)};   after ${nIt} Λ-iterations = ${fix(r.iter[0], 4)}`;
+      $('[data-r]', el).innerHTML = readout('Your values', [['S(0)/B exact', fix(r.exact[0], 4)], ['√ε', fix(Math.sqrt(eps), 4)], ['Eddington S(0)/B', fix(eddS0, 4)],
+        ['thermalisation depth 1/√ε', fix(1 / Math.sqrt(eps), 1)], ['scatterings before destruction 1/ε', fix(1 / eps, 0)],
+        ['Λ-iteration error at surface', fix(100 * (r.iter[0] / r.exact[0] - 1), 1) + ' %']]);
+      $('[data-n]', el).innerHTML = eps > .5 ? '<strong>Mostly absorption:</strong> photons are destroyed almost at once, so S ≈ B nearly everywhere (LTE-like).'
+        : `<strong>Thermalisation:</strong> only below τ ≈ ${fix(1 / Math.sqrt(eps), 0)} does S reach B. ${Math.abs(r.iter[0] / r.exact[0] - 1) > .05 ? `Λ-iteration is still ${fix(100 * (r.iter[0] / r.exact[0] - 1), 0)} % off after ${nIt} steps, because each step carries information only about one optical depth. Try 500 steps with ε = 0.001.` : 'Λ-iteration has converged here; make ε smaller to see it struggle.'}`;
+    }
+    upd();
+  } });
+
+/* L9 ---------------------------------------------------------------- */
+MODULES.push({ id: 'L9', n: 9, nav: 'Gray LTE atmosphere', lecture: 'Lecture 9 · The gray LTE atmosphere',
+  title: 'The complete gray LTE atmosphere: temperature, limb darkening and spectrum',
+  intro: 'The exact solution (Hopf function, Chandrasekhar H-function) is compared with Eddington’s approximation. Change T_eff to rescale the whole model, and the wavelength to see how monochromatic limb darkening depends on colour. Gravity and opacity set the pressure.',
+  eq: String.raw`T^{4}=\tfrac34T_{\rm eff}^{4}\left[\tau+q(\tau)\right],\qquad I_\lambda(0,\mu)=\int_0^{\infty}B_\lambda\big(T(\tau)\big)e^{-\tau/\mu}\frac{d\tau}{\mu},\qquad F_\lambda=2\pi\!\int_0^{\infty}\!B_\lambda E_2(\tau)\,d\tau,\qquad P=\frac{g\tau}{\kappa}`,
+  build(el) {
+    el.insertAdjacentHTML('beforeend', `<div class="controls" data-c></div><div class="subst" data-s></div>
+      <div class="grid2"><div data-p1></div><div data-p2></div></div><div class="grid2"><div data-p3></div><div data-r></div></div><div class="notice" data-n></div>`);
+    const p1 = new Plot($('[data-p1]', el), { title: 'Temperature structure', height: 260, forceLegend: true });
+    const p2 = new Plot($('[data-p2]', el), { title: 'Limb darkening I(μ)/I(1)', height: 260, forceLegend: true });
+    const p3 = new Plot($('[data-p3]', el), { title: 'Emergent flux versus a black body at T_eff', height: 260, forceLegend: true });
+    const qT = TABLES.hopf_tau, qQ = TABLES.hopf_q, q = t => RT.interp(t, qT, qQ);
+    const tg = []; for (let i = 0; i <= 300; i++) tg.push(i / 300); for (let i = 1; i <= 300; i++) tg.push(1 + 29 * Math.pow(i / 300, 1.6));
+    const E2g = tg.map(t => RT.En(2, t));
+    const trap = (f) => { let s = 0; for (let i = 1; i < tg.length; i++) s += .5 * (f[i] + f[i - 1]) * (tg[i] - tg[i - 1]); return s; };
+    const st = buildControls($('[data-c]', el), [
+      slider('T9', 'Effective temperature T_eff', 3000, 40000, 10, 5772, v => fix(v, 0) + ' K'),
+      slider('L9', 'Wavelength for limb darkening', 200, 2000, 5, 500, v => fix(v, 0) + ' nm'),
+      slider('g9', 'Surface gravity log g (cgs)', 1, 5, 0.01, 4.44, v => fix(v, 2)),
+      slider('k9', 'Mean opacity κ', 0.001, 1, 0.001, 0.03, v => sci(v, 3) + ' m² kg⁻¹', { log: true }),
+    ], () => { clearTimeout(st._t); st._t = setTimeout(upd, 30); });
+    function upd() {
+      const Te = st.T9, lam = st.L9 * 1e-9;
+      const Tex = tg.map(t => Te * Math.pow(.75 * (t + q(t)), .25)), Ted = tg.map(t => Te * Math.pow(.75 * (t + 2 / 3), .25));
+      const xs = logspace(-4, Math.log10(30), 200);
+      p1.draw({ x: { min: 1e-4, max: 30, log: true, label: 'optical depth τ', short: 'τ' }, y: { min: .75, max: 2.3, label: 'T / T_eff' }, yfmt: v => fix(v, 4),
+        series: [{ name: 'exact (Hopf q(τ))', x: xs, y: xs.map(t => Math.pow(.75 * (t + q(t)), .25)), color: '--s1', width: 2.5 },
+                 { name: 'Eddington (q = 2/3)', x: xs, y: xs.map(t => Math.pow(.75 * (t + 2 / 3), .25)), color: '--s2', dash: [7, 5] }],
+        hlines: [{ y: 1, color: '--muted' }], vlines: [{ x: 2 / 3, label: 'τ = 2/3', color: '--muted' }] });
+      const mus = linspace(0.02, 1, 40);
+      const Bl = Tex.map(T => RT.planckLam(lam, T));
+      const Imu = mus.map(m => trap(Bl.map((b, i) => b * Math.exp(-tg[i] / m) / m)));
+      const H = TABLES.H, Hmu = TABLES.H_mu;
+      p2.draw({ x: { min: 0, max: 1, label: 'μ = cos θ', short: 'μ' }, y: { min: 0, max: 1.05, label: 'I(0,μ) / I(0,1)' }, yfmt: v => fix(v, 3),
+        series: [{ name: `monochromatic, ${st.L9} nm`, x: mus, y: Imu.map(v => v / Imu[Imu.length - 1]), color: '--s1', width: 2.5 },
+                 { name: 'bolometric exact H(μ)/H(1)', x: Hmu, y: H.map(v => v / H[H.length - 1]), color: '--s3', dash: [2, 3] },
+                 { name: 'Eddington (2+3μ)/5', x: [0, 1], y: [.4, 1], color: '--s2', dash: [7, 5] }] });
+      const lams = logspace(Math.log10(120e-9), Math.log10(5e-6), 120);
+      const Fl = lams.map(l => 2 * Math.PI * trap(Tex.map((T, i) => RT.planckLam(l, T) * E2g[i])));
+      const Fb = lams.map(l => Math.PI * RT.planckLam(l, Te));
+      const fmax = Math.max(...Fl, ...Fb);
+      p3.draw({ x: { min: 120, max: 5000, log: true, label: 'wavelength λ [nm]', short: 'λ (nm)' }, y: { min: fmax * 1e-5, max: fmax * 2, log: true, label: 'F_λ [W m⁻³]' },
+        series: [{ name: 'gray LTE atmosphere', x: lams.map(l => l * 1e9), y: Fl, color: '--s1', width: 2.5 }, { name: 'π B_λ(T_eff)', x: lams.map(l => l * 1e9), y: Fb, color: '--ink-2', dash: [6, 4] }] });
+      // total flux check
+      const lx = logspace(-8, -3, 260), Fx = lx.map(l => 2 * Math.PI * trap(Tex.map((T, i) => RT.planckLam(l, T) * E2g[i])));
+      let tot = 0; for (let i = 1; i < lx.length; i++) tot += .5 * (Fx[i] + Fx[i - 1]) * (lx[i] - lx[i - 1]);
+      const g = Math.pow(10, st.g9) / 100, kap = st.k9, P = g * (2 / 3) / kap, Tph = Te, rho = P * 1.3 * RT.mH / (RT.k * Tph);
+      const T0 = Te * Math.pow(.75 * q(0), .25), T1 = Te * Math.pow(.75 * (1 + q(1)), .25);
+      $('[data-s]', el).textContent = `T(0) = (3/4 × ${fix(q(0), 4)})^¼ × ${fix(Te, 0)} = ${fix(T0, 0)} K;   T(τ=1) = (3/4 × (1 + ${fix(q(1), 4)}))^¼ × ${fix(Te, 0)} = ${fix(T1, 0)} K`;
+      $('[data-r]', el).innerHTML = readout('Your model', [['surface T(0), exact', fix(T0, 0) + ' K'], ['surface T(0), Eddington', fix(Te * Math.pow(.5, .25), 0) + ' K'],
+        ['T at τ = 1', fix(T1, 0) + ' K'], ['limb/centre at ' + st.L9 + ' nm', fix(Imu[0] / Imu[Imu.length - 1], 3) + ' (μ = 0.02)'],
+        ['P at τ = 2/3', sci(P, 3) + ' Pa'], ['ρ at τ = 2/3 (μ_mol = 1.3)', sci(rho, 3) + ' kg m⁻³'], ['energy check ∫F_λ dλ / σT_eff⁴', fix(tot / (RT.sigma * Te ** 4), 4)]]);
+      $('[data-n]', el).innerHTML = `The surface does not cool to zero: it stays at ${fix(T0 / Te, 3)} T_eff because it is still lit from below. Limb darkening is stronger in the blue (Wien side of the Planck function): try 300 nm, then 1500 nm. The spectrum has a <strong>UV excess</strong> over π B(T_eff), coming from the hot deep layers.`;
+    }
+    upd();
+  } });
+
+/* L10 --------------------------------------------------------------- */
+MODULES.push({ id: 'L10', n: 10, nav: 'LTE spectral lines', lecture: 'Lecture 10 · LTE lines',
+  title: 'How does a spectral line grow? Milne–Eddington profiles and the curve of growth',
+  intro: 'In LTE a line is dark because, at the line frequencies, we see higher and cooler layers. β is the temperature gradient of the atmosphere (B = B₀(1 + βτ)), η₀ the line-to-continuum opacity ratio (∝ number of absorbers), and a the damping parameter of the Voigt profile.',
+  eq: String.raw`\frac{F_\nu}{F_c}=\frac{1+\dfrac{2\beta}{3(1+\eta_\nu)}}{1+\dfrac{2\beta}{3}},\qquad \eta_\nu=\eta_0\,H(a,v),\qquad W=\int\left(1-\frac{F_\nu}{F_c}\right)d\nu,\qquad \Delta\lambda_D=\frac{\lambda_0}{c}\sqrt{\frac{2kT}{m}+\xi^{2}}`,
+  build(el) {
+    el.insertAdjacentHTML('beforeend', `<div class="controls" data-c></div><div class="subst" data-s></div>
+      <div class="grid2"><div data-p1></div><div data-p2></div></div><div data-r></div><div class="notice" data-n></div>`);
+    const p1 = new Plot($('[data-p1]', el), { title: 'Line profile', height: 290 });
+    const p2 = new Plot($('[data-p2]', el), { title: 'Curve of growth', height: 290, forceLegend: true });
+    let cog = { key: '' };
+    const st = buildControls($('[data-c]', el), [
+      slider('b10', 'Temperature gradient β', 0, 6, 0.05, 1.5, v => fix(v, 2)),
+      slider('e10', 'Line strength η₀ (∝ N f)', 0.01, 1e6, 0.01, 10, v => sci(v, 3), { log: true }),
+      slider('a10', 'Damping parameter a', 1e-4, 0.1, 0.01, 0.01, v => sci(v, 2), { log: true }),
+      slider('T10', 'Gas temperature (Doppler width)', 3000, 20000, 50, 5772, v => fix(v, 0) + ' K'),
+      slider('m10', 'Atomic mass', 1, 60, 0.1, 55.8, v => fix(v, 1) + ' u'),
+      slider('x10', 'Microturbulence ξ', 0, 5, 0.1, 1, v => fix(v, 1) + ' km/s'),
+    ], () => { clearTimeout(st._t); st._t = setTimeout(upd, 30); });
+    function upd() {
+      const beta = st.b10, eta0 = st.e10, a = st.a10;
+      const vmax = Math.min(400, Math.max(5, 2.5 * Math.sqrt(eta0 * a) + 4));
+      const vs = linspace(-vmax, vmax, 801), r = vs.map(v => RT.meResidual(v, eta0, beta, a));
+      const rmin = 1 / (1 + 2 * beta / 3);
+      p1.draw({ x: { min: -vmax, max: vmax, label: 'v = (ν − ν₀)/Δν_D', short: 'v' }, y: { min: Math.max(0, rmin - .08), max: 1.03, label: 'F_ν / F_c' }, yfmt: v => fix(v, 4),
+        series: [{ name: 'F/F_c', x: vs, y: r, color: '--s1', width: 2.2 }], hlines: [{ y: rmin, label: 'saturation limit 1/(1 + 2β/3)', color: '--muted' }] });
+      const key = beta + '|' + a;
+      if (cog.key !== key) { const es = logspace(-2, 6, 45); cog = { key, es, Wg: es.map(e => RT.equivalentWidth(e, beta, 0)), Wv: es.map(e => RT.equivalentWidth(e, beta, a)) }; }
+      const W = RT.equivalentWidth(eta0, beta, a);
+      const C = (2 * beta / 3) / (1 + 2 * beta / 3);
+      p2.draw({ x: { min: .01, max: 1e6, log: true, label: 'η₀ (∝ number of absorbers)', short: 'η₀' }, y: { min: 1e-3, max: 300, log: true, label: 'W / Δν_D' },
+        series: [{ name: `Voigt, a = ${sci(a, 2)}`, x: cog.es, y: cog.Wv, color: '--s1', width: 2.2 }, { name: 'Gaussian only', x: cog.es, y: cog.Wg, color: '--s2', dash: [7, 5] },
+                 { name: 'linear: √π C η₀', x: [0.01, 10], y: [Math.sqrt(Math.PI) * C * .01, Math.sqrt(Math.PI) * C * 10], color: '--muted', dash: [2, 3] }],
+        points: [{ x: eta0, y: W, color: '--accent' }] });
+      const vth = Math.sqrt(2 * RT.k * st.T10 / (st.m10 * 1.66054e-27) + (st.x10 * 1e3) ** 2), dlD = 500e-9 * vth / RT.c;
+      const W2 = RT.equivalentWidth(eta0 * 1.1, beta, a), slope = Math.log(W2 / W) / Math.log(1.1);
+      const reg = slope > .8 ? pill('thin', 'linear part') : slope < .35 ? pill('thick', 'flat (saturated)') : (eta0 * a > 1 ? pill('mid', 'damping part') : pill('mid', 'transition'));
+      $('[data-s]', el).textContent = `centre: F/F_c = [1 + 2·${fix(beta, 2)}/(3·(1 + ${sci(eta0, 3)}))] / [1 + 2·${fix(beta, 2)}/3] = ${fix(r[400], 4)};   W = ${fix(W, 3)} Δν_D`;
+      $('[data-r]', el).innerHTML = readout('Your line (λ₀ = 500 nm)', [['central depth 1 − F/F_c', fix(1 - r[400], 4)], ['maximum possible depth', fix(1 - rmin, 4)],
+        ['equivalent width W/Δν_D', fix(W, 3)], ['Doppler velocity √(2kT/m + ξ²)', fix(vth / 1e3, 2) + ' km/s'], ['Doppler width Δλ_D', fix(dlD * 1e13, 1) + ' mÅ'],
+        ['equivalent width W_λ', fix(W * dlD * 1e13, 1) + ' mÅ'], ['slope d ln W / d ln η₀', fix(slope, 2)], ['curve-of-growth regime', reg]]);
+      $('[data-n]', el).innerHTML = slope > .8 ? '<strong>Linear part:</strong> doubling the number of absorbers doubles W. This is where abundances are measured best.'
+        : slope < .35 ? '<strong>Saturated:</strong> the core cannot get darker than the saturation limit, so W hardly grows. Abundances from such lines depend strongly on ξ.'
+        : '<strong>Damping part:</strong> the Lorentzian wings are now opaque and W grows as √η₀. Pressure broadening (gravity) controls these wings.';
+      if (beta === 0) $('[data-n]', el).innerHTML = '<strong>β = 0, isothermal:</strong> no line at all in LTE, however many absorbers there are.';
+    }
+    upd();
+  } });
+
+/* ------------------------------------------------------------------ app shell */
+const rail = $('#rail'), main = $('#main');
+MODULES.forEach(m => {
+  const b = document.createElement('button'); b.innerHTML = `<span class="n">${String(m.n).padStart(2, '0')}</span><span>${m.nav}</span>`; b.dataset.id = m.id;
+  b.onclick = () => show(m.id, true); rail.appendChild(b);
+  const sec = document.createElement('section'); sec.className = 'mod'; sec.id = 'sec-' + m.id; sec.hidden = true;
+  sec.innerHTML = `<div class="modhead"><div class="eyebrow">${m.lecture}</div><h2>${m.title}</h2><p class="intro">${m.intro}</p></div><div class="eq">${TEX[m.id]}</div>`;
+  main.appendChild(sec);
+});
+function show(id, push) {
+  MODULES.forEach(m => { const on = m.id === id; $('#sec-' + m.id).hidden = !on; rail.querySelector(`[data-id="${m.id}"]`).setAttribute('aria-current', on); });
+  const m = MODULES.find(q => q.id === id);
+  if (!m.built) { m.build($('#sec-' + id)); m.built = true; }
+  try { localStorage.setItem('rtlab-tab', id); } catch (e) {}
+  if (push) { try { history.replaceState(null, '', '#' + id); } catch (e) {} }
+}
+let start = (location.hash || '').replace('#', '');
+if (!MODULES.some(m => m.id === start)) { try { start = localStorage.getItem('rtlab-tab') || 'L3'; } catch (e) { start = 'L3'; } }
+if (!MODULES.some(m => m.id === start)) start = 'L3';
+show(start, false);
+window.addEventListener('hashchange', () => { const h = location.hash.replace('#', ''); if (MODULES.some(m => m.id === h)) show(h, false); });
+const rerender = () => MODULES.forEach(m => { if (m.built) { const sec = $('#sec-' + m.id); sec.querySelectorAll('input[type=range]').forEach(i => i.dispatchEvent(new Event('input'))); } });
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { rerender(); drawStrip(); });
+new MutationObserver(() => { rerender(); drawStrip(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+/* header strip: a Sun-like LTE spectrum with Milne-Eddington lines */
+function drawStrip() {
+  const cv = $('#strip'), dpr = window.devicePixelRatio || 1, W = cv.clientWidth, H = cv.clientHeight; if (!W) return;
+  cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); const g = cv.getContext('2d');
+  const linesNm = [[393.4, 3e4, .8], [396.8, 2e4, .8], [410.2, 300, .25], [434.0, 500, .3], [486.1, 900, .35], [516.7, 400, .12], [517.3, 500, .12], [518.4, 600, .12],
+    [527.0, 80, .06], [589.0, 3000, .1], [589.6, 2000, .1], [656.3, 2000, .4], [686.7, 300, .2], [759.4, 400, .3]];
+  for (let i = 0; i < cv.width; i++) {
+    const nm = 380 + 370 * i / cv.width; let f = 1;
+    for (const [l0, eta, wd] of linesNm) { const v = (nm - l0) / wd; if (Math.abs(v) < 60) f = Math.min(f, RT.meResidual(v, eta, 2.2, .02)); }
+    const [r, gg, b] = wavelengthRGB(nm);
+    g.fillStyle = `rgb(${Math.round(255 * r * f)},${Math.round(255 * gg * f)},${Math.round(255 * b * f)})`; g.fillRect(i, 0, 1, cv.height);
+  }
+}
+drawStrip(); new ResizeObserver(drawStrip).observe($('#strip'));
+</script>
