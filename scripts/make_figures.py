@@ -18,6 +18,9 @@ from matplotlib.patches import Circle, FancyArrowPatch, Polygon, Rectangle, Elli
 sys.path.insert(0, os.path.dirname(__file__))
 import lte_solvers as rt  # noqa: E402
 
+c_light = rt.c
+eV = rt.eV
+
 OUT = os.path.join(os.path.dirname(__file__), "..", "figures")
 os.makedirs(OUT, exist_ok=True)
 
@@ -606,7 +609,7 @@ def fig_mit_two_layer():
     save(fig, "L05_mit_two_layer.png")
 
 
-if __name__ == "__main__" and "--part2" not in sys.argv:
+if __name__ == "__main__" and "--part2" not in sys.argv and "--sa" not in sys.argv:
     np.random.seed(1)
     fig_overview(); fig_intensity_geometry(); fig_constancy(); fig_planck()
     fig_processes(); fig_random_walk(); fig_slab(); fig_saha(); fig_regimes()
@@ -614,6 +617,7 @@ if __name__ == "__main__" and "--part2" not in sys.argv:
     fig_two_stream(); fig_gray(); fig_gray_spectrum(); fig_lines()
     fig_mit_rte_panels(); fig_mit_two_layer()
     fig_rte_element(); fig_rte_hierarchy(); fig_history(); fig_polarization(); fig_nlte(); fig_solar_atmosphere()
+    fig_sa_opacity(); fig_sa_rates(); fig_sa_broadening()
 
 
 # =====================================================================
@@ -738,7 +742,7 @@ def fig_nlte():
     arrow(ax, (4.2, 4.55), (4.2, 1.05), color=C[0], lw=1.8); ax.text(4.3, 2.8, r"$n_2(A_{21}+B_{21}\bar J)$", ha="left", color=C[0])
     arrow(ax, (6.6, 1.05), (6.6, 4.55), color=C[1], lw=1.8, style="-|>"); ax.text(6.5, 3.6, r"$n_1C_{12}$", ha="right", color=C[1])
     arrow(ax, (7.4, 4.55), (7.4, 1.05), color=C[1], lw=1.8); ax.text(7.5, 2.0, r"$n_2C_{21}$", ha="left", color=C[1])
-    ax.text(5, 5.5, "radiative (blue) vs collisional (orange) rates", ha="center", fontsize=10.5)
+    ax.text(5, 5.5, "radiative (blue) vs collisional (red) rates", ha="center", fontsize=10.5)
     ax.text(5, 0.25, r"statistical equilibrium: rates in = rates out", ha="center", fontsize=10.5)
     ax = axs[1]
     beta = 0.2
@@ -790,3 +794,93 @@ def fig_solar_atmosphere():
 
 if __name__ == "__main__" and "--part2" in sys.argv:
     fig_rte_element(); fig_rte_hierarchy(); fig_history(); fig_polarization(); fig_nlte(); fig_solar_atmosphere()
+
+
+# =====================================================================
+# Stellar Atmospheres course figures (SA2-SA4)
+# =====================================================================
+def fig_sa_opacity():
+    import sa_physics as sp
+    fig, axs = plt.subplots(1, 2, figsize=(12, 4.4))
+    ax = axs[0]
+    lam = np.logspace(np.log10(50e-9), np.log10(3e-6), 3000)
+    for (T, col) in ((6000.0, C[1]), (9000.0, C[0]), (12000.0, C[2])):
+        bf, ff, es = sp.hydrogen_opacity_per_H(lam, T, 20.0)
+        ax.loglog(lam * 1e9, bf + ff + es, color=col, lw=2, label=f"H bf + ff + e⁻ scattering, T = {T:.0f} K")
+    ax.axvline(364.7, color="k", ls=":", lw=1); ax.text(370, 1e-30, "Balmer\nedge", fontsize=9)
+    ax.axvline(820.6, color="k", ls=":", lw=1); ax.text(830, 1e-30, "Paschen\nedge", fontsize=9)
+    ax.set_xlim(50, 3000); ax.set_ylim(1e-33, 1e-20)
+    ax.set_xlabel("wavelength [nm]"); ax.set_ylabel(r"cross-section per neutral H atom [m$^2$]")
+    ax.set_title(r"Continuous opacity of hydrogen in LTE ($P_e=20$ Pa)")
+    ax.legend(fontsize=8.5, loc="upper right")
+    ax = axs[1]
+    for n, col in zip((1, 2, 3, 4), C):
+        ax.loglog(lam * 1e9, np.maximum(sp.sigma_bf_H(n, c_light / lam), 1e-40), color=col, lw=2, label=f"n = {n}")
+    ax.set_xlim(50, 3000); ax.set_ylim(1e-24, 2e-20)
+    ax.set_xlabel("wavelength [nm]"); ax.set_ylabel(r"$\sigma_{bf}$ [m$^2$]")
+    ax.set_title(r"Kramers cross-sections $\sigma_n\propto n^{-5}\nu^{-3}$ (edges at $91.2\,n^2$ nm)")
+    ax.legend()
+    save(fig, "SA2_continuous_opacity.png")
+
+
+def fig_sa_rates():
+    import sa_physics as sp
+    fig, axs = plt.subplots(1, 2, figsize=(12, 5.2))
+    ax = axs[0]
+    ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis("off")
+    levels = [(1.0, "1"), (5.0, "2"), (6.8, "3")]
+    for y, lab in levels:
+        ax.plot([1.5, 7.5], [y, y], "k", lw=2); ax.text(7.7, y, f"level {lab}", va="center")
+    ax.add_patch(Rectangle((1.5, 8.4), 6, 1.2, color=C[4], alpha=.15)); ax.text(7.7, 9.0, "continuum (ion + e⁻)", va="center")
+    arrow(ax, (2.2, 1.05), (2.2, 4.95), color=C[0], lw=1.6); ax.text(2.1, 3, r"$B_{12}\bar J$", ha="right", color=C[0], fontsize=10)
+    arrow(ax, (2.8, 4.95), (2.8, 1.05), color=C[0], lw=1.6); ax.text(2.9, 2.2, r"$A_{21}+B_{21}\bar J$", color=C[0], fontsize=10)
+    arrow(ax, (4.6, 1.05), (4.6, 4.95), color=C[1], lw=1.6); ax.text(4.5, 3.6, r"$n_eq_{12}$", ha="right", color=C[1], fontsize=10)
+    arrow(ax, (5.1, 4.95), (5.1, 1.05), color=C[1], lw=1.6); ax.text(5.2, 2.2, r"$n_eq_{21}$", color=C[1], fontsize=10)
+    arrow(ax, (6.3, 5.05), (6.3, 8.35), color=C[2], lw=1.6); ax.text(6.2, 7.6, "photo-\nionisation", ha="right", color=C[2], fontsize=9)
+    arrow(ax, (6.9, 8.35), (6.9, 6.85), color=C[3], lw=1.6); ax.text(7.0, 7.9, "recombination", color=C[3], fontsize=9)
+    ax.text(5, 0.2, "radiative (blue, green, gold) and collisional (red) rates", ha="center", fontsize=10)
+    ax = axs[1]
+    T = 1e4
+    ne = np.logspace(6, 26, 300)
+    boltz = np.exp(-2.48 * eV / (rt.k * T))
+    for (A, Om, lab, col) in ((0.027, 2.29, "forbidden line, A = 0.027 s⁻¹ ([O III]-like)", C[1]), (1e8, 10.0, "allowed line, A = 10⁸ s⁻¹", C[0])):
+        r = sp.two_level_ratio(ne, A, Om, 5, 5, 2.48, T) / boltz
+        ax.loglog(ne, r, color=col, lw=2.2, label=lab)
+        ax.axvline(A / sp.q_ul(Om, 5, T), color=col, ls=":", lw=1)
+    ax.axhline(1, color="k", ls="--", lw=1); ax.text(1.5e6, 1.3, "LTE (Boltzmann)", fontsize=9)
+    ax.text(3e13, 3e-10, "coronal limit:\n" r"$n_u/n_l=n_eq_{lu}/A_{ul}\propto n_e$", fontsize=9)
+    ax.set_ylim(1e-10, 3); ax.set_xlim(1e6, 1e26)
+    ax.set_xlabel(r"electron density $n_e$ [m$^{-3}$]"); ax.set_ylabel(r"$(n_u/n_l)\,/\,(n_u/n_l)_{\rm LTE}$")
+    ax.set_title(r"Two-level atom, $T=10^4$ K, no radiation: dotted = $n_{\rm crit}$")
+    ax.legend(fontsize=8.5, loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=1)
+    save(fig, "SA3_rates.png")
+
+
+def fig_sa_broadening():
+    import sa_physics as sp
+    fig, axs = plt.subplots(1, 2, figsize=(12, 4.4))
+    ax = axs[0]
+    v = np.linspace(0, 30, 1500)
+    for a, col in zip((0.0, 1e-3, 1e-2, 0.1, 1.0), C):
+        y = np.exp(-v**2) if a == 0 else sp.voigt(a, v)
+        ax.semilogy(v, y, color=col, lw=2, label=("Gaussian (a = 0)" if a == 0 else f"Voigt, a = {a:g}"))
+    ax.set_ylim(1e-8, 1.5); ax.set_xlim(0, 30)
+    ax.set_xlabel(r"$v=\Delta\nu/\Delta\nu_D$"); ax.set_ylabel(r"$H(a,v)$")
+    ax.set_title("Voigt profiles: Doppler core + Lorentzian damping wings")
+    ax.text(12, 3e-3, r"wings: $H\approx a/(\sqrt{\pi}v^2)$", fontsize=10)
+    ax.legend(fontsize=8.5)
+    ax = axs[1]
+    x = np.linspace(-1.5, 1.5, 600)
+    vsini = 20.0
+    for eps, col, ls in ((0.0, C[0], "-"), (0.6, C[1], "--")):
+        ax.plot(x * vsini, sp.rotation_kernel(x, eps) / vsini, color=col, ls=ls, lw=2, label=fr"rotation, $v\sin i=20$ km/s, $\varepsilon={eps}$")
+    vth = 2.0
+    ax.plot(x * vsini, np.exp(-(x * vsini / vth) ** 2) / (np.sqrt(np.pi) * vth), color=C[2], lw=1.8, label="thermal + micro, 2 km/s")
+    ax.set_xlabel("velocity [km/s]"); ax.set_ylabel("broadening kernel [per km/s]")
+    ax.set_title("Rotational vs thermal broadening kernels")
+    ax.legend(fontsize=8.5)
+    save(fig, "SA4_broadening.png")
+
+
+if __name__ == "__main__" and "--sa" in sys.argv:
+    fig_sa_opacity(); fig_sa_rates(); fig_sa_broadening()

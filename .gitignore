@@ -1,4 +1,5 @@
 build/node/
 build/course.html
+courses/*/.course.html
 __pycache__/
 *.pyc

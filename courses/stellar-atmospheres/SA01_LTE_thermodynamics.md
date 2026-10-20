@@ -1,4 +1,4 @@
-# Lecture 6 — Thermodynamic Equilibrium and Local Thermodynamic Equilibrium (LTE)
+# Lecture SA1 — Thermodynamic Equilibrium and Local Thermodynamic Equilibrium (LTE)
 
 > **Sources:** Collins §9.1a–d (breakdown of STE, assumption of LTE, the five assumptions of normal stellar atmospheres), §9.2c (Kirchhoff's law $j_\nu = \kappa_\nu B_\nu$, eq. 9.2.22), §9.2d ($S_\nu = B_\nu$, eq. 9.2.28); MIT 8.901 §7.3 (Kirchhoff's law for thick and thin lumps); Hu Set 1; Carroll & Ostlie Ch. 8 (Saha–Boltzmann example).
 
@@ -28,7 +28,7 @@
 
 ---
 
-## 6.1 Strict (full) thermodynamic equilibrium
+## 1.1 Strict (full) thermodynamic equilibrium
 
 In TE at temperature $T$, **every** distribution is the equilibrium one:
 
@@ -41,7 +41,7 @@ In TE at temperature $T$, **every** distribution is the equilibrium one:
 
 Deep in a star this holds extremely well. The photon mean free path ($\sim$ cm) is tiny compared with the temperature scale height ($\sim R_\odot\sim10^{11}$ cm), so every photon sees an isothermal enclosure.
 
-## 6.2 Why TE fails near the surface
+## 1.2 Why TE fails near the surface
 
 Collins (§9.1a) identifies the key asymmetry: **photons have much longer mean free paths than particles**. Approaching the surface:
 
@@ -49,11 +49,11 @@ Collins (§9.1a) identifies the key asymmetry: **photons have much longer mean f
 2. A photon at a given point was emitted in regions with different $T$; the radiation field is **non-local**.
 3. Particles, with short mean free paths, still collide often enough to keep Maxwell, Boltzmann and Saha distributions at the **local** $T$.
 
-![Regimes from interior to the outer atmosphere](../figures/L06_regimes.png)
+![Regimes from interior to the outer atmosphere](../../figures/L06_regimes.png)
 
-*Figure 6.1 — From STE in the interior, through LTE in the deep atmosphere, to NLTE in the upper layers. LTE fails first for strong lines and at low density.*
+*Figure 1.1 — From STE in the interior, through LTE in the deep atmosphere, to NLTE in the upper layers. LTE fails first for strong lines and at low density.*
 
-## 6.3 Local thermodynamic equilibrium
+## 1.3 Local thermodynamic equilibrium
 
 > **Definition.** In **LTE** the *matter* at each point is in thermodynamic equilibrium at the local temperature $T(\mathbf r)$: velocities are Maxwellian, populations follow Boltzmann and Saha. The radiation field $I_\nu$ is **not** required to be Planckian.
 
@@ -64,13 +64,13 @@ $$\boxed{\;j_\nu = \alpha_\nu B_\nu(T)\;}\qquad\text{(Kirchhoff's law)}$$
 Both $j_\nu$ and $\alpha_\nu$ depend only on the **state of the matter** (populations and velocity distribution). In LTE that state is the TE state at the local $T$, so Kirchhoff's law still holds, even though $I_\nu\neq B_\nu$. Hence:
 $$\boxed{\;S_\nu^{\rm LTE} = \frac{j_\nu}{\alpha_\nu} = B_\nu(T)\;}$$
 
-MIT 8.901 (§7.3) stresses the other half of this statement: $S_\nu = B_\nu$ does **not** mean the object emits a black-body spectrum. An optically thick lump emits $B_\nu(T)$, but an optically thin lump at the same $T$ emits only $\tau_\nu B_\nu(T)$, which is bright only at the frequencies where $\alpha_\nu$ is large (see Lecture 5, §5.4).
+MIT 8.901 (§7.3) stresses the other half of this statement: $S_\nu = B_\nu$ does **not** mean the object emits a black-body spectrum. An optically thick lump emits $B_\nu(T)$, but an optically thin lump at the same $T$ emits only $\tau_\nu B_\nu(T)$, which is bright only at the frequencies where $\alpha_\nu$ is large (see Lecture RT5, §5.4).
 
 Collins (eq. 9.2.28) notes that $S_\nu = B_\nu$ is **sufficient** for LTE but not necessary in general: with electron scattering present, $S_\nu = \varepsilon B_\nu + (1-\varepsilon)J_\nu$, yet the populations may still be in LTE.
 
 ### LTE written with Einstein coefficients
 
-With Boltzmann populations, $g_1n_2/(g_2n_1) = e^{-h\nu/kT}$, the formulas of Lecture 4 give
+With Boltzmann populations, $g_1n_2/(g_2n_1) = e^{-h\nu/kT}$, the formulas of Lecture RT4 give
 $$\alpha_\nu = \frac{h\nu}{4\pi}n_1B_{12}\phi(\nu)\left(1-e^{-h\nu/kT}\right),\qquad
 \frac{j_\nu}{\alpha_\nu} = \frac{2h\nu^3}{c^2}\frac{1}{e^{h\nu/kT}-1} = B_\nu(T).\ \checkmark$$
 The factor $(1-e^{-h\nu/kT})$ is the **LTE stimulated-emission correction**; it multiplies every LTE opacity.
@@ -84,9 +84,9 @@ The factor $(1-e^{-h\nu/kT})$ is the **LTE stimulated-emission correction**; it 
 | opacity and emissivity are functions of $(T,\rho)$ only | isotropic radiation |
 | once $T(\tau)$ is known, the formal solution gives $I_\nu$ directly | zero flux |
 
-> **See also Lecture 14**, which gives precise side-by-side definitions of **TE, LTE and NLTE**, with astrophysical examples of each (stellar core, early Universe; photospheric continuum, Earth's troposphere; resonance-line cores, chromospheres, nebulae, masers) and a quantitative criterion for deciding which applies.
+> **See also Lecture SA7**, which gives precise side-by-side definitions of **TE, LTE and NLTE**, with astrophysical examples of each (stellar core, early Universe; photospheric continuum, Earth's troposphere; resonance-line cores, chromospheres, nebulae, masers) and a quantitative criterion for deciding which applies.
 
-## 6.4 Boltzmann and Saha equations
+## 1.4 Boltzmann and Saha equations
 
 **Boltzmann** (excitation within one ionisation stage):
 $$\frac{N_j}{N_i} = \frac{g_j}{g_i}\,e^{-(E_j-E_i)/kT},\qquad
@@ -99,11 +99,11 @@ with $(2\pi m_ek/h^2)^{3/2} = 2.415\times10^{21}$ m$^{-3}$ K$^{-3/2}$. Using $P_
 $$\frac{N_{r+1}}{N_r} = \frac{2kT\,U_{r+1}}{P_e\,U_r}\left(\frac{2\pi m_ekT}{h^2}\right)^{3/2}e^{-\chi_r/kT}.$$
 The factor $2$ is the spin degeneracy of the free electron. The $T^{3/2}$ counts the free-electron phase space, and that large number is why gases ionise at $kT\ll\chi$.
 
-![Saha-Boltzmann for hydrogen](../figures/L06_saha_boltzmann.png)
+![Saha-Boltzmann for hydrogen](../../figures/L06_saha_boltzmann.png)
 
-*Figure 6.2 — Hydrogen in LTE at $P_e = 20$ N m$^{-2}$. The $n=2$ population, which produces the Balmer lines, rises with $T$ (Boltzmann) and then collapses as H ionises (Saha). Its peak at $T\approx9900$ K explains why Balmer lines are strongest in A0 stars.*
+*Figure 1.2 — Hydrogen in LTE at $P_e = 20$ N m$^{-2}$. The $n=2$ population, which produces the Balmer lines, rises with $T$ (Boltzmann) and then collapses as H ionises (Saha). Its peak at $T\approx9900$ K explains why Balmer lines are strongest in A0 stars.*
 
-## 6.5 When is LTE valid? The two-level atom
+## 1.5 When is LTE valid? The two-level atom
 
 Consider the line $1\leftrightarrow2$ with collisional rates $C_{12}, C_{21}$ (per atom per second; $C_{21} = n_eq_{21}$). Detailed balance for collisions gives $C_{12}/C_{21} = (g_2/g_1)e^{-h\nu/kT}$. Statistical equilibrium:
 $$n_1\left(B_{12}\bar J + C_{12}\right) = n_2\left(A_{21}+B_{21}\bar J + C_{21}\right).$$
@@ -114,7 +114,7 @@ $$\boxed{\;S_\nu^{\rm line} = (1-\varepsilon)\bar J + \varepsilon B_\nu(T),\qqua
 - **Collisions dominate** ($C_{21}\gg A_{21}$, high density): $\varepsilon\to1$, $S\to B$: **LTE**.
 - **Radiation dominates** (low density): $\varepsilon\ll1$, $S\approx\bar J$: scattering-like, **NLTE**.
 
-The **critical density** $n_{\rm crit} = A_{21}/q_{21}$ separates the two. The line source function has exactly the form found for continuum scattering in Lecture 4, so the methods of Lecture 8 apply.
+The **critical density** $n_{\rm crit} = A_{21}/q_{21}$ separates the two. The line source function has exactly the form found for continuum scattering in Lecture RT4, so the methods of Lecture RT8 apply.
 
 ### Collins' five assumptions of "normal" stellar atmospheres (§9.1d)
 
@@ -124,18 +124,18 @@ The **critical density** $n_{\rm crit} = A_{21}/q_{21}$ separates the two. The l
 4. Gravity $g$ is constant through the atmosphere: $dP/dz = -g\rho$.
 5. All energy is carried by radiation, with no sources: $F = \sigma T_{\rm eff}^4$ = constant.
 
-Then **only $T_{\rm eff}$, $g$ and the composition** specify the atmosphere. This is the basis of Lectures 7–10.
+Then **only $T_{\rm eff}$, $g$ and the composition** specify the atmosphere. This is the basis of Lectures RT7–RT8 and SA5–SA6.
 
 ---
 
-## Worked example 6.1 — Why are the Balmer lines weak in the Sun?
+## Worked example 1.1 — Why are the Balmer lines weak in the Sun?
 
 *At $T = 5772$ K, compute $N_2/N_1$ for hydrogen.*
 $kT = 0.4974$ eV, so $N_2/N_1 = (8/2)e^{-10.20/0.4974} = 4e^{-20.51} = 5.0\times10^{-9}$.
 Only five atoms in a billion can absorb a Balmer photon. The Balmer lines are still visible because hydrogen is so abundant.
 At 9900 K: $N_2/N_1 = 4e^{-11.96} = 2.6\times10^{-5}$, about 5000 times larger.
 
-## Worked example 6.2 — Saha ionisation at 9900 K
+## Worked example 1.2 — Saha ionisation at 9900 K
 
 *Hydrogen at $T = 9900$ K, $P_e = 20$ Pa. Find $N_{\rm II}/N_{\rm I}$. Take $U_{\rm I} = 2$, $U_{\rm II} = 1$.*
 
@@ -144,9 +144,9 @@ At 9900 K: $N_2/N_1 = 4e^{-11.96} = 2.6\times10^{-5}$, about 5000 times larger.
 3. $e^{-13.6/0.8531} = e^{-15.94} = 1.19\times10^{-7}$.
 4. $N_{\rm II}/N_{\rm I} = \dfrac{2\times1}{2}\times\dfrac{2.38\times10^{27}\times1.19\times10^{-7}}{1.46\times10^{20}} = 1.94$.
 
-The ionised fraction is $1.94/2.94 = 0.66$. Then $N_2/N_{\rm tot} = (2.6\times10^{-5}/1.000026)\times(1/2.94)\approx8.7\times10^{-6}$, which is the peak in Figure 6.2.
+The ionised fraction is $1.94/2.94 = 0.66$. Then $N_2/N_{\rm tot} = (2.6\times10^{-5}/1.000026)\times(1/2.94)\approx8.7\times10^{-6}$, which is the peak in Figure 1.2.
 
-## Worked example 6.3 — Is the H I 21-cm line in LTE in the ISM?
+## Worked example 1.3 — Is the H I 21-cm line in LTE in the ISM?
 
 *$A_{21} = 2.9\times10^{-15}$ s$^{-1}$, and the collisional de-excitation rate coefficient is $q_{21}\approx10^{-16}$ m$^3$ s$^{-1}$ (H–H collisions at 100 K). Is the line in LTE at $n_{\rm H} = 10^6$ m$^{-3}$ (1 cm$^{-3}$)?*
 
@@ -170,7 +170,7 @@ $n_{\rm crit} = A_{21}/q_{21}\approx29$ m$^{-3}$ $\ll10^6$ m$^{-3}$. Collisions 
 
 ---
 
-## Exam questions and answers — Lecture 6
+## Exam questions and answers — Lecture SA1
 
 **Q1.** Define LTE precisely. Explain why LTE can hold even though the radiation field near a stellar surface is very far from a black body.
 
@@ -189,4 +189,4 @@ $n_{\rm crit} = A_{21}/q_{21}\approx29$ m$^{-3}$ $\ll10^6$ m$^{-3}$. Collisions 
 > **A4.** From statistical equilibrium, $\frac{n_1}{n_2} = \frac{A_{21}+B_{21}\bar J + C_{21}}{B_{12}\bar J + C_{12}}$. Then
 > $\frac{g_2n_1}{g_1n_2}-1 = \frac{A_{21}+C_{21}(1-e^{-h\nu/kT})}{B_{21}\bar J + C_{21}e^{-h\nu/kT}}$ (using $g_2B_{21} = g_1B_{12}$ and $g_2C_{21}e^{-h\nu/kT} = g_1C_{12}$). So
 > $S = \frac{2h\nu^3}{c^2}\frac{B_{21}\bar J + C_{21}e^{-h\nu/kT}}{A_{21}+C_{21}(1-e^{-h\nu/kT})}$. With $A_{21} = (2h\nu^3/c^2)B_{21}$ and $\varepsilon' = C_{21}(1-e^{-h\nu/kT})/A_{21}$:
-> $S = \frac{\bar J + \varepsilon'B_\nu}{1+\varepsilon'}$, because $\frac{2h\nu^3}{c^2}\frac{e^{-h\nu/kT}}{1-e^{-h\nu/kT}} = B_\nu$. Writing $\varepsilon = \varepsilon'/(1+\varepsilon')$ gives the result. LTE holds when $C_{21}\gg A_{21}$, i.e. $n_e\gg n_{\rm crit}$, but **also** only at depths $\gtrsim1/\sqrt\varepsilon$ (Lecture 8).
+> $S = \frac{\bar J + \varepsilon'B_\nu}{1+\varepsilon'}$, because $\frac{2h\nu^3}{c^2}\frac{e^{-h\nu/kT}}{1-e^{-h\nu/kT}} = B_\nu$. Writing $\varepsilon = \varepsilon'/(1+\varepsilon')$ gives the result. LTE holds when $C_{21}\gg A_{21}$, i.e. $n_e\gg n_{\rm crit}$, but **also** only at depths $\gtrsim1/\sqrt\varepsilon$ (Lecture RT8).

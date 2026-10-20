@@ -1,6 +1,6 @@
-# Lecture 10 — Spectral Lines in LTE, and the Limits of LTE
+# Lecture SA6 — Spectral Lines in LTE, and the Limits of LTE
 
-> **Sources:** Collins §9.1c (continuum and spectral lines), §9.2e (redistribution: coherent, complete, isotropic); Chandrasekhar Ch. XII §83–84 (line formation; Milne–Eddington model, residual intensities); MIT 8.901 Lec. 7 §7.3 (two-layer atmosphere, thermal inversions); Hu Set 1 ("photons escape through the channel of lowest opacity, so lines are dark"); Lectures 4, 6, 7, 9 of this course.
+> **Sources:** Collins §9.1c (continuum and spectral lines), §9.2e (redistribution: coherent, complete, isotropic); Chandrasekhar Ch. XII §83–84 (line formation; Milne–Eddington model, residual intensities); MIT 8.901 Lec. 7 §7.3 (two-layer atmosphere, thermal inversions); Hu Set 1 ("photons escape through the channel of lowest opacity, so lines are dark"); Lectures RT4, RT7 (Radiative Transfer course) and SA1, SA5 (this course).
 
 ## Learning goals
 
@@ -29,12 +29,12 @@
 
 ---
 
-## 10.1 Line opacity
+## 6.1 Line opacity
 
 For a bound–bound transition $l\to u$ with oscillator strength $f_{lu}$:
 $$\alpha^{\rm line}_\nu = \frac{\pi e^2}{4\pi\varepsilon_0m_ec}\,f_{lu}\,n_l\,\phi(\nu)\left(1-e^{-h\nu/kT}\right)
 = \pi r_e c\,f_{lu}\,n_l\,\phi(\nu)\left(1-e^{-h\nu/kT}\right)\quad\text{[LTE]},$$
-with $r_e = 2.818\times10^{-15}$ m, so $\pi r_ec = 2.654\times10^{-6}$ m$^2$ Hz. The level population $n_l$ comes from **Saha–Boltzmann** at the local $T$ and $P_e$ (Lecture 6). The factor $(1-e^{-h\nu/kT})$ is the LTE stimulated-emission correction.
+with $r_e = 2.818\times10^{-15}$ m, so $\pi r_ec = 2.654\times10^{-6}$ m$^2$ Hz. The level population $n_l$ comes from **Saha–Boltzmann** at the local $T$ and $P_e$ (Lecture SA1). The factor $(1-e^{-h\nu/kT})$ is the LTE stimulated-emission correction.
 
 **Profiles** ($\int\phi\,d\nu = 1$):
 
@@ -44,7 +44,7 @@ with $r_e = 2.818\times10^{-15}$ m, so $\pi r_ec = 2.654\times10^{-6}$ m$^2$ Hz.
 | natural, collisional (pressure), Stark | Lorentzian: $\phi = \dfrac{\gamma/4\pi^2}{(\nu-\nu_0)^2+(\gamma/4\pi)^2}$ | $\gamma = \gamma_{\rm rad}+\gamma_{\rm coll}$ |
 | both | **Voigt**: $\phi = \dfrac{H(a,v)}{\sqrt\pi\Delta\nu_D}$, $a = \dfrac{\gamma}{4\pi\Delta\nu_D}$ | Gaussian core + Lorentzian ("damping") wings |
 
-## 10.2 Why lines are dark: LTE and Eddington–Barbier
+## 6.2 Why lines are dark: LTE and Eddington–Barbier
 
 In LTE with pure absorption, both the continuum and the line emit thermally:
 $$S_\nu = \frac{\kappa_cB_\nu + \kappa_lB_\nu}{\kappa_c+\kappa_l} = B_\nu(T).$$
@@ -53,13 +53,13 @@ The difference lies only in the **depth scale**. With $\eta_\nu\equiv\kappa_l\ph
 - In the **continuum**, $\tau_\nu = 2/3$ at $\tau_c = 2/3$: deep and hot.
 - At **line centre**, $\tau_\nu = 2/3$ at $\tau_c = \frac{2/3}{1+\eta}$: high and cool.
 
-So $F_{\rm line} < F_{\rm cont}$ when $T$ decreases outward. This is the continuous version of MIT 8.901's two-layer toy star (Lecture 5, §5.4), where the continuum shows $B_\nu(T_H)$ and the lines show $B_\nu(T_C)$. **An LTE absorption line is a map of the temperature gradient.** If $T$ increases outward (a chromosphere), the same physics gives emission lines.
+So $F_{\rm line} < F_{\rm cont}$ when $T$ decreases outward. This is the continuous version of MIT 8.901's two-layer toy star (Lecture RT5, §5.4), where the continuum shows $B_\nu(T_H)$ and the lines show $B_\nu(T_C)$. **An LTE absorption line is a map of the temperature gradient.** If $T$ increases outward (a chromosphere), the same physics gives emission lines.
 
-![LTE line formation: Milne-Eddington](../figures/L10_lines.png)
+![LTE line formation: Milne-Eddington](../../figures/L10_lines.png)
 
-*Figure 10.1 — Left: line photons escape from higher layers, where $S = B$ is smaller. Centre: Milne–Eddington LTE profiles for increasing line strength $\eta_0$. The core saturates at a finite depth (dotted line), set by the surface value of $B$. Right: the curve of growth. The equivalent width grows linearly, then flattens (saturation), then rises again as $\sqrt{\eta_0}$ when damping wings become optically thick.*
+*Figure 6.1 — Left: line photons escape from higher layers, where $S = B$ is smaller. Centre: Milne–Eddington LTE profiles for increasing line strength $\eta_0$. The core saturates at a finite depth (dotted line), set by the surface value of $B$. Right: the curve of growth. The equivalent width grows linearly, then flattens (saturation), then rises again as $\sqrt{\eta_0}$ when damping wings become optically thick.*
 
-## 10.3 The Milne–Eddington model: an exact LTE line solution
+## 6.3 The Milne–Eddington model: an exact LTE line solution
 
 **Assumptions:** LTE ($S_\nu = B_\nu$); $B_\nu$ linear in continuum optical depth, $B_\nu = B_0(1+\beta\tau_c)$; and $\eta_\nu$ = constant with depth (the same ratio of line to continuum opacity at all depths).
 
@@ -71,12 +71,12 @@ $$\boxed{\;r_\nu\equiv\frac{F_\nu}{F_c} = \frac{1+\dfrac{2\beta}{3(1+\eta_\nu)}}
 - Saturated core ($\eta\to\infty$): $r\to\dfrac{1}{1+2\beta/3}$. The maximum depth is set by the temperature gradient $\beta$. A steeper gradient gives deeper lines; an isothermal atmosphere ($\beta = 0$) gives **no lines at all** in LTE.
 - For the gray atmosphere, bolometrically $B\propto\tau+2/3$, i.e. $\beta = 3/2$, and the maximum depth is $1-1/2 = 0.5$. At optical wavelengths $\beta$ is larger (Wien sensitivity), so lines can be deeper.
 
-## 10.4 Equivalent width and the curve of growth
+## 6.4 Equivalent width and the curve of growth
 
 The **equivalent width** is the width of a rectangle of zero flux with the same area as the line:
 $$W_\nu = \int\left(1-\frac{F_\nu}{F_c}\right)d\nu,\qquad W_\lambda = \frac{\lambda^2}{c}W_\nu .$$
 
-**Weak-line (optically thin) limit.** For an absorbing column $N_l$ in front of a continuum (the slab of Lecture 5 with $S\ll I_0$), $1-F/F_c\approx\tau_\nu$, so
+**Weak-line (optically thin) limit.** For an absorbing column $N_l$ in front of a continuum (the slab of Lecture RT5 with $S\ll I_0$), $1-F/F_c\approx\tau_\nu$, so
 $$\boxed{\;W_\lambda = \pi r_e\,\lambda^2\,N_lf\;}\qquad\text{(independent of the profile and of the broadening)}$$
 In SI: $W_\lambda[{\rm m}] = 8.853\times10^{-15}\,\lambda^2[{\rm m^2}]\,N_lf\,[{\rm m^{-2}}]$.
 
@@ -88,11 +88,11 @@ In SI: $W_\lambda[{\rm m}] = 8.853\times10^{-15}\,\lambda^2[{\rm m^2}]\,N_lf\,[{
 | flat (saturated) | $1\lesssim\tau_0\lesssim10^{3\text{–}4}$ | $W\propto\Delta\nu_D\sqrt{\ln\tau_0}$ | **microturbulence** $\xi$, temperature |
 | damping (square-root) | wings opaque | $W\propto\sqrt{Nf\gamma}$ | gravity (pressure broadening) |
 
-## 10.5 Beyond LTE
+## 6.5 Beyond LTE
 
-From Lecture 6, the line source function of a two-level atom is
+From Lecture SA1, the line source function of a two-level atom is
 $$S^{\rm line} = (1-\varepsilon)\bar J + \varepsilon B,\qquad \varepsilon\approx\frac{C_{21}}{C_{21}+A_{21}}.$$
-For strong lines in low-density layers, $\varepsilon\ll1$. Then, from Lecture 8:
+For strong lines in low-density layers, $\varepsilon\ll1$. Then, from Lecture RT8:
 
 - $S^{\rm line}(0)\approx\sqrt\varepsilon\,B$, well below $B$, so **NLTE line cores are darker than LTE cores** (e.g. Na I D, Mg I b, Ca II H & K, H$\alpha$ cores in the Sun).
 - Thermalisation occurs only at $\tau_{\rm line}\sim1/\sqrt\varepsilon$, which can be deep in the photosphere.
@@ -112,7 +112,7 @@ $$S^{\rm line} = \frac{2h\nu^3}{c^2}\,\frac{1}{\dfrac{b_l}{b_u}e^{h\nu/kT}-1},\q
 
 ---
 
-## Worked example 10.1 — Doppler widths
+## Worked example 6.1 — Doppler widths
 
 *Compute the thermal Doppler width for (a) H$\alpha$ (656.28 nm) at 5772 K, (b) an Fe I line at 500 nm at 5772 K.*
 
@@ -120,20 +120,20 @@ $$S^{\rm line} = \frac{2h\nu^3}{c^2}\,\frac{1}{\dfrac{b_l}{b_u}e^{h\nu/kT}-1},\q
 (b) $m = 55.85\,m_u$: $v_{\rm th} = 1.31$ km s$^{-1}$, so $\Delta\lambda_D = 21.9$ mÅ.
 Iron lines are about 10 times narrower than hydrogen lines. In the Sun the microturbulence $\xi\approx1$ km s$^{-1}$ is comparable to $v_{\rm th}$(Fe), so it matters for metal lines.
 
-## Worked example 10.2 — An abundance from a weak line
+## Worked example 6.2 — An abundance from a weak line
 
 *A weak Fe I line at 500 nm has $W_\lambda = 22$ mÅ and $f = 0.1$. Assume it is on the linear part of the curve of growth and treat the atmosphere as an absorbing column. Find the column density $N_l$ of absorbing atoms.*
 
 $$N_l = \frac{W_\lambda}{\pi r_e\lambda^2f} = \frac{2.2\times10^{-12}}{8.853\times10^{-15}\times(5\times10^{-7})^2\times0.1} = 1.0\times10^{16}\ {\rm m^{-2}}.$$
-The total iron abundance follows from Saha–Boltzmann (fraction of Fe in the lower level of Fe I) and the column of hydrogen above $\tau\approx2/3$, roughly $P/(g\mu m_H)$ from Lecture 9. **LTE enters at the Saha–Boltzmann step.**
+The total iron abundance follows from Saha–Boltzmann (fraction of Fe in the lower level of Fe I) and the column of hydrogen above $\tau\approx2/3$, roughly $P/(g\mu m_H)$ from Lecture SA5. **LTE enters at the Saha–Boltzmann step.**
 
-## Worked example 10.3 — Milne–Eddington line depths
+## Worked example 6.3 — Milne–Eddington line depths
 
 *With $\beta = 1.5$, find the central residual flux for $\eta_0 = 1$, $10$ and $\infty$.*
 
 $r = \dfrac{1+1/(1+\eta)}{2}$: for $\eta = 1$, $r = 0.75$; for $\eta = 10$, $r = 0.545$; for $\eta\to\infty$, $r = 0.5$. Increasing $\eta$ from 10 to $\infty$ barely changes the core: the line is **saturated**, and further growth of $W$ happens only in the wings.
 
-## Worked example 10.4 — LTE emission lines from a chromosphere
+## Worked example 6.4 — LTE emission lines from a chromosphere
 
 *Suppose that above the temperature minimum $T$ rises outward, so that near the surface $B = B_0(1-\beta'\tau_c)$ with $\beta'>0$ for $\tau_c<0.1$. What does LTE predict for a strong line formed at $\tau_c\approx0.01$?*
 
@@ -158,7 +158,7 @@ The strong line's $\tau_\nu = 2/3$ falls at $\tau_c\approx0.01$, where $B$ is la
 
 ---
 
-## Exam questions and answers — Lecture 10
+## Exam questions and answers — Lecture SA6
 
 **Q1.** Explain, using the Eddington–Barbier relation, why the solar spectrum shows absorption lines. What would an LTE isothermal atmosphere show?
 

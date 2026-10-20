@@ -1,6 +1,6 @@
-# Lecture 12 — Historical Context: How the Approximations and Solutions Were Found
+# Lecture RT10 — Historical Context: How the Approximations and Solutions Were Found
 
-> **Sources:** Chandrasekhar, *Radiative Transfer* (1950), Preface and bibliographical notes of Chs. II–V (Schuster, Schwarzschild, Milne, Eddington, Hopf, Bronstein, Wiener–Hopf, Ambartsumian); Collins Ch. 9 and its supplemental reading (Eddington 1916; Mihalas 1978; Sobolev 1963; Mustel 1958); A670 Lecture 1 (historical background); Hubeny & Mihalas, *Theory of Stellar Atmospheres* (2014), for the numerical era.
+> **Sources:** Chandrasekhar, *Radiative Transfer* (1950), Preface and bibliographical notes of Chs. II–V (Schuster, Schwarzschild, Milne, Eddington, Hopf, Bronstein, Wiener–Hopf, Ambartsumian); Collins Ch. 9 and its supplemental reading (Eddington 1916; Mihalas 1978; Sobolev 1963; Mustel 1958); A670 Lecture RT1 (historical background); Hubeny & Mihalas, *Theory of Stellar Atmospheres* (2014), for the numerical era.
 
 ## Learning goals
 
@@ -15,7 +15,7 @@
 
 **Why approximations came first.** Until the 1960s there were no computers able to solve integro-differential equations. Astronomers needed answers they could compute with pencil, paper and tables. They invented approximations that replace the full angular dependence of the radiation by one or two numbers (two streams, or the Eddington closure $K = J/3$). Remarkably, these simple ideas already explained limb darkening, the temperature structure of the Sun and the formation of absorption lines.
 
-**Exact solutions as benchmarks.** Between 1930 and 1950, mathematicians and astrophysicists (Hopf, Wiener, Ambartsumian, Chandrasekhar) solved a few idealised problems *exactly*: the gray atmosphere, isotropic scattering, the polarization of scattered light. These solutions, such as the Hopf function and the $H$-functions, are still used to test every new numerical code, exactly as we did with our own solver in Lecture 9.
+**Exact solutions as benchmarks.** Between 1930 and 1950, mathematicians and astrophysicists (Hopf, Wiener, Ambartsumian, Chandrasekhar) solved a few idealised problems *exactly*: the gray atmosphere, isotropic scattering, the polarization of scattered light. These solutions, such as the Hopf function and the $H$-functions, are still used to test every new numerical code, exactly as we did with our own solver in Lecture SA5.
 
 **The numerical era: solving the hard problems.** Real atmospheres need thousands of frequencies, many atomic levels and NLTE populations that depend on the radiation field. From the 1960s onwards, new algorithms turned this into problems computers could solve: Feautrier's method, complete linearization, accelerated Λ-iteration, short characteristics, Monte Carlo. Today's 3D radiation-hydrodynamic simulations build on all of them.
 
@@ -23,7 +23,7 @@
 
 ---
 
-## 12.1 Before transfer theory (1729–1917)
+## 10.1 Before transfer theory (1729–1917)
 
 | Year | Who | Contribution |
 |---|---|---|
@@ -33,31 +33,31 @@
 | 1917 | Einstein | $A$ and $B$ coefficients; stimulated emission |
 | 1920 | Saha | ionisation equation, which made the spectral sequence a temperature sequence |
 
-## 12.2 The birth of stellar radiative transfer (1905–1930)
+## 10.2 The birth of stellar radiative transfer (1905–1930)
 
 - **Schuster (1905)**, "Radiation through a foggy atmosphere": the first transfer problem with scattering, treated with **two streams** (one up, one down). He explained how a scattering layer can produce absorption or emission lines.
 - **Karl Schwarzschild (1906)**: showed that the solar photosphere is in **radiative equilibrium**, not convective (adiabatic) equilibrium. With a two-stream approximation he found $T^4 = \tfrac12T_{\rm eff}^4(1+2\tau)$ and the limb-darkening law $I(\mu)/I(1) = (1+2\mu)/3$, close to the observed solar limb darkening. In 1914 he wrote the theory of scattering lines.
-- **Rosseland (1924)**: the diffusion limit and the **Rosseland mean** opacity (Lecture 8).
-- **Milne (1921)**: formulated the transfer problem as **integral equations** (the Schwarzschild–Milne equations and the "Milne problem" of Lecture 9), and with Eddington the line-formation model now called **Milne–Eddington** (Lecture 10).
-- **Eddington (1916, 1926)**: radiative equilibrium of whole stars; the **Eddington approximation** $K = J/3$ with $J(0) = 2H(0)$ (Lecture 8), which gave $T^4 = \frac34T_{\rm eff}^4(\tau+\frac23)$.
+- **Rosseland (1924)**: the diffusion limit and the **Rosseland mean** opacity (Lecture RT8).
+- **Milne (1921)**: formulated the transfer problem as **integral equations** (the Schwarzschild–Milne equations and the "Milne problem" of Lecture SA5), and with Eddington the line-formation model now called **Milne–Eddington** (Lecture SA6).
+- **Eddington (1916, 1926)**: radiative equilibrium of whole stars; the **Eddington approximation** $K = J/3$ with $J(0) = 2H(0)$ (Lecture RT8), which gave $T^4 = \frac34T_{\rm eff}^4(\tau+\frac23)$.
 - **Unsöld (1928–1938)**: quantitative abundance analysis; the solar atmosphere is mostly hydrogen. His book *Physik der Sternatmosphären* (1938) became the standard text.
 
-## 12.3 The era of exact solutions (1930–1960)
+## 10.3 The era of exact solutions (1930–1960)
 
 - **Hopf (1930–1934)** and **Bronstein (1929)**: exact solution of the Milne problem; Hopf–Bronstein relation $J(0) = \sqrt3H$; Hopf function $q(\tau)$ with $q(\infty) = 0.7104$.
 - **Wiener & Hopf (1931)**: the Wiener–Hopf technique for integral equations on a half-line, first motivated by this problem.
 - **Wildt (1939)**: the negative hydrogen ion H$^-$ is the main continuum opacity of the Sun. Chandrasekhar then computed its cross-sections (1940s).
-- **Barbier (1943)**: the relation $I(0,\mu)\approx S(\tau = \mu)$, now the **Eddington–Barbier relation** (Lecture 7).
+- **Barbier (1943)**: the relation $I(0,\mu)\approx S(\tau = \mu)$, now the **Eddington–Barbier relation** (Lecture RT7).
 - **Ambartsumian (1943)**: **principles of invariance**. Adding a thin layer to a semi-infinite atmosphere cannot change its reflected light, which gives equations for the emergent radiation without solving for the interior.
 - **Chandrasekhar (1944–1950)**: the **method of discrete ordinates** (Gaussian quadrature in angle), the **$H$-functions**, the exact law of darkening, the polarization of electron-scattering atmospheres (11.7 % at the limb, 1946) and the sunlit-sky (Rayleigh) problem. Collected in *Radiative Transfer* (1950).
 - **Kourganoff (1952)**, *Basic Methods in Transfer Problems*; **Sobolev (1947, 1957, 1963)**: the **Sobolev approximation** for rapidly expanding envelopes and his *Treatise on Radiative Transfer*.
-- **R. N. Thomas (1957–1965)**: NLTE line source functions, the two-level atom, thermalisation length (Lectures 8 and 14).
+- **R. N. Thomas (1957–1965)**: NLTE line source functions, the two-level atom, thermalisation length (Lectures RT8 and SA7).
 
-## 12.4 The numerical era (1960–today)
+## 10.4 The numerical era (1960–today)
 
-![Timeline of radiative transfer](../figures/L12_history.png)
+![Timeline of radiative transfer](../../figures/L12_history.png)
 
-*Figure 12.1 — Two eras. Above the axis: approximations and exact solutions. Below: numerical methods. Dates are approximate and refer to the first major publication.*
+*Figure 10.1 — Two eras. Above the axis: approximations and exact solutions. Below: numerical methods. Dates are approximate and refer to the first major publication.*
 
 | Year | Method | Problem it solved |
 |---|---|---|
@@ -74,7 +74,7 @@
 | 1982–today | **3D radiation-hydrodynamics** (Nordlund; Stein & Nordlund; Asplund et al.) | convection and granulation; revised solar abundances |
 | 1960s–today | **Monte Carlo** radiative transfer | complex geometry: dust, disks, winds, polarization |
 
-## 12.5 How good were the historical approximations?
+## 10.5 How good were the historical approximations?
 
 Applied to the same gray atmosphere:
 
@@ -89,7 +89,7 @@ All the approximations are within about 15 % of the exact answer, accurate enoug
 
 ---
 
-## Worked example 12.1 — Reproducing Schwarzschild's 1906 result
+## Worked example 10.1 — Reproducing Schwarzschild's 1906 result
 
 *Use two streams at $\mu = \pm\frac12$ ($I^+$ outward, $I^-$ inward) in a gray LTE atmosphere in radiative equilibrium.*
 
@@ -97,7 +97,7 @@ With these streams: $J = \frac12(I^++I^-)$, $H = \frac14(I^+-I^-)$, $K = \frac18
 $$T^4 = T_{\rm eff}^4\left(\tau+\tfrac12\right) = \tfrac12T_{\rm eff}^4(1+2\tau).$$
 The emergent intensity, by Eddington–Barbier (exact for linear $S$), is $\propto1+2\mu$, which is Schwarzschild's limb-darkening law.
 
-## Worked example 12.2 — Which approximation is closest at the limb?
+## Worked example 10.2 — Which approximation is closest at the limb?
 
 *Using the table, compute the error of $I(0)/I(1)$ for each approximation.*
 
@@ -121,7 +121,7 @@ Schwarzschild: $(0.333-0.344)/0.344 = -3.2\,\%$. Two-stream with $\mu = 1/\sqrt3
 
 ---
 
-## Exam questions and answers — Lecture 12
+## Exam questions and answers — Lecture RT10
 
 **Q1.** What did Karl Schwarzschild show in 1906, and why was it important?
 

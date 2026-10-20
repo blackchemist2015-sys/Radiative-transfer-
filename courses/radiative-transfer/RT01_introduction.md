@@ -1,7 +1,7 @@
-# Lecture 1 — Introduction: How Is the Radiative Transfer Equation Used in Astrophysics?
+# Lecture RT1 — Introduction: How Is the Radiative Transfer Equation Used in Astrophysics?
 
 > **Level:** pre-master → Astrophysics master entry.
-> **Sources:** A670 *Advanced Astrophysics* Lecture 1 (course outline); W. Hu, *Astro 305 Lecture Notes, Set 1*; MIT 8.901 (2019) Lecture 7; G. W. Collins II, *The Fundamentals of Stellar Astrophysics*, Ch. 9; S. Chandrasekhar, *Radiative Transfer* (1950), Ch. I.
+> **Sources:** A670 *Advanced Astrophysics* Lecture RT1 (course outline); W. Hu, *Astro 305 Lecture Notes, Set 1*; MIT 8.901 (2019) Lecture RT7; G. W. Collins II, *The Fundamentals of Stellar Astrophysics*, Ch. 9; S. Chandrasekhar, *Radiative Transfer* (1950), Ch. I.
 
 ## Learning goals
 
@@ -36,7 +36,7 @@ Almost everything we know about the Universe beyond the Solar System comes to us
 - the **physical state** of the gas (temperature $T$, density $\rho$, chemical composition, velocity field), and
 - the **observable** quantity: the spectrum $I_\nu$ that we record.
 
-![Overview: radiation from a source passes through a medium that absorbs, emits and scatters before reaching the observer](../figures/L01_overview.png)
+![Overview: radiation from a source passes through a medium that absorbs, emits and scatters before reaching the observer](../../figures/L01_overview.png)
 
 *Figure 1.1 — The radiative transfer problem. A beam with intensity $I_\nu(0)$ enters a medium. Absorption ($\alpha_\nu$) removes energy from the beam, emission ($j_\nu$) adds energy, and scattering does both by redirecting photons. We observe $I_\nu(s)$.*
 
@@ -70,7 +70,7 @@ $$
 \frac{dI_\nu}{d\tau_\nu} = -I_\nu + S_\nu .
 $$
 
-This compact form is the one we will use throughout the course. Lectures 2–5 derive it carefully.
+This compact form is the one we will use throughout the course. Lectures RT2–RT5 derive it carefully.
 
 ## 1.3 A short history
 
@@ -88,9 +88,9 @@ This compact form is the one we will use throughout the course. Lectures 2–5 d
 
 ## 1.4 LTE versus non-LTE: the central idea of this course
 
-> **Correction to a common statement.** The A670 Lecture 1 notes state that "in LTE the radiative transfer equation simplifies to $I_\nu = B_\nu(T)$". That is the condition for **full thermodynamic equilibrium (TE)**, which holds deep inside stars. In **LTE** the correct statement is
+> **Correction to a common statement.** The A670 Lecture RT1 notes state that "in LTE the radiative transfer equation simplifies to $I_\nu = B_\nu(T)$". That is the condition for **full thermodynamic equilibrium (TE)**, which holds deep inside stars. In **LTE** the correct statement is
 > $$S_\nu = B_\nu(T_{\rm local}) \qquad\text{but in general}\qquad I_\nu \neq B_\nu .$$
-> The *matter* is in equilibrium at the local temperature, so it emits like a black body per unit absorption. The *radiation field* is **not** Planckian, because photons near the surface come from regions of different temperature and can escape. If $I_\nu$ were equal to $B_\nu$ everywhere, there would be no net flux and stars would not shine. Lectures 6 and 9 return to this point in detail.
+> The *matter* is in equilibrium at the local temperature, so it emits like a black body per unit absorption. The *radiation field* is **not** Planckian, because photons near the surface come from regions of different temperature and can escape. If $I_\nu$ were equal to $B_\nu$ everywhere, there would be no net flux and stars would not shine. Lectures SA1 and SA5 return to this point in detail.
 
 | | **TE** (stellar interior) | **LTE** (most photospheres) | **NLTE** (upper atmospheres, nebulae, ISM) |
 |---|---|---|---|
@@ -102,36 +102,34 @@ This compact form is the one we will use throughout the course. Lectures 2–5 d
 
 ## 1.5 Where is the RTE used?
 
-1. **Stellar atmospheres:** emergent spectra, $T_{\rm eff}$, $\log g$, abundances, limb darkening. Classic LTE territory (Lectures 7–10).
+1. **Stellar atmospheres:** emergent spectra, $T_{\rm eff}$, $\log g$, abundances, limb darkening. Classic LTE territory (Lectures RT7–RT8 and SA5–SA6).
 2. **The interstellar medium (ISM):** extinction and reddening by dust ($A_V = 1.086\,\tau_V$), 21-cm emission and absorption, molecular lines (CO), heating and cooling of clouds.
-3. **H II regions and planetary nebulae:** recombination lines and free-free radio emission. These are optically thin to thick slabs (Lecture 5) and strongly NLTE.
+3. **H II regions and planetary nebulae:** recombination lines and free-free radio emission. These are optically thin to thick slabs (Lecture RT5) and strongly NLTE.
 4. **Planetary atmospheres:** greenhouse effect, remote sensing, exoplanet transmission spectra.
 5. **Accretion disks, AGN and quasars:** disk spectra, Compton scattering, broad-line regions.
 6. **Cosmology:** the CMB is the best black body known ($T = 2.725$ K); Thomson scattering at recombination and reionisation; Lyman-$\alpha$ forest absorption.
-7. **Stellar interiors:** the diffusion limit of the RTE gives the radiative energy flux and the **Rosseland mean opacity** (Lecture 8).
+7. **Stellar interiors:** the diffusion limit of the RTE gives the radiative energy flux and the **Rosseland mean opacity** (Lecture RT8).
 
 ## 1.6 How the course is built
 
+This lecture opens **Course A: Radiative Transfer** (lectures RT1–RT10). It is followed by **Course B: Stellar Atmospheres** (lectures SA0–SA8), which applies the theory to stars and adds the physical processes and transition rates in the style of Mihalas' *Stellar Atmospheres*. Cross-references use these labels: "Lecture RT7" is in this course, "Lecture SA5" in the stellar-atmospheres course.
+
 | # | Lecture | Key result |
 |---|---|---|
-| 1 | Introduction (this lecture) | RTE, TE/LTE/NLTE |
-| 2 | Describing the radiation field | $I_\nu$, $J_\nu$, $F_\nu$, $K_\nu$; $I_\nu$ constant in vacuum |
-| 3 | Black-body radiation | Planck, Wien, Stefan–Boltzmann, brightness temperature |
-| 4 | Emission, absorption, scattering | $\alpha_\nu$, $j_\nu$, cross-sections, Einstein coefficients, random walk |
-| 5 | The RTE and its formal solution | $I = I_0e^{-\tau}+S(1-e^{-\tau})$; MIT toy models: thin H cloud, two-layer star, thermal inversion |
-| 6 | Thermodynamic equilibrium and **LTE** | Kirchhoff, Saha–Boltzmann, $S_\nu=B_\nu$ |
-| 7 | Plane-parallel atmospheres | Schwarzschild–Milne, $E_n$, Eddington–Barbier |
-| 8 | Moments, diffusion and scattering | Eddington approximation, Rosseland mean, $S(0)=\sqrt{\varepsilon}B$ |
-| 9 | **The gray LTE atmosphere: full solution** | $T^4 = \tfrac34T_{\rm eff}^4(\tau+q)$, limb darkening |
-| 10 | **LTE spectral lines** and the limits of LTE | Milne–Eddington, curve of growth, NLTE |
-| **Part II** | **Deeper foundations and modern topics** | |
-| 11 | How the RTE is formed | Boltzmann equation → general RTE → special forms; energy and momentum moments |
-| 12 | Historical context of approximations and solutions | Schuster, Schwarzschild, Eddington, Milne, Hopf, Chandrasekhar → ALI, 3D |
-| 13 | Polarized light | Stokes parameters, polarized RTE, 11.7 % limb polarization, Zeeman and Hanle effects |
-| 14 | TE, LTE and non-LTE | definitions and examples, rate equations, NLTE mechanisms, solution methods (names) |
-| 15 | Stellar atmospheres | model-atmosphere equations, opacity sources, convection, solar layers, model grids |
-| 16 | Final exam with full solutions | |
-| 17 | Formula sheet | |
+| RT1 | Introduction (this lecture) | RTE, TE/LTE/NLTE in one paragraph |
+| RT2 | Describing the radiation field | $I_\nu$, $J_\nu$, $F_\nu$, $K_\nu$; $I_\nu$ constant in vacuum |
+| RT3 | Black-body radiation | Planck, Wien, Stefan–Boltzmann, brightness temperature |
+| RT4 | Emission, absorption, scattering | $\alpha_\nu$, $j_\nu$, cross-sections, Einstein coefficients, random walk |
+| RT5 | The RTE and its formal solution | $I = I_0e^{-\tau}+S(1-e^{-\tau})$; MIT toy models: thin H cloud, two-layer star, thermal inversion |
+| RT6 | How the RTE is formed | Boltzmann equation → general RTE → special forms; energy and momentum moments |
+| RT7 | Plane-parallel atmospheres | Schwarzschild–Milne, $E_n$, Eddington–Barbier |
+| RT8 | Moments, diffusion and scattering | Eddington approximation, Rosseland mean, $S(0)=\sqrt{\varepsilon}B$ |
+| RT9 | Polarized light | Stokes parameters, polarized RTE, 11.7 % limb polarization, Zeeman and Hanle effects |
+| RT10 | Historical context of approximations and solutions | Schuster, Schwarzschild, Eddington, Milne, Hopf, Chandrasekhar → ALI, 3D |
+| RT11 | Final exam with full solutions | |
+| RT12 | Formula sheet | |
+
+**Course B (Stellar Atmospheres)**, for orientation: SA0 overview · SA1 LTE thermodynamics (Saha–Boltzmann, Kirchhoff) · SA2 continuous opacity · SA3 transition rates and statistical equilibrium · SA4 line absorption and broadening · SA5 the gray LTE atmosphere · SA6 LTE spectral lines · SA7 TE, LTE and non-LTE · SA8 model atmospheres and the solar atmosphere.
 
 ---
 
@@ -145,7 +143,7 @@ This compact form is the one we will use throughout the course. Lectures 2–5 d
 
 *The solar photosphere has a density scale height of about $H \approx 150$ km, and the opacity rises steeply with depth. Why does the solar limb look sharp even though the Sun is gaseous?*
 
-**Solution.** We see down to optical depth $\tau \approx 1$. Because $\alpha \propto \rho$ (and the opacity also rises with $T$), the optical depth changes from $\tau \approx 0.1$ to $\tau \approx 10$ within a few scale heights, i.e. a few hundred km. Seen from Earth, $1'' \approx 725$ km on the Sun, so the transition from transparent to opaque happens within less than $1''$, and the edge looks sharp. RT defines what "the surface" of a star means: the layer where $\tau \approx 2/3$ (Lecture 9).
+**Solution.** We see down to optical depth $\tau \approx 1$. Because $\alpha \propto \rho$ (and the opacity also rises with $T$), the optical depth changes from $\tau \approx 0.1$ to $\tau \approx 10$ within a few scale heights, i.e. a few hundred km. Seen from Earth, $1'' \approx 725$ km on the Sun, so the transition from transparent to opaque happens within less than $1''$, and the edge looks sharp. RT defines what "the surface" of a star means: the layer where $\tau \approx 2/3$ (Lecture SA5).
 
 ---
 
@@ -153,7 +151,7 @@ This compact form is the one we will use throughout the course. Lectures 2–5 d
 
 1. **"In LTE the intensity equals the Planck function."** No: in LTE the *source function* equals $B_\nu(T)$. The intensity is set by the RTE and carries information from many different depths.
 2. **"Optical depth is a distance."** It is a *number of mean free paths*. One kilometre of air and one millimetre of a stellar interior can have very different optical depths.
-3. **"Absorption lines always mean cold gas between us and the star."** In a stellar atmosphere the lines form because the temperature *decreases outward*; no separate cold cloud is needed (Lectures 5 and 10).
+3. **"Absorption lines always mean cold gas between us and the star."** In a stellar atmosphere the lines form because the temperature *decreases outward*; no separate cold cloud is needed (Lectures RT5 and SA6).
 4. **"A star has a solid surface."** The "surface" is simply the layer from which photons can escape, at optical depth $\tau\approx2/3$.
 
 ## Lecture summary
@@ -166,11 +164,11 @@ This compact form is the one we will use throughout the course. Lectures 2–5 d
 
 ---
 
-## Exam questions and answers — Lecture 1
+## Exam questions and answers — Lecture RT1
 
 **Q1.** Write the RTE along a ray. Explain the physical meaning of each term and why the absorption term is proportional to $I_\nu$ but the emission term is not.
 
-> **A1.** $dI_\nu/ds = -\alpha_\nu I_\nu + j_\nu$. Absorption removes a fixed *fraction* $\alpha_\nu\,ds$ of the photons already present in the beam, so the loss is $\propto I_\nu$. Spontaneous emission is produced by the matter (excited atoms decay at rate $A_{21}$ whether or not there is light), so it does not depend on $I_\nu$. (Stimulated emission *is* $\propto I_\nu$ and is therefore counted as negative absorption inside $\alpha_\nu$; see Lecture 4.)
+> **A1.** $dI_\nu/ds = -\alpha_\nu I_\nu + j_\nu$. Absorption removes a fixed *fraction* $\alpha_\nu\,ds$ of the photons already present in the beam, so the loss is $\propto I_\nu$. Spontaneous emission is produced by the matter (excited atoms decay at rate $A_{21}$ whether or not there is light), so it does not depend on $I_\nu$. (Stimulated emission *is* $\propto I_\nu$ and is therefore counted as negative absorption inside $\alpha_\nu$; see Lecture RT4.)
 
 **Q2.** What is the difference between TE and LTE? "In LTE, $I_\nu = B_\nu$." True or false?
 

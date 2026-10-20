@@ -1,4 +1,4 @@
-# Lecture 2 — Describing the Radiation Field: Intensity, Flux and Moments
+# Lecture RT2 — Describing the Radiation Field: Intensity, Flux and Moments
 
 > **Sources:** Hu, *Astro 305 Set 1* (observables, auxiliary quantities); Collins Ch. 9.2–9.3 (specific intensity, moments); Chandrasekhar Ch. I §1–6; MIT 8.901 Lec. 7.
 
@@ -36,7 +36,7 @@ A detector can measure four things about radiation (Hu): **energy flux**, **dire
 
 ## 2.2 Specific intensity
 
-![Geometry defining the specific intensity](../figures/L02_intensity_geometry.png)
+![Geometry defining the specific intensity](../../figures/L02_intensity_geometry.png)
 
 *Figure 2.1 — Energy $dE$ crosses an area $dA$ whose normal $\hat{\mathbf n}$ makes angle $\theta$ with the direction of propagation $\hat{\mathbf k}$, into solid angle $d\Omega$, in frequency interval $d\nu$ and time $dt$.*
 
@@ -55,7 +55,7 @@ Since $f$ is conserved along a photon trajectory (Liouville's theorem), $I_\nu/\
 
 ## 2.3 Constancy of $I_\nu$ along a ray in vacuum
 
-![Intensity is conserved along a ray](../figures/L02_constancy.png)
+![Intensity is conserved along a ray](../../figures/L02_constancy.png)
 
 *Figure 2.2 — The flux from the Sun falls as $r^{-2}$, but so does the solid angle it subtends. Their ratio, the intensity, is independent of distance.*
 
@@ -96,7 +96,7 @@ If $I_\nu = I$ is independent of direction:
 $$J_\nu = I,\qquad F_\nu = 2\pi I\int_{-1}^{1}\mu\,d\mu = 0,\qquad K_\nu = \tfrac12 I\int_{-1}^1\mu^2d\mu = \frac I3 = \frac{J_\nu}{3}.$$
 Therefore
 $$\boxed{\;P = \tfrac13 u\;}\qquad\text{(equation of state of isotropic radiation)},$$
-and $K_\nu = J_\nu/3$ is the basis of the **Eddington approximation** (Lecture 8).
+and $K_\nu = J_\nu/3$ is the basis of the **Eddington approximation** (Lecture RT8).
 
 ### One-sided flux
 
@@ -155,7 +155,7 @@ So $K = J/3$ even though the field is **anisotropic** and carries a flux $F = 4\
 
 ---
 
-## Exam questions and answers — Lecture 2
+## Exam questions and answers — Lecture RT2
 
 **Q1.** Define $I_\nu$, $J_\nu$, $F_\nu$ and $K_\nu$, give their units, and say which can be measured by a single pixel of a telescope pointed at a resolved source.
 
@@ -167,7 +167,7 @@ So $K = J/3$ even though the field is **anisotropic** and carries a flux $F = 4\
 
 **Q3.** A surface emits $I(\mu) = I_0$ for $\mu > 0$ and nothing for $\mu < 0$. Find $J$, $F$ and $K$ at the surface. What is $J/F$?
 
-> **A3.** $J = \tfrac12\int_0^1 I_0d\mu = I_0/2$; $F = 2\pi\int_0^1I_0\mu\,d\mu = \pi I_0$; $K = \tfrac12\int_0^1I_0\mu^2d\mu = I_0/6$. So $J/F = 1/(2\pi)$, i.e. $J = 2H$ where $H = F/4\pi$. This is **Eddington's surface boundary condition** $J(0) = 2H(0)$, used in Lecture 9.
+> **A3.** $J = \tfrac12\int_0^1 I_0d\mu = I_0/2$; $F = 2\pi\int_0^1I_0\mu\,d\mu = \pi I_0$; $K = \tfrac12\int_0^1I_0\mu^2d\mu = I_0/6$. So $J/F = 1/(2\pi)$, i.e. $J = 2H$ where $H = F/4\pi$. This is **Eddington's surface boundary condition** $J(0) = 2H(0)$, used in Lecture SA5.
 
 **Q4.** A star of radius $R$ and uniform surface intensity $I$ is observed from distance $d \gg R$. Derive $F = \pi I(R/d)^2$, and hence $L = 4\pi R^2\pi I$.
 

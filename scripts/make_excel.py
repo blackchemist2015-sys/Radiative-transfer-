@@ -169,16 +169,16 @@ ws0["A6"].fill = fill_out
 ws0["A11"] = "Sheets"
 ws0["A11"].font = f_bold
 SHEETS = [
-    ("L1 Optical depth", "Beam attenuation, optical depth, magnitudes of extinction"),
-    ("L2 Intensity", "Flux falls as 1/d^2, solid angle too: intensity is conserved"),
-    ("L3 Planck", "Black-body spectrum, Wien peak, Stefan-Boltzmann, RJ and Wien limits"),
-    ("L4 Random walk", "Mean free path, photon diffusion time, thermalisation depth"),
-    ("L5 Slab & MIT star", "Slab solution; MIT two-layer star with Balmer + Paschen lines; thermal inversion"),
-    ("L6 Saha-Boltzmann", "Hydrogen ionisation and n=2 population; why Balmer lines peak in A stars"),
-    ("L7 Eddington-Barbier", "Emergent intensity, limb darkening, Eddington-Barbier error"),
-    ("L8 Scattering", "S = eps B + (1-eps) J: Eddington solution, sqrt(eps) law; Rosseland mean calculator"),
-    ("L9 Gray atmosphere", "Exact gray LTE model: T(tau), limb darkening at any wavelength, emergent spectrum, pressure"),
-    ("L10 Lines", "Milne-Eddington LTE line profile and curve of growth"),
+    ("RT1 Optical depth", "Beam attenuation, optical depth, magnitudes of extinction"),
+    ("RT2 Intensity", "Flux falls as 1/d^2, solid angle too: intensity is conserved"),
+    ("RT3 Planck", "Black-body spectrum, Wien peak, Stefan-Boltzmann, RJ and Wien limits"),
+    ("RT4 Random walk", "Mean free path, photon diffusion time, thermalisation depth"),
+    ("RT5 Slab & MIT star", "Slab solution; MIT two-layer star with Balmer + Paschen lines; thermal inversion"),
+    ("SA1 Saha-Boltzmann", "Hydrogen ionisation and n=2 population; why Balmer lines peak in A stars"),
+    ("RT7 Eddington-Barbier", "Emergent intensity, limb darkening, Eddington-Barbier error"),
+    ("RT8 Scattering", "S = eps B + (1-eps) J: Eddington solution, sqrt(eps) law; Rosseland mean calculator"),
+    ("SA5 Gray atmosphere", "Exact gray LTE model: T(tau), limb darkening at any wavelength, emergent spectrum, pressure"),
+    ("SA6 Lines", "Milne-Eddington LTE line profile and curve of growth"),
     ("Constants", "Physical constants used by all formulas (named cells)"),
     ("Data", "Fixed mathematical tables from scripts/lte_solvers.py (Hopf q, E2, H-function, exact scattering)"),
 ]
@@ -241,7 +241,7 @@ E2_R = f"Data!$C${r1h}:$C${r2h}"
 NH = len(TAU)
 
 # ------------------------------------------------------------------ L1
-ws = sheet("L1 Optical depth", "Lecture 1 - How much light gets through a slab of gas?",
+ws = sheet("RT1 Optical depth", "Lecture RT1 - How much light gets through a slab of gas?",
            "Absorption removes a fixed fraction of the beam per unit length. Optical depth counts mean free paths.",
            "I(s) = I(0) exp(-tau),  tau = alpha * s,  A = 1.086 tau  [mag]")
 header(ws, "A5", "Inputs")
@@ -258,7 +258,7 @@ r1, r2 = table(ws, 5, 16, ["s [km]", "I(s)/I(0)"], rows, ["0.00", "0.0000"])
 chart(ws, "H5", "Fraction of the beam left after distance s", "distance s [km]", "I(s)/I(0)", 5, [6], r1, r2, ["I/I0"], ymin=0, ymax=1)
 
 # ------------------------------------------------------------------ L2
-ws = sheet("L2 Intensity", "Lecture 2 - Why a star looks equally bright per square arcsecond from any distance",
+ws = sheet("RT2 Intensity", "Lecture RT2 - Why a star looks equally bright per square arcsecond from any distance",
            "Flux falls as 1/d^2, but the solid angle of the star falls in exactly the same way: their ratio, the intensity, is constant.",
            "F(d) = sigma T^4 (R/d)^2,  Omega = pi (R/d)^2,  I = F/Omega = sigma T^4 / pi")
 header(ws, "A5", "Inputs")
@@ -281,7 +281,7 @@ chart(ws, "J5", "Relative to the stellar surface (log-log)", "distance d [AU]", 
       ["flux F and solid angle (identical)", "intensity I"], xlog=True, ylog=True, ymax=100)
 
 # ------------------------------------------------------------------ L3
-ws = sheet("L3 Planck", "Lecture 3 - How a black body changes with temperature",
+ws = sheet("RT3 Planck", "Lecture RT3 - How a black body changes with temperature",
            "Raise T: the peak moves to shorter wavelengths (Wien) and the total flux grows as T^4 (Stefan-Boltzmann).",
            "B_lambda(T) = 2hc^2/lambda^5 / (exp(hc/(lambda k T)) - 1);  lambda_max T = 2.898e-3 m K;  F = sigma T^4")
 header(ws, "A5", "Inputs")
@@ -309,7 +309,7 @@ chart(ws, "K23", "Planck vs Rayleigh-Jeans and Wien limits (log-log)", "waveleng
       ["Planck", "Rayleigh-Jeans", "Wien"], xlog=True, ylog=True)
 
 # ------------------------------------------------------------------ L4
-ws = sheet("L4 Random walk", "Lecture 4 - How long does light take to leave a star?",
+ws = sheet("RT4 Random walk", "Lecture RT4 - How long does light take to leave a star?",
            "A scattered photon random-walks: after N steps of length l it is only sqrt(N) l away, so escaping from optical depth tau takes N ~ tau^2 steps.",
            "l = 1/(n sigma),  tau = R/l,  N = tau^2,  t = R^2/(l c),  thermalisation depth ~ 1/sqrt(eps)")
 header(ws, "A5", "Inputs (default: uniform Sun, Thomson scattering)")
@@ -334,7 +334,7 @@ chart(ws, "I23", "Rough escape probability with absorption (diffusion estimate)"
       ["exp(-tau sqrt(3 eps))"], ymin=0, ymax=1)
 
 # ------------------------------------------------------------------ L5
-ws = sheet("L5 Slab & MIT star", "Lecture 5 - Absorption or emission lines? A slab and the MIT 8.901 two-layer star",
+ws = sheet("RT5 Slab & MIT star", "Lecture RT5 - Absorption or emission lines? A slab and the MIT 8.901 two-layer star",
            "The beam relaxes toward the source function. Lines are dark if the gas in front is cooler than the background, bright if hotter.",
            "I = I0 exp(-tau) + S (1 - exp(-tau));  I = B(T_base) exp(-tau) + B(T_top) (1 - exp(-tau))")
 header(ws, "A5", "Part A - uniform slab")
@@ -386,7 +386,7 @@ chart(ws, "R24", "Part B: emergent spectrum (Balmer + Paschen lines, widths exag
       8, [10, 11, 12], r1b, r2b, ["emergent I", "B(T_base)", "B(T_top)"], xmin=360, xmax=1000, w=26, h=10)
 
 # ------------------------------------------------------------------ L6
-ws = sheet("L6 Saha-Boltzmann", "Lecture 6 - Why are Balmer lines strongest in A stars?",
+ws = sheet("SA1 Saha-Boltzmann", "Lecture SA1 - Why are Balmer lines strongest in A stars?",
            "In LTE, excitation follows Boltzmann and ionisation follows Saha. The n=2 population (Balmer absorbers) peaks near 10 000 K.",
            "N_II n_e / N_I = (2 U_II/U_I)(2 pi m_e k T/h^2)^1.5 exp(-13.6 eV/kT);  N2/N1 = 4 exp(-10.2 eV/kT)")
 header(ws, "A5", "Inputs")
@@ -411,7 +411,7 @@ chart(ws, "I5", "Ionised fraction of hydrogen", "temperature [K]", "N_II / N_tot
 chart(ws, "I23", "Fraction in n = 2 (x 1e5): Balmer line strength", "temperature [K]", "N2/N_total x 1e5", 5, [7], r1, r2, ["N2/N_total x 1e5"], ymin=0)
 
 # ------------------------------------------------------------------ L7
-ws = sheet("L7 Eddington-Barbier", "Lecture 7 - What depth do we see at each point of the stellar disk?",
+ws = sheet("RT7 Eddington-Barbier", "Lecture RT7 - What depth do we see at each point of the stellar disk?",
            "The emergent intensity is S averaged with weight exp(-tau/mu)/mu. Eddington-Barbier: I(0,mu) ~ S(tau = mu), exact for linear S.",
            "S(tau) = a + b tau + c tau^2  ->  I(0,mu) = a + b mu + 2 c mu^2;  F = pi (a + 2b/3 + c) ~ pi S(2/3)")
 header(ws, "A5", "Inputs")
@@ -435,7 +435,7 @@ chart(ws, "L23", "Source function S(tau)", "vertical optical depth tau", "S", 8,
 chart(ws, "L41", "Weight: where the light at this mu comes from", "vertical optical depth tau", "weight", 8, [10], r1b, r2b, ["exp(-tau/mu)/mu"])
 
 # ------------------------------------------------------------------ L8
-ws = sheet("L8 Scattering", "Lecture 8 - Why is S below B at the surface of an isothermal scattering atmosphere?",
+ws = sheet("RT8 Scattering", "Lecture RT8 - Why is S below B at the surface of an isothermal scattering atmosphere?",
            "Photons scatter ~1/eps times before destruction and leak out within tau ~ 1/sqrt(eps) of the surface, so J and S fall below B there.",
            "S = eps B + (1-eps) J;  Eddington: J = B [1 - exp(-sqrt(3 eps) tau)/(1 + 2 sqrt(eps/3))];  exact: S(0) = sqrt(eps) B")
 header(ws, "A5", "Inputs")
@@ -468,7 +468,7 @@ out(ws, 27, "Rosseland mean (harmonic)", f"=({w1}+{w2}+{w3})/({w1}/{k1}+{w2}/{k2
 out(ws, 28, "Planck-type mean (arithmetic)", f"=({w1}*{k1}+{w2}*{k2}+{w3}*{k3c})/({w1}+{w2}+{w3})", "m^2/kg", "0.000")
 
 # ------------------------------------------------------------------ L9
-ws = sheet("L9 Gray atmosphere", "Lecture 9 - The complete gray LTE atmosphere",
+ws = sheet("SA5 Gray atmosphere", "Lecture SA5 - The complete gray LTE atmosphere",
            "Exact solution (Hopf q, Chandrasekhar H) vs Eddington. The model scales with T_eff; limb darkening and spectrum are integrated numerically.",
            "T^4 = 3/4 T_eff^4 [tau + q(tau)];  I_lambda(0,mu) = Int B_lambda(T(tau)) exp(-tau/mu) dtau/mu;  F_lambda = 2 pi Int B_lambda E2 dtau;  P = g tau / kappa")
 header(ws, "A5", "Inputs")
@@ -527,7 +527,7 @@ chart(ws, "J120", "Emergent flux vs black body at T_eff (log-log)", "wavelength 
       ["gray LTE atmosphere", "pi B_lambda(T_eff)"], xlog=True, ylog=True)
 
 # ------------------------------------------------------------------ L10
-ws = sheet("L10 Lines", "Lecture 10 - How does a spectral line grow? Milne-Eddington profiles and the curve of growth",
+ws = sheet("SA6 Lines", "Lecture SA6 - How does a spectral line grow? Milne-Eddington profiles and the curve of growth",
            "In LTE a line is dark because we see higher, cooler layers at its frequencies. Saturation: the core cannot drop below 1/(1+2beta/3).",
            "F/F_c = [1 + 2beta/(3(1+eta))] / [1 + 2beta/3],  eta = eta0 H(a,v),  W = Int (1 - F/F_c) dv")
 header(ws, "A5", "Inputs")

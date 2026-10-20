@@ -1,4 +1,4 @@
-# Lecture 5 — The Radiative Transfer Equation and Its Formal Solution
+# Lecture RT5 — The Radiative Transfer Equation and Its Formal Solution
 
 > **Sources:** MIT 8.901 Lec. 7 §§7.1–7.3 (RTE built up in three steps, constant-$S$ solution, formal solution, Kirchhoff's law for thick and thin lumps, thin H cloud, two-layer stellar atmosphere, thermal inversions); Hu Set 1 (optical depth, source function, formal solution, interpretation); Collins §9.2c–d (source function and its meaning).
 
@@ -26,11 +26,11 @@
 
 ## 5.1 The equation, built up in three steps (MIT 8.901 §7.1)
 
-![MIT 8.901 build-up of the RTE](../figures/L05_mit_rte_panels.png)
+![MIT 8.901 build-up of the RTE](../../figures/L05_mit_rte_panels.png)
 
-*Figure 5.0 — After MIT 8.901 Lecture 7, Fig. 9: radiation through (left) vacuum, $dI_\nu/ds = 0$; (centre) a purely absorbing medium, $dI_\nu/ds = -\alpha_\nu I_\nu$, so $I = I_0e^{-\tau}$; (right) a medium that absorbs and emits, $dI_\nu/ds = j_\nu-\alpha_\nu I_\nu$.*
+*Figure 5.0 — After MIT 8.901 Lecture RT7, Fig. 9: radiation through (left) vacuum, $dI_\nu/ds = 0$; (centre) a purely absorbing medium, $dI_\nu/ds = -\alpha_\nu I_\nu$, so $I = I_0e^{-\tau}$; (right) a medium that absorbs and emits, $dI_\nu/ds = j_\nu-\alpha_\nu I_\nu$.*
 
-MIT's notation: $\alpha_\nu = n\sigma_\nu = \rho\kappa_\nu$ (extinction coefficient, m$^{-1}$) and $j_\nu$ (emissivity, W m$^{-3}$ Hz$^{-1}$ sr$^{-1}$). Note that $j_\nu$ and $I_\nu$ have different units; their ratio $S_\nu = j_\nu/\alpha_\nu$ has the units of intensity. Combining Lecture 4's gains and losses:
+MIT's notation: $\alpha_\nu = n\sigma_\nu = \rho\kappa_\nu$ (extinction coefficient, m$^{-1}$) and $j_\nu$ (emissivity, W m$^{-3}$ Hz$^{-1}$ sr$^{-1}$). Note that $j_\nu$ and $I_\nu$ have different units; their ratio $S_\nu = j_\nu/\alpha_\nu$ has the units of intensity. Combining Lecture RT4's gains and losses:
 $$\frac{dI_\nu}{ds} = -\alpha_\nu I_\nu + j_\nu .$$
 Divide by $\alpha_\nu$ and use $d\tau_\nu = \alpha_\nu\,ds$ (optical depth measured **along the beam**) and $S_\nu = j_\nu/\alpha_\nu$:
 $$\boxed{\;\frac{dI_\nu}{d\tau_\nu} = S_\nu - I_\nu\;}$$
@@ -53,7 +53,7 @@ The solution is "formal" because $S_\nu$ may depend on $I_\nu$ itself (scatterin
 If $S_\nu$ is constant:
 $$\boxed{\;I_\nu = I_\nu(0)\,e^{-\tau_\nu} + S_\nu\left(1-e^{-\tau_\nu}\right)\;}$$
 
-![Slab solution and line formation](../figures/L05_slab.png)
+![Slab solution and line formation](../../figures/L05_slab.png)
 
 *Figure 5.1 — Left: whatever the incident intensity, $I_\nu\to S_\nu$ after a few optical depths. Right: a slab with optical depth larger at line centre than in the wings produces an absorption line when the background is brighter than $S$, and an emission line when it is fainter.*
 
@@ -73,7 +73,7 @@ Write $\tau_\nu = \tau_c + \tau_0\phi(\nu)$, with a weak continuum $\tau_c$ plus
 2. **Hot, thin gas, no background** ($I_\nu(0) = 0$): $I_\nu = B_\nu(1-e^{-\tau_\nu})$ is largest where $\tau_\nu$ is largest, so we see **emission lines**.
 3. **Cooler gas in front of a hotter continuum** ($I_\nu(0) > S_\nu$): where $\tau_\nu$ is large, $I_\nu$ is pulled *down* toward $S_\nu$, giving **absorption lines**.
 
-The real criterion is $I_{\rm background}$ versus $S_\nu$, not "cool versus hot" by itself. This idea carries over to stellar atmospheres in Lecture 10.
+The real criterion is $I_{\rm background}$ versus $S_\nu$, not "cool versus hot" by itself. This idea carries over to stellar atmospheres in Lecture SA6.
 
 ## 5.4 MIT 8.901 §7.3: thin clouds, two-layer stars and thermal inversions
 
@@ -94,7 +94,7 @@ The **continuum** (small $\alpha_\nu$) shows $B_\nu(T_H)$ from deep down. At the
 
 **(c) Thermal inversion.** If $T$ *increases* outward ($T_{\rm top}>T_{\rm base}$), every argument reverses and the same lines appear in **emission** above the continuum (Figure 5.2c). MIT notes that inversions are ubiquitous: the solar chromosphere, Solar System planets (stratospheres) and hot-Jupiter exoplanets.
 
-![MIT toy models](../figures/L05_mit_two_layer.png)
+![MIT toy models](../../figures/L05_mit_two_layer.png)
 
 *Figure 5.2 — The MIT 8.901 toy models, computed exactly with $I = I_0e^{-\tau}+B(1-e^{-\tau})$ for Balmer and Paschen lines placed by the Rydberg formula (line widths exaggerated for visibility). (a) Thin 8000 K cloud: emission lines. (b) 6500 K base under a 4500 K layer: absorption lines. (c) Inverted case: emission lines.*
 
@@ -136,7 +136,7 @@ $$I(\tau) = \int_0^\tau(a+bt)e^{-(\tau-t)}dt.$$
 Put $u = \tau-t$: $I = \int_0^\tau[a+b(\tau-u)]e^{-u}du = (a+b\tau)(1-e^{-\tau}) - b\left[1-(1+\tau)e^{-\tau}\right]$.
 For $\tau\to\infty$: $I\to a + b\tau - b = S(\tau-1)$.
 
-**The emerging intensity equals the source function one optical depth back from the observer.** This is the seed of the Eddington–Barbier relation (Lecture 7).
+**The emerging intensity equals the source function one optical depth back from the observer.** This is the seed of the Eddington–Barbier relation (Lecture RT7).
 
 ---
 
@@ -150,7 +150,7 @@ $B_\lambda(6500\ {\rm K}) = 3.474\times10^{13}$ and $B_\lambda(4500\ {\rm K}) = 
 
 **(b)** The linearised form $B_H-\tau(B_H-B_C)$ gives $0.984\,B_H$ for $\tau = 0.02$ (correct to 0.02 %) but $-0.57\,B_H$ for $\tau = 2$: **negative and meaningless**. The linear form holds only for $\tau_\nu\ll1$; strong lines need the full exponential.
 
-**(c)** For $\tau\to\infty$, $I_l\to B_C$, so the maximum depth is $1-B_C/I_c = 0.78$. **The depth of a saturated line measures the temperature contrast of the atmosphere**, which is the same conclusion as the Milne–Eddington model of Lecture 10.
+**(c)** For $\tau\to\infty$, $I_l\to B_C$, so the maximum depth is $1-B_C/I_c = 0.78$. **The depth of a saturated line measures the temperature contrast of the atmosphere**, which is the same conclusion as the Milne–Eddington model of Lecture SA6.
 
 ---
 
@@ -171,7 +171,7 @@ $B_\lambda(6500\ {\rm K}) = 3.474\times10^{13}$ and $B_\lambda(4500\ {\rm K}) = 
 
 ---
 
-## Exam questions and answers — Lecture 5
+## Exam questions and answers — Lecture RT5
 
 **Q1.** Starting from $dI_\nu/ds = -\alpha_\nu I_\nu+j_\nu$, derive the formal solution.
 

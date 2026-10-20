@@ -1,4 +1,4 @@
-# Lecture 4 — Emission, Absorption and Scattering
+# Lecture RT4 — Emission, Absorption and Scattering
 
 > **Sources:** Hu Set 1 (spontaneous emission, absorption, cross-section, scattering, random walk, multiple processes); MIT 8.901 Lec. 7 ($\alpha_\nu = n\sigma_\nu = \rho\kappa_\nu$); Collins §9.2c (creation rate, redistribution function); Chandrasekhar Ch. I §§7–11.
 
@@ -30,7 +30,7 @@
 
 ## 4.1 The four radiative processes
 
-![Radiative processes in a two-level atom](../figures/L04_processes.png)
+![Radiative processes in a two-level atom](../../figures/L04_processes.png)
 
 *Figure 4.1 — Absorption, spontaneous emission, stimulated emission and scattering. Stimulated emission produces a photon identical to the incoming one (same frequency, direction and polarisation), so mathematically it behaves like **negative absorption**.*
 
@@ -86,7 +86,7 @@ The bracket is the **correction for stimulated emission**. If $g_1n_2/g_2n_1 > 1
 
 **Line source function** (any populations):
 $$S_\nu = \frac{j_\nu}{\alpha_\nu} = \frac{2h\nu^3}{c^2}\,\frac{1}{\dfrac{g_2n_1}{g_1n_2}-1}.$$
-With Boltzmann populations at $T$ this becomes exactly $B_\nu(T)$. This is the key LTE result of Lecture 6.
+With Boltzmann populations at $T$ this becomes exactly $B_\nu(T)$. This is the key LTE result of Lecture SA1.
 
 ## 4.5 Scattering
 
@@ -101,11 +101,11 @@ Collins (eq. 9.2.27) gives the general form with a redistribution function $R(\n
 The coefficients add (Hu): $\alpha_\nu = \alpha^{a}_\nu+\alpha^{\rm sc}_\nu$. The combined source function is
 $$S_\nu = \frac{\alpha^{a}_\nu B_\nu + \alpha^{\rm sc}_\nu J_\nu}{\alpha^{a}_\nu+\alpha^{\rm sc}_\nu} = \varepsilon_\nu B_\nu + (1-\varepsilon_\nu)J_\nu,\qquad
 \varepsilon_\nu = \frac{\alpha^a_\nu}{\alpha^a_\nu+\alpha^{\rm sc}_\nu},$$
-where $1-\varepsilon_\nu$ is the **single-scattering albedo** (the probability that an interaction is a scattering). This equation is the heart of Lecture 8.
+where $1-\varepsilon_\nu$ is the **single-scattering albedo** (the probability that an interaction is a scattering). This equation is the heart of Lecture RT8.
 
 ## 4.6 Random walk
 
-![Random walk of photons](../figures/L04_random_walk.png)
+![Random walk of photons](../../figures/L04_random_walk.png)
 
 *Figure 4.2 — Left: photon paths with unit steps; the dashed circle has radius $\sqrt N\ell$. Right: a 3D simulation confirms $R_{\rm rms} = \sqrt N\,\ell$.*
 
@@ -113,7 +113,7 @@ With steps $\mathbf r_i$ of length $\ell$ in random directions, $\mathbf R = \su
 $$\langle R^2\rangle = N\ell^2 .$$
 To escape from optical depth $\tau = R/\ell$ takes $N\approx\tau^2$ steps when $\tau\gg1$. When $\tau\ll1$, only a fraction $\tau$ of photons interact at all. A useful estimate is $N\approx\max(\tau,\tau^2)$ (Hu).
 
-**Thermalisation.** If each interaction is an absorption with probability $\varepsilon$, a photon survives $N\approx1/\varepsilon$ interactions before it is destroyed, travelling a net optical distance $\tau_{\rm th}\approx\sqrt N = 1/\sqrt\varepsilon$: the **thermalisation depth** (Lecture 8).
+**Thermalisation.** If each interaction is an absorption with probability $\varepsilon$, a photon survives $N\approx1/\varepsilon$ interactions before it is destroyed, travelling a net optical distance $\tau_{\rm th}\approx\sqrt N = 1/\sqrt\varepsilon$: the **thermalisation depth** (Lecture RT8).
 
 ---
 
@@ -161,7 +161,7 @@ Insert $g_2n_1/(g_1n_2) = e^{h\nu/kT_{\rm ex}}$ into $S_\nu = (2h\nu^3/c^2)/[g_2
 
 ---
 
-## Exam questions and answers — Lecture 4
+## Exam questions and answers — Lecture RT4
 
 **Q1.** Derive the Einstein relations. Explain why they hold even when the gas is not in TE.
 

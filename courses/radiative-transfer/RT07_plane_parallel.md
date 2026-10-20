@@ -1,4 +1,4 @@
-# Lecture 7 — Plane-Parallel Atmospheres: Schwarzschild–Milne Equations and Eddington–Barbier
+# Lecture RT7 — Plane-Parallel Atmospheres: Schwarzschild–Milne Equations and Eddington–Barbier
 
 > **Sources:** Collins §9.2 (plane-parallel RTE, eq. 9.2.24–9.2.26, Fig. 9.3), §9.3 (moments $J$, $H$, $K$); Chandrasekhar Ch. I §§9–11 (the formal solution and the $\Lambda$, $\Phi$, $X$ operators); Hu Set 1 (formal solution); MIT 8.901 §7.2.
 
@@ -29,13 +29,13 @@
 
 ## 7.1 Geometry and sign conventions
 
-![Plane-parallel geometry](../figures/L07_plane_parallel.png)
+![Plane-parallel geometry](../../figures/L07_plane_parallel.png)
 
 *Figure 7.1 — A plane-parallel atmosphere. $z$ points outward, $\theta$ is measured from the outward normal, and $\mu = \cos\theta$. Outgoing rays have $\mu>0$, incoming rays $\mu<0$. The optical depth increases **inward**: $d\tau_\nu = -\alpha_\nu dz$.*
 
 Along a ray, $ds = dz/\mu$. Then $dI_\nu/ds = \mu\,dI_\nu/dz = -\mu\,\alpha_\nu\,dI_\nu/d\tau_\nu$, and the RTE becomes (Collins eq. 9.2.26)
 $$\boxed{\;\mu\,\frac{dI_\nu(\tau_\nu,\mu)}{d\tau_\nu} = I_\nu(\tau_\nu,\mu) - S_\nu(\tau_\nu)\;}$$
-Note the sign change compared with Lecture 5, because $\tau$ is now measured against the outgoing direction.
+Note the sign change compared with Lecture RT5, because $\tau$ is now measured against the outgoing direction.
 
 **Boundary conditions** for a semi-infinite stellar atmosphere:
 
@@ -59,7 +59,7 @@ This is a **Laplace transform** of $S_\nu(\tau)$. Measuring $I_\nu(0,\mu)$ acros
 $$E_n(x) = \int_1^\infty\frac{e^{-xt}}{t^n}\,dt = \int_0^1 e^{-x/\mu}\mu^{n-2}\,d\mu,\qquad
 \frac{dE_n}{dx} = -E_{n-1},\quad E_n(0) = \frac{1}{n-1}\ (n>1).$$
 
-![Exponential integrals](../figures/L07_En.png)
+![Exponential integrals](../../figures/L07_En.png)
 
 *Figure 7.2 — $E_1$ diverges logarithmically at $x = 0$ (but is integrable); all $E_n$ decay roughly like $e^{-x}/x$.*
 
@@ -80,7 +80,7 @@ $$\boxed{\;I_\nu(0,\mu) = S_\nu(\tau_\nu = \mu)\;}$$
 **exactly** for a linear $S$, and approximately otherwise. For the surface flux:
 $$F_\nu(0) = 2\pi\int_0^1(a+b\mu)\mu\,d\mu = \pi\left(a+\tfrac23b\right)\ \Rightarrow\ \boxed{\;F_\nu(0) = \pi S_\nu(\tau_\nu = 2/3)\;}$$
 
-![Eddington-Barbier and limb darkening](../figures/L07_eddington_barbier.png)
+![Eddington-Barbier and limb darkening](../../figures/L07_eddington_barbier.png)
 
 *Figure 7.3 — Left: the weighting kernel $e^{-\tau/\mu}/\mu$ peaks at the surface but has mean depth $\langle\tau\rangle = \mu$. Right: limb darkening. At disk centre we see down to $\tau\approx1$ (hot); at the limb, rays graze the atmosphere and we see $\tau\approx0$ (cool).*
 
@@ -88,7 +88,7 @@ $$F_\nu(0) = 2\pi\int_0^1(a+b\mu)\mu\,d\mu = \pi\left(a+\tfrac23b\right)\ \Right
 
 - "We see down to $\tau\approx1$ along the line of sight," i.e. to vertical depth $\tau\approx\mu$.
 - Toward the limb we see higher, cooler layers. If $S$ increases inward ($b>0$), the limb is **darker**.
-- The observed flux of a star reflects the conditions at $\tau\approx2/3$, which is why the "photosphere" is defined there and why $T(\tau = 2/3)\approx T_{\rm eff}$ (Lecture 9).
+- The observed flux of a star reflects the conditions at $\tau\approx2/3$, which is why the "photosphere" is defined there and why $T(\tau = 2/3)\approx T_{\rm eff}$ (Lecture SA5).
 
 ## 7.5 From limb darkening to temperature: an LTE inversion
 
@@ -143,7 +143,7 @@ $I^+(0,\mu) = a+b\mu$ and $I^-(0) = 0$, so $J(0) = \tfrac12\int_0^1(a+b\mu)d\mu 
 
 ---
 
-## Exam questions and answers — Lecture 7
+## Exam questions and answers — Lecture RT7
 
 **Q1.** Derive the formal solution for the emergent intensity of a semi-infinite atmosphere.
 

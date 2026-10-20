@@ -15,7 +15,7 @@ const path = require('path');
     margin: { top: '18mm', bottom: '18mm', left: '16mm', right: '16mm' },
     displayHeaderFooter: true,
     headerTemplate: '<div></div>',
-    footerTemplate: '<div style="font-size:8px;width:100%;text-align:center;color:#777">Radiative Transfer — <span class="pageNumber"></span> / <span class="totalPages"></span></div>',
+    footerTemplate: '<div style="font-size:8px;width:100%;text-align:center;color:#777"><span class="pageNumber"></span> / <span class="totalPages"></span></div>',
   });
   await browser.close();
 })();

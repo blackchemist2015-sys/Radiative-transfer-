@@ -1,4 +1,4 @@
-# Lecture 8 — Moment Equations, the Diffusion and Eddington Approximations, and Scattering Atmospheres
+# Lecture RT8 — Moment Equations, the Diffusion and Eddington Approximations, and Scattering Atmospheres
 
 > **Sources:** Collins §9.3–9.4 (moments; radiative equilibrium eq. 9.4.3–9.4.5; diffusion approximation eq. 9.4.7–9.4.9; Eddington approximation eq. 9.4.12–9.4.13); Hu Set 1 (scattering, multiple processes, single-scattering albedo); Chandrasekhar Ch. I §§11–14 and Ch. III (isotropic scattering).
 
@@ -46,7 +46,7 @@ This condition **determines $T(\tau)$**. It is the extra equation that turns the
 
 At large depth, $S_\nu = B_\nu$ varies slowly on the scale of a mean free path. Expanding $B_\nu(t)$ in a Taylor series about $\tau$ in the formal solution gives
 $$I_\nu(\tau,\mu) = B_\nu + \mu\frac{dB_\nu}{d\tau_\nu} + \mu^2\frac{d^2B_\nu}{d\tau_\nu^2}+\dots$$
-The radiation is almost isotropic with a small linear anisotropy. Then (cf. Lecture 2, Worked example 2.3)
+The radiation is almost isotropic with a small linear anisotropy. Then (cf. Lecture RT2, Worked example 2.3)
 $$J_\nu\approx B_\nu,\qquad H_\nu = \frac13\frac{dB_\nu}{d\tau_\nu},\qquad K_\nu = \frac{B_\nu}3\approx\frac{J_\nu}{3}.$$
 The flux is therefore
 $$F_\nu = 4\pi H_\nu = \frac{4\pi}{3}\frac{dB_\nu}{d\tau_\nu} = -\frac{4\pi}{3}\frac{1}{\alpha_\nu}\frac{\partial B_\nu}{\partial T}\frac{dT}{dz}.$$
@@ -63,16 +63,16 @@ using $dB/dT = 4\sigma T^3/\pi$. It is a **harmonic** mean: energy flows through
 
 ## 8.3 The Eddington approximation (whole atmosphere)
 
-Eddington assumed $K_\nu = J_\nu/3$ **everywhere**, not only at depth (Collins eq. 9.4.8). At the surface we also need a boundary condition. Assume the outgoing intensity is isotropic, $I(0,\mu>0) = I_0$, with $I(0,\mu<0) = 0$. Then $J(0) = I_0/2$ and $H(0) = I_0/4$ (Lecture 2, Q3), so
+Eddington assumed $K_\nu = J_\nu/3$ **everywhere**, not only at depth (Collins eq. 9.4.8). At the surface we also need a boundary condition. Assume the outgoing intensity is isotropic, $I(0,\mu>0) = I_0$, with $I(0,\mu<0) = 0$. Then $J(0) = I_0/2$ and $H(0) = I_0/4$ (Lecture RT2, Q3), so
 $$\boxed{\;J(0) = 2H(0)\;}\qquad\text{(Eddington boundary condition; Collins eq. 9.4.13)}$$
-The two errors partly cancel, and the approximation is typically good to about 10 % (Collins), and to a few per cent for the temperature of a gray atmosphere (Lecture 9: $T(0)$ is $0.841\,T_{\rm eff}$ versus the exact $0.811\,T_{\rm eff}$).
+The two errors partly cancel, and the approximation is typically good to about 10 % (Collins), and to a few per cent for the temperature of a gray atmosphere (Lecture SA5: $T(0)$ is $0.841\,T_{\rm eff}$ versus the exact $0.811\,T_{\rm eff}$).
 
 Combined, the moment equations become a **second-order ODE**:
 $$\frac13\frac{d^2J_\nu}{d\tau_\nu^2} = J_\nu - S_\nu .$$
 
 ## 8.4 Atmosphere with scattering: thermalisation
 
-Take the source function of Lecture 4,
+Take the source function of Lecture RT4,
 $$S = \varepsilon B + (1-\varepsilon)J,\qquad J - S = \varepsilon(J-B),$$
 in an **isothermal** atmosphere ($B$ = constant), with $\varepsilon$ constant.
 
@@ -88,7 +88,7 @@ The exact solution of the integral equation $S = \varepsilon B + (1-\varepsilon)
 $$\boxed{\;S(0) = \sqrt{\varepsilon}\,B\;}$$
 This is one of the most important results in radiative transfer.
 
-![Scattering atmospheres and Lambda iteration](../figures/L08_scattering.png)
+![Scattering atmospheres and Lambda iteration](../../figures/L08_scattering.png)
 
 *Figure 8.1 — Left: exact numerical solutions (solid; computed with `scripts/lte_solvers.py`) and the Eddington approximation (dashed) for an isothermal atmosphere with $S = \varepsilon B+(1-\varepsilon)J$. Even though $B$ is constant, $S$ drops far below $B$ near the surface, and $S\to B$ only below the thermalisation depth $\tau_{\rm th}\sim1/\sqrt\varepsilon$ (dotted lines). Right: $\Lambda$-iteration for $\varepsilon = 0.01$. Each iteration propagates information only about one optical depth; after 200 iterations it is still not converged.*
 
@@ -152,7 +152,7 @@ That is about 27 K per km, or roughly $T/R_\odot\times5$: the right order of mag
 
 ---
 
-## Exam questions and answers — Lecture 8
+## Exam questions and answers — Lecture RT8
 
 **Q1.** State radiative equilibrium in integral form. Why do scattering terms drop out?
 

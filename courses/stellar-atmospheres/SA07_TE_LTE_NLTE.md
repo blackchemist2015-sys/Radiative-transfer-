@@ -1,6 +1,6 @@
-# Lecture 14 — TE, LTE and Non-LTE: Definitions, Examples and Solution Methods
+# Lecture SA7 — TE, LTE and Non-LTE: Definitions, Examples and Solution Methods
 
-> **Sources:** Collins §9.1 (breakdown of strict TE; assumption of LTE); Chandrasekhar (1950) Ch. I; R. N. Thomas, *Some Aspects of Non-Equilibrium Thermodynamics in the Presence of a Radiation Field* (1965); Mihalas, *Stellar Atmospheres* (1978) Chs. 5, 11–12; Hubeny & Mihalas, *Theory of Stellar Atmospheres* (2014); Osterbrock & Ferland (2006) for nebulae. This lecture extends Lecture 6 (LTE) and Lecture 8 (scattering).
+> **Sources:** Collins §9.1 (breakdown of strict TE; assumption of LTE); Chandrasekhar (1950) Ch. I; R. N. Thomas, *Some Aspects of Non-Equilibrium Thermodynamics in the Presence of a Radiation Field* (1965); Mihalas, *Stellar Atmospheres* (1978) Chs. 5, 11–12; Hubeny & Mihalas, *Theory of Stellar Atmospheres* (2014); Osterbrock & Ferland (2006) for nebulae. This lecture extends Lecture SA1 (LTE) and Lecture RT8 (scattering).
 
 ## Learning goals
 
@@ -24,7 +24,7 @@
 
 ---
 
-## 14.1 Definitions
+## 7.1 Definitions
 
 ### Thermodynamic equilibrium (TE)
 
@@ -33,7 +33,7 @@
 **Examples of TE (or extremely close to it)**
 
 - A closed oven (Hohlraum) with a tiny hole: the classical black body.
-- The **deep interior of the Sun**: the photon mean free path ($\sim$ cm) is $10^{-10}$–$10^{-11}$ of the temperature scale height, so the radiation is isotropic to that precision (Worked example 14.1).
+- The **deep interior of the Sun**: the photon mean free path ($\sim$ cm) is $10^{-10}$–$10^{-11}$ of the temperature scale height, so the radiation is isotropic to that precision (Worked example 7.1).
 - The **early Universe before recombination** ($z\gtrsim1100$): matter and radiation were coupled by Thomson scattering at one temperature. This is why the CMB has a Planck spectrum.
 
 ### Local thermodynamic equilibrium (LTE)
@@ -43,7 +43,7 @@
 **Examples of LTE (good approximation)**
 
 - The **continuum** of the solar photosphere (H$^-$ opacity) and **weak metal lines** in dwarf F, G, K stars: the basis of classical abundance analysis.
-- The **gray model atmosphere** of Lecture 9 and the Milne–Eddington lines of Lecture 10.
+- The **gray model atmosphere** of Lecture SA5 and the Milne–Eddington lines of Lecture SA6.
 - **Earth's lower atmosphere** in the thermal infrared: the CO$_2$ 15 µm band is in LTE below about 70 km, which is why climate radiative-transfer codes use LTE there.
 - Dense laboratory plasmas (arcs, shock tubes).
 
@@ -56,7 +56,7 @@
 - **Strong resonance-line cores** in the Sun (Na I D, Mg I b, Ca II H & K, H$\alpha$ core): photons escape, so $S<B$ and the cores are darker than LTE predicts.
 - The **solar chromosphere and corona**: low density; populations controlled by radiation and by non-thermal heating.
 - **Hot O and B stars and their winds**: intense UV radiation drives photo-ionisation; He II and N III lines need NLTE. **Supergiants** have low gravity and therefore low density.
-- **H II regions and planetary nebulae**: forbidden lines such as [O III] 500.7 nm, with electron densities far below the critical density (Worked example 14.3).
+- **H II regions and planetary nebulae**: forbidden lines such as [O III] 500.7 nm, with electron densities far below the critical density (Worked example 7.3).
 - **Molecular clouds**: high rotational lines of CO are "subthermally" excited ($T_{\rm ex}<T_{\rm kin}$).
 - **Masers** (OH, H$_2$O, SiO): extreme NLTE with population inversion, $T_{\rm ex}<0$.
 - **Earth's upper atmosphere**: aurorae, airglow, and CO$_2$ cooling above about 70 km.
@@ -80,7 +80,7 @@ For a transition $u\to l$, collisions win if
 $$n_e\,q_{ul}\ \gg\ A_{ul}\,\beta_{\rm esc},$$
 where $q_{ul}$ is the collisional de-excitation rate coefficient and $\beta_{\rm esc}\approx1/\tau$ (for $\tau\gg1$) is the probability that an emitted photon escapes. In words: compare the **critical density** $n_{\rm crit} = A_{ul}\beta_{\rm esc}/q_{ul}$ with the actual electron density. Optically thick lines trap their photons ($\beta_{\rm esc}\ll1$), which lowers the effective critical density and pushes them back toward LTE deep inside an atmosphere. Near the surface, where $\tau\to0$, that help disappears.
 
-## 14.2 Statistical equilibrium
+## 7.2 Statistical equilibrium
 
 For each level $i$ of an atom or ion:
 $$\boxed{\;n_i\sum_{j\neq i}\left(R_{ij}+C_{ij}\right) = \sum_{j\neq i}n_j\left(R_{ji}+C_{ji}\right)\;}\qquad\text{(rates out = rates in)}$$
@@ -93,13 +93,13 @@ Because $J_\nu$ depends on the populations everywhere through the RTE, and the p
 
 **Departure coefficients** $b_i = n_i/n_i^{\rm LTE}$ ($b_i = 1$ in LTE). The line source function is
 $$S^{\rm line}_\nu = \frac{2h\nu^3}{c^2}\,\frac{1}{\dfrac{b_l}{b_u}e^{h\nu/kT}-1}\ \approx\ \frac{b_u}{b_l}\,B_\nu(T)\quad(\text{Wien limit}).$$
-For a two-level atom this becomes $S = (1-\varepsilon)\bar J+\varepsilon B$ (Lecture 6).
+For a two-level atom this becomes $S = (1-\varepsilon)\bar J+\varepsilon B$ (Lecture SA1).
 
-![Rate processes and the NLTE source function](../figures/L14_nlte.png)
+![Rate processes and the NLTE source function](../../figures/L14_nlte.png)
 
-*Figure 14.1 — Left: the four rate processes that set the populations of a two-level atom. Right: the exact line source function (Λ-matrix solution with `scripts/lte_solvers.py`) in an atmosphere whose Planck function rises gently inward. As collisions become rarer ($\varepsilon\downarrow$), the surface source function falls far below $B$, and thermalisation ($S\to B$) happens deeper, at $\tau\sim1/\sqrt\varepsilon$.*
+*Figure 7.1 — Left: the four rate processes that set the populations of a two-level atom. Right: the exact line source function (Λ-matrix solution with `scripts/lte_solvers.py`) in an atmosphere whose Planck function rises gently inward. As collisions become rarer ($\varepsilon\downarrow$), the surface source function falls far below $B$, and thermalisation ($S\to B$) happens deeper, at $\tau\sim1/\sqrt\varepsilon$.*
 
-## 14.3 NLTE mechanisms and their effects
+## 7.3 NLTE mechanisms and their effects
 
 | Mechanism | What happens | Effect on spectra | Typical cases |
 |---|---|---|---|
@@ -111,7 +111,7 @@ For a two-level atom this becomes $S = (1-\varepsilon)\bar J+\varepsilon B$ (Lec
 
 Typical **NLTE abundance corrections** $\Delta_{\rm NLTE} = \log\varepsilon_{\rm NLTE}-\log\varepsilon_{\rm LTE}$: about −0.2 dex for the O I 777 nm triplet in the Sun, and up to a few tenths of a dex for Fe I and Mg I in metal-poor giants.
 
-## 14.4 NLTE solution methods: names only
+## 7.4 NLTE solution methods: names only
 
 *Formal solvers (for a given source function):*
 Feautrier method · long characteristics · short characteristics (linear, parabolic, Bézier/monotonic) · DELO and Hermitian methods · discontinuous finite elements · discrete ordinates · Monte Carlo radiative transfer.
@@ -124,29 +124,29 @@ MULTI, MULTI3D, RH, Lightweaver, DETAIL/SURFACE, TLUSTY/SYNSPEC, PHOENIX, CMFGEN
 
 ---
 
-## Worked example 14.1 — How close to TE is the centre of the Sun?
+## Worked example 7.1 — How close to TE is the centre of the Sun?
 
-*With a photon mean free path $\ell\approx2$ cm (Lecture 4) and a temperature scale height $H_T = T/|dT/dr|\approx R_\odot\approx7\times10^8$ m, estimate the anisotropy of the radiation, $F/(cu)$.*
+*With a photon mean free path $\ell\approx2$ cm (Lecture RT4) and a temperature scale height $H_T = T/|dT/dr|\approx R_\odot\approx7\times10^8$ m, estimate the anisotropy of the radiation, $F/(cu)$.*
 
 Diffusion gives $F = \frac{c\ell}{3}|\nabla u|$ with $u\propto T^4$, so $|\nabla u|/u = 4/H_T$. Then $F/(cu) = \frac{4\ell}{3H_T} = \frac{4\times0.02}{3\times7\times10^8}\approx4\times10^{-11}$. The radiation is isotropic and Planckian to about 1 part in $10^{11}$, essentially TE, although this tiny anisotropy carries the entire solar luminosity.
 
-## Worked example 14.2 — Is the Na D line in LTE?
+## Worked example 7.2 — Is the Na D line in LTE?
 
 *Na I D$_2$ has $A_{21} = 6.2\times10^7$ s$^{-1}$; electron collisions give $q_{21}\approx6\times10^{-13}$ m$^3$ s$^{-1}$ (order of magnitude, $T\approx5000$ K). Compare with $n_e\approx6\times10^{19}$ m$^{-3}$ at $\tau_{500} = 1$ and $n_e\approx10^{17}$ m$^{-3}$ in the upper photosphere where the line core forms.*
 
-$n_{\rm crit} = A/q\approx10^{20}$ m$^{-3}$. At $\tau_{500} = 1$: $C/A = n_eq/A\approx0.6$, close to LTE only if line trapping helps. Where the core forms: $C/A\approx10^{-3}$, so $\varepsilon\approx10^{-3}$, strongly NLTE. In the model of Figure 14.1, $\varepsilon = 10^{-3}$ gives $S(0)/B(0)\approx0.14$. The observed Na D cores are indeed much darker than LTE models predict.
+$n_{\rm crit} = A/q\approx10^{20}$ m$^{-3}$. At $\tau_{500} = 1$: $C/A = n_eq/A\approx0.6$, close to LTE only if line trapping helps. Where the core forms: $C/A\approx10^{-3}$, so $\varepsilon\approx10^{-3}$, strongly NLTE. In the model of Figure 7.1, $\varepsilon = 10^{-3}$ gives $S(0)/B(0)\approx0.14$. The observed Na D cores are indeed much darker than LTE models predict.
 
-## Worked example 14.3 — A planetary nebula
+## Worked example 7.3 — A planetary nebula
 
 *[O III] 500.7 nm has a critical density of about $6\times10^{11}$ m$^{-3}$ ($6\times10^5$ cm$^{-3}$). A planetary nebula has $n_e\approx10^{10}$ m$^{-3}$. Which regime applies, and what does this make possible?*
 
 $n_e/n_{\rm crit}\approx0.016$: every collisional excitation is followed by a radiative decay rather than a collisional de-excitation, which is extreme NLTE. The line emissivity is then $\propto n_en_{\rm ion}q_{lu}(T_e)$, and the ratio of lines from different upper levels ([O III] 436.3 / 500.7 nm) depends only on $T_e$. This is how nebular electron temperatures (about 10 000 K) are measured. In LTE such a ratio would just reflect $e^{-\Delta E/kT}$, and the forbidden lines would be very weak.
 
-## Worked example 14.4 — The CMB: TE in the past, a Planck spectrum today
+## Worked example 7.4 — The CMB: TE in the past, a Planck spectrum today
 
 *After recombination ($z\approx1100$) photons stopped interacting with matter. Why is the CMB still a perfect Planck spectrum today, at $T = 2.725$ K?*
 
-Before recombination matter and radiation were in TE at $T\approx3000$ K. Afterwards the photons stream freely: $I_\nu/\nu^3$ is conserved along each ray (Lecture 2), and every frequency redshifts by the same factor $1+z$. A Planck spectrum at $T$ becomes a Planck spectrum at $T/(1+z)$, so $3000/1100\approx2.7$ K. Today's CMB is **not** in TE with any matter (the radiation is decoupled), yet its spectrum is still exactly Planckian. A Planck spectrum alone does not prove equilibrium at present.
+Before recombination matter and radiation were in TE at $T\approx3000$ K. Afterwards the photons stream freely: $I_\nu/\nu^3$ is conserved along each ray (Lecture RT2), and every frequency redshifts by the same factor $1+z$. A Planck spectrum at $T$ becomes a Planck spectrum at $T/(1+z)$, so $3000/1100\approx2.7$ K. Today's CMB is **not** in TE with any matter (the radiation is decoupled), yet its spectrum is still exactly Planckian. A Planck spectrum alone does not prove equilibrium at present.
 
 ---
 
@@ -167,7 +167,7 @@ Before recombination matter and radiation were in TE at $T\approx3000$ K. Afterw
 
 ---
 
-## Exam questions and answers — Lecture 14
+## Exam questions and answers — Lecture SA7
 
 **Q1.** Define TE, LTE and NLTE precisely and give two astrophysical examples of each.
 

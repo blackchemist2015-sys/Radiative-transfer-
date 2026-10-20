@@ -1,4 +1,4 @@
-# Lecture 3 — Black-Body Radiation: the Planck Function
+# Lecture RT3 — Black-Body Radiation: the Planck Function
 
 > **Sources:** MIT 8.901 Lec. 7 (Stefan–Boltzmann, Wien); Hu Set 1; Collins Ch. 9.1 (STE and photon statistics); Rybicki & Lightman Ch. 1 (standard reference).
 
@@ -37,9 +37,9 @@ $$\boxed{\;B_\nu(T) = \frac{2h\nu^3}{c^2}\,\frac{1}{e^{h\nu/kT}-1}\;}
 1. **Number of modes.** In a box of volume $V$ the number of photon states with momentum in $d^3p$ is $2\,V\,d^3p/h^3$ (the factor 2 counts polarisations). With $p = h\nu/c$ and $d^3p = 4\pi p^2dp$, the number of modes per unit volume in $d\nu$ is $\dfrac{8\pi\nu^2}{c^3}d\nu$.
 2. **Mean occupation number.** Photons are bosons with zero chemical potential: $\bar n = 1/(e^{h\nu/kT}-1)$.
 3. **Energy density.** $u_\nu = \dfrac{8\pi\nu^2}{c^3}\,h\nu\,\bar n = \dfrac{8\pi h\nu^3}{c^3}\dfrac{1}{e^{h\nu/kT}-1}$.
-4. **Intensity.** For isotropic radiation, $u_\nu = 4\pi I_\nu/c$ (Lecture 2), so $I_\nu = cu_\nu/4\pi = B_\nu$. ∎
+4. **Intensity.** For isotropic radiation, $u_\nu = 4\pi I_\nu/c$ (Lecture RT2), so $I_\nu = cu_\nu/4\pi = B_\nu$. ∎
 
-![Planck curves and their limits](../figures/L03_planck.png)
+![Planck curves and their limits](../../figures/L03_planck.png)
 
 *Figure 3.1 — Left: $B_\lambda$ for four temperatures, with the Wien peak (dots and dashed line). Hotter bodies are brighter at **every** wavelength, so Planck curves never cross. Right: the Rayleigh–Jeans ($h\nu\ll kT$) and Wien ($h\nu\gg kT$) limits.*
 
@@ -57,7 +57,7 @@ Set $\partial B_\nu/\partial\nu = 0$: with $x = h\nu/kT$ we need $3(1-e^{-x}) = 
 $$\nu_{\max} = 2.821\frac{kT}{h} = 5.879\times10^{10}\ {\rm Hz\,K^{-1}}\times T .$$
 Set $\partial B_\lambda/\partial\lambda = 0$: $5(1-e^{-y}) = y$ with $y = hc/\lambda kT$, so $y = 4.965$:
 $$\lambda_{\max}T = 2.898\times10^{-3}\ {\rm m\,K}.$$
-Note that $\lambda_{\max}\neq c/\nu_{\max}$: the peak depends on the variable used, because $I_\lambda = (c/\lambda^2)I_\nu$ (Lecture 2, §2.2).
+Note that $\lambda_{\max}\neq c/\nu_{\max}$: the peak depends on the variable used, because $I_\lambda = (c/\lambda^2)I_\nu$ (Lecture RT2, §2.2).
 
 ## 3.4 Stefan–Boltzmann law
 
@@ -74,7 +74,7 @@ $$\sigma = \frac{2\pi^5k^4}{15c^2h^3} = 5.670\times10^{-8}\ {\rm W\,m^{-2}\,K^{-
 | Photon number density | $n_\gamma = 16\pi\zeta(3)(kT/hc)^3 = 2.03\times10^7\,T^3$ m$^{-3}$ |
 | Mean photon energy | $\langle h\nu\rangle = 2.70\,kT$ |
 
-A useful derivative, needed for the diffusion approximation (Lecture 8):
+A useful derivative, needed for the diffusion approximation (Lecture RT8):
 $$\frac{dB}{dT} = \frac{4\sigma T^3}{\pi}.$$
 
 ## 3.5 Characteristic temperatures
@@ -112,13 +112,13 @@ Wien drops the "$-1$": the relative error is $e^{-x} = 0.7\,\%$, so Wien is adeq
 
 $h\nu/k = 0.067$ K, so the RJ limit is excellent for any $T\gg0.07$ K:
 $$T_b = \frac{c^2I_\nu}{2k\nu^2} = \frac{(3\times10^8)^2\times2\times10^{-19}}{2\times1.381\times10^{-23}\times(1.4\times10^9)^2} = 332\ {\rm K}.$$
-If the source is an optically thin H II region with $T_e = 8000$ K, then $T_b = T_e\tau$ (Lecture 5), so $\tau\approx0.04$.
+If the source is an optically thin H II region with $T_e = 8000$ K, then $T_b = T_e\tau$ (Lecture RT5), so $\tau\approx0.04$.
 
 ## Worked example 3.4 — Inverting the Planck function
 
 *An observed intensity equals $B_\lambda$; solve for $T$.*
 $$T = \frac{hc}{\lambda k}\;\frac{1}{\ln\!\left(1+\dfrac{2hc^2}{\lambda^5B_\lambda}\right)}.$$
-For $\lambda = 500$ nm and $B_\lambda = 4.0\times10^{13}$ W m$^{-3}$ sr$^{-1}$: $T = 28\,776/\ln(1+95.3) = 6300$ K. We use this formula in Lecture 7 to map out the solar temperature from limb darkening.
+For $\lambda = 500$ nm and $B_\lambda = 4.0\times10^{13}$ W m$^{-3}$ sr$^{-1}$: $T = 28\,776/\ln(1+95.3) = 6300$ K. We use this formula in Lecture RT7 to map out the solar temperature from limb darkening.
 
 ---
 
@@ -127,7 +127,7 @@ For $\lambda = 500$ nm and $B_\lambda = 4.0\times10^{13}$ W m$^{-3}$ sr$^{-1}$: 
 1. **"Black bodies look black."** Only when they are cold. The Sun is very nearly a black body.
 2. **"$\lambda_{\max} = c/\nu_{\max}$."** False: the peak of $B_\lambda$ and the peak of $B_\nu$ are at different places.
 3. **"Brightness temperature is the real temperature."** Only for an optically thick, thermal source. Thin gas has $T_b\approx\tau T<T$; non-thermal sources (pulsars, masers) can have $T_b$ far above any physical temperature.
-4. **"Stars emit exact black-body spectra."** They are approximately Planckian, but their spectra show lines, edges and depth-dependent temperature effects (Lecture 9).
+4. **"Stars emit exact black-body spectra."** They are approximately Planckian, but their spectra show lines, edges and depth-dependent temperature effects (Lecture SA5).
 
 ## Lecture summary
 
@@ -138,7 +138,7 @@ For $\lambda = 500$ nm and $B_\lambda = 4.0\times10^{13}$ W m$^{-3}$ sr$^{-1}$: 
 
 ---
 
-## Exam questions and answers — Lecture 3
+## Exam questions and answers — Lecture RT3
 
 **Q1.** Derive the Planck function from the density of photon states and Bose–Einstein statistics.
 
@@ -154,4 +154,4 @@ For $\lambda = 500$ nm and $B_\lambda = 4.0\times10^{13}$ W m$^{-3}$ sr$^{-1}$: 
 
 **Q4.** Why is $T_b$ of an optically thin source **less** than its kinetic temperature? Under what condition are they equal?
 
-> **A4.** For an isothermal slab with no background, $I_\nu = B_\nu(T)(1-e^{-\tau_\nu})$ (Lecture 5), so in RJ $T_b = T(1-e^{-\tau})<T$, and $T_b\approx T\tau$ when $\tau\ll1$. They are equal only when $\tau_\nu\gg1$ (and the source is thermal, $S_\nu = B_\nu$).
+> **A4.** For an isothermal slab with no background, $I_\nu = B_\nu(T)(1-e^{-\tau_\nu})$ (Lecture RT5), so in RJ $T_b = T(1-e^{-\tau})<T$, and $T_b\approx T\tau$ when $\tau\ll1$. They are equal only when $\tau_\nu\gg1$ (and the source is thermal, $S_\nu = B_\nu$).

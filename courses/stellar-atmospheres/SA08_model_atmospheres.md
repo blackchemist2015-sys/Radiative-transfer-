@@ -1,6 +1,6 @@
-# Lecture 15 — Stellar Atmospheres: From the Gray Model to Real Stars
+# Lecture SA8 — Stellar Atmospheres: From the Gray Model to Real Stars
 
-> **Sources:** Collins Part II, Ch. 9 (assumptions of normal stellar atmospheres §9.1, the role of the atmosphere in setting boundary conditions); Gray, *The Observation and Analysis of Stellar Photospheres* (2005); Mihalas, *Stellar Atmospheres* (1978); Hubeny & Mihalas (2014); Vernazza, Avrett & Loeser (1981) for the VAL-C solar model; A670 Lecture 1 (applications).
+> **Sources:** Collins Part II, Ch. 9 (assumptions of normal stellar atmospheres §9.1, the role of the atmosphere in setting boundary conditions); Gray, *The Observation and Analysis of Stellar Photospheres* (2005); Mihalas, *Stellar Atmospheres* (1978); Hubeny & Mihalas (2014); Vernazza, Avrett & Loeser (1981) for the VAL-C solar model; A670 Lecture RT1 (applications).
 
 ## Learning goals
 
@@ -20,11 +20,11 @@
 
 **Real opacity is not gray.** Thousands of spectral lines block radiation in some frequency windows. The energy is pushed into other windows and back into the deeper layers, which heat up ("backwarming"), while the upper layers cool. This line blanketing changes colours, temperature structures and derived abundances.
 
-**Beyond the classical picture.** Cool stars have convection reaching into the photosphere, visible as granulation. Giants and supergiants have extended atmospheres where the plane-parallel approximation fails. Hot stars lose mass in radiation-driven winds. The Sun has a chromosphere and a million-degree corona heated by non-radiative energy. Each of these requires physics beyond the gray LTE model of Lecture 9, and modern models handle them with spherical, NLTE, time-dependent or 3D methods.
+**Beyond the classical picture.** Cool stars have convection reaching into the photosphere, visible as granulation. Giants and supergiants have extended atmospheres where the plane-parallel approximation fails. Hot stars lose mass in radiation-driven winds. The Sun has a chromosphere and a million-degree corona heated by non-radiative energy. Each of these requires physics beyond the gray LTE model of Lecture SA5, and modern models handle them with spherical, NLTE, time-dependent or 3D methods.
 
 ---
 
-## 15.1 The equations of a classical model atmosphere
+## 8.1 The equations of a classical model atmosphere
 
 **Assumptions** (Collins §9.1d, extended): plane-parallel, static, 1D, horizontally homogeneous, LTE (or NLTE), energy carried by radiation and convection, no energy sources.
 
@@ -37,13 +37,13 @@
 | equation of state | ideal gas + Saha–Boltzmann (LTE) or rate equations (NLTE) | populations, $n_e$, $\rho$ |
 | opacity | $\kappa_\nu(T,P,\text{composition})$: continuum + lines + molecules | couples everything |
 
-![Solar atmosphere and model-atmosphere iteration](../figures/L15_atmospheres.png)
+![Solar atmosphere and model-atmosphere iteration](../../figures/L15_atmospheres.png)
 
-*Figure 15.1 — Left: the layers of the solar atmosphere (schematic, after the VAL-C model of Vernazza, Avrett & Loeser 1981): the temperature falls through the photosphere to a minimum near 4200 K, rises in the chromosphere, jumps through the thin transition region (TR), and reaches 1–2 MK in the corona. Right: how a model atmosphere is computed. Start from the gray $T(\tau)$ of Lecture 9 and iterate until the flux is constant at every depth.*
+*Figure 8.1 — Left: the layers of the solar atmosphere (schematic, after the VAL-C model of Vernazza, Avrett & Loeser 1981): the temperature falls through the photosphere to a minimum near 4200 K, rises in the chromosphere, jumps through the thin transition region (TR), and reaches 1–2 MK in the corona. Right: how a model atmosphere is computed. Start from the gray $T(\tau)$ of Lecture SA5 and iterate until the flux is constant at every depth.*
 
 **Temperature correction.** At each iteration the error in flux constancy is used to correct $T(\tau)$. The classical scheme is the **Unsöld–Lucy** correction; others include the Avrett–Krook method and complete linearization.
 
-## 15.2 Non-gray effects and opacity sources
+## 8.2 Non-gray effects and opacity sources
 
 | Spectral type | $T_{\rm eff}$ [K] | Dominant continuum opacity | Notable spectral features |
 |---|---|---|---|
@@ -59,13 +59,13 @@
 2. **Backwarming:** to carry the same total flux through the blocked layers, the deeper layers become hotter.
 3. **Surface cooling:** lines are efficient emitters in the cool upper layers, which lowers the boundary temperature below the gray value.
 
-## 15.3 Convection in atmospheres
+## 8.3 Convection in atmospheres
 
 The **Schwarzschild criterion**: convection occurs if $\nabla_{\rm rad}\equiv\left(\dfrac{d\ln T}{d\ln P}\right)_{\rm rad}>\nabla_{\rm ad}$ ($\nabla_{\rm ad} = 0.4$ for a monatomic ideal gas, smaller where hydrogen ionises).
 
 For the gray atmosphere with constant $\kappa$ ($P\propto\tau$, $T^4\propto\tau+\frac23$): $\nabla_{\rm rad} = \dfrac{\tau}{4(\tau+2/3)}<\dfrac14<0.4$, so it is **stable**. In real cool stars $\kappa$ rises steeply with $T$ (H$^-$), and hydrogen ionisation lowers $\nabla_{\rm ad}$, so convection starts just below the photosphere. Its top is seen as **granulation** (cells about 1000 km across, lifetimes of about 5–10 min on the Sun). 1D models use mixing-length theory and a "microturbulence" parameter; **3D radiation-hydrodynamic** models (e.g. Stagger, CO5BOLD, MURaM, Bifrost) simulate convection directly.
 
-## 15.4 The solar atmosphere: layers and physics
+## 8.4 The solar atmosphere: layers and physics
 
 | Layer | Height [km] | $T$ | Physics | Diagnostics |
 |---|---|---|---|---|
@@ -75,15 +75,15 @@ For the gray atmosphere with constant $\kappa$ ($P\propto\tau$, $T^4\propto\tau+
 | transition region | about 2100–2300 | $10^4\to10^6$ K | steep conduction-dominated gradient | UV lines of C IV, Si IV, O V |
 | corona | > 2300 | 1–2 × 10$^6$ K | magnetic heating, collisional ionisation equilibrium (coronal approximation) | EUV and X-ray lines (Fe IX–XVI), white-light K-corona (Thomson scattering) |
 
-The rise of $T$ above the temperature minimum **cannot** be produced by radiative equilibrium. It requires mechanical or magnetic heating, and its spectral lines (H$\alpha$, Ca II, Mg II) must be modelled in NLTE (Lecture 14). In LTE, the temperature rise produces emission cores in strong lines, the thermal-inversion effect of the MIT toy model (Lecture 5).
+The rise of $T$ above the temperature minimum **cannot** be produced by radiative equilibrium. It requires mechanical or magnetic heating, and its spectral lines (H$\alpha$, Ca II, Mg II) must be modelled in NLTE (Lecture SA7). In LTE, the temperature rise produces emission cores in strong lines, the thermal-inversion effect of the MIT toy model (Lecture RT5).
 
-## 15.5 Beyond plane-parallel and static
+## 8.5 Beyond plane-parallel and static
 
 - **Sphericity.** The atmosphere's thickness is roughly $10H$, where $H = kT/(\mu m_Hg)$ is the pressure scale height. When $10H/R$ exceeds a few per cent (giants, supergiants), spherical models are needed (e.g. spherical MARCS, PHOENIX).
 - **Stellar winds.** Hot stars drive winds by the radiation force on lines (radiation-driven wind theory of Castor, Abbott & Klein, 1975). Lines form in expanding gas and show **P Cygni profiles** (blue-shifted absorption plus emission). The transfer is solved with the **Sobolev approximation** or in the comoving frame (CMFGEN, PoWR, FASTWIND).
 - **3D and time dependence.** Granulation, magnetic structures, pulsation and shocks (Miras) need 3D or time-dependent radiation-hydrodynamics. 3D NLTE analyses lowered the solar oxygen abundance by about 0.2 dex in the 2000s (Asplund et al. 2009).
 
-## 15.6 Model grids and codes
+## 8.6 Model grids and codes
 
 | Code or grid | Type | Typical use |
 |---|---|---|
@@ -95,19 +95,19 @@ The rise of $T$ above the temperature minimum **cannot** be produced by radiativ
 | Stagger, CO5BOLD, MURaM, Bifrost | 3D radiation-(magneto)hydrodynamics | granulation, solar atmosphere, abundances |
 | SYNTHE, MOOG, Turbospectrum, SME, SYNSPEC | spectrum synthesis and analysis | abundances, line profiles |
 
-## 15.7 How stellar parameters are measured
+## 8.7 How stellar parameters are measured
 
 | Parameter | Main diagnostics |
 |---|---|
 | $T_{\rm eff}$ | spectral energy distribution and colours; infrared flux method; Balmer-line wings (F–G); excitation balance of Fe I lines; line-depth ratios; interferometric angular diameter + bolometric flux |
 | $\log g$ | pressure-broadened wings (Mg I b, Ca II, Balmer lines in hot stars); ionisation balance (Fe I/Fe II); asteroseismology; mass and radius from binaries |
-| abundances | equivalent widths on the linear part of the curve of growth (Lecture 10); spectrum synthesis with LTE or NLTE and 1D or 3D models |
+| abundances | equivalent widths on the linear part of the curve of growth (Lecture SA6); spectrum synthesis with LTE or NLTE and 1D or 3D models |
 | microturbulence $\xi$ | Fe I abundance independent of equivalent width (flat part of the curve of growth) |
-| magnetic field | Zeeman splitting and Stokes $V$ (Lecture 13) |
+| magnetic field | Zeeman splitting and Stokes $V$ (Lecture RT9) |
 
 ---
 
-## Worked example 15.1 — When is an atmosphere plane-parallel?
+## Worked example 8.1 — When is an atmosphere plane-parallel?
 
 *Compute the pressure scale height $H = kT/(\mu m_Hg)$ with $\mu = 1.3$ for (a) the Sun ($T = 5772$ K, $g = 274$ m s$^{-2}$), (b) a red supergiant ($T = 4000$ K, $\log g = 0$ cgs, i.e. $g = 0.01$ m s$^{-2}$, $R = 500R_\odot$), (c) a white dwarf ($T = 10^4$ K, $\log g = 8$, $g = 10^6$ m s$^{-2}$).*
 
@@ -115,7 +115,7 @@ The rise of $T$ above the temperature minimum **cannot** be produced by radiativ
 (b) $H = 2.54\times10^9$ m $= 3.6\,R_\odot$; $10H/R = 7\,\%$, so **spherical** models are needed.
 (c) $H\approx64$ m: the whole atmosphere is a few hundred metres thick; extremely plane-parallel, with huge pressure broadening.
 
-## Worked example 15.2 — Why the gray atmosphere is not convective
+## Worked example 8.2 — Why the gray atmosphere is not convective
 
 *Show that $\nabla_{\rm rad}<0.25$ for the Eddington gray atmosphere with constant opacity, and compare with $\nabla_{\rm ad} = 0.4$.*
 
@@ -123,7 +123,7 @@ $P = g\tau/\kappa\Rightarrow d\ln P = d\ln\tau$. With $T^4 = \frac34T_{\rm eff}^
 $$\nabla_{\rm rad} = \frac{d\ln T}{d\ln\tau} = \frac{\tau}{4(\tau+2/3)}.$$
 At $\tau = 1$: 0.15; as $\tau\to\infty$: 0.25. Always below 0.4, so the gray, constant-$\kappa$ atmosphere is convectively stable. Real solar-type stars are convective just below the photosphere because $\kappa$ grows steeply with $T$ and $\nabla_{\rm ad}$ drops in the hydrogen ionisation zone.
 
-## Worked example 15.3 — Energy budget of the chromosphere
+## Worked example 8.3 — Energy budget of the chromosphere
 
 *The solar chromosphere radiates about $4\times10^3$ W m$^{-2}$ (mainly in H$\alpha$, Ca II and Mg II), and the corona about $3\times10^2$ W m$^{-2}$ in the quiet Sun. Compare with the photospheric flux.*
 
@@ -148,7 +148,7 @@ $\sigma T_{\rm eff}^4 = 6.3\times10^7$ W m$^{-2}$. Chromosphere: $4\times10^3/6.
 
 ---
 
-## Exam questions and answers — Lecture 15
+## Exam questions and answers — Lecture SA8
 
 **Q1.** List the equations of a classical 1D LTE model atmosphere and explain why it is determined by $T_{\rm eff}$, $\log g$ and composition only.
 
