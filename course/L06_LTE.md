@@ -84,6 +84,8 @@ The factor $(1-e^{-h\nu/kT})$ is the **LTE stimulated-emission correction**; it 
 | opacity and emissivity are functions of $(T,\rho)$ only | isotropic radiation |
 | once $T(\tau)$ is known, the formal solution gives $I_\nu$ directly | zero flux |
 
+> **See also Lecture 14**, which gives precise side-by-side definitions of **TE, LTE and NLTE**, with astrophysical examples of each (stellar core, early Universe; photospheric continuum, Earth's troposphere; resonance-line cores, chromospheres, nebulae, masers) and a quantitative criterion for deciding which applies.
+
 ## 6.4 Boltzmann and Saha equations
 
 **Boltzmann** (excitation within one ionisation stage):

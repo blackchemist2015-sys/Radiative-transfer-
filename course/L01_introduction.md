@@ -124,7 +124,14 @@ This compact form is the one we will use throughout the course. Lectures 2–5 d
 | 8 | Moments, diffusion and scattering | Eddington approximation, Rosseland mean, $S(0)=\sqrt{\varepsilon}B$ |
 | 9 | **The gray LTE atmosphere: full solution** | $T^4 = \tfrac34T_{\rm eff}^4(\tau+q)$, limb darkening |
 | 10 | **LTE spectral lines** and the limits of LTE | Milne–Eddington, curve of growth, NLTE |
-| — | Final exam with full solutions | |
+| **Part II** | **Deeper foundations and modern topics** | |
+| 11 | How the RTE is formed | Boltzmann equation → general RTE → special forms; energy and momentum moments |
+| 12 | Historical context of approximations and solutions | Schuster, Schwarzschild, Eddington, Milne, Hopf, Chandrasekhar → ALI, 3D |
+| 13 | Polarized light | Stokes parameters, polarized RTE, 11.7 % limb polarization, Zeeman and Hanle effects |
+| 14 | TE, LTE and non-LTE | definitions and examples, rate equations, NLTE mechanisms, solution methods (names) |
+| 15 | Stellar atmospheres | model-atmosphere equations, opacity sources, convection, solar layers, model grids |
+| 16 | Final exam with full solutions | |
+| 17 | Formula sheet | |
 
 ---
 

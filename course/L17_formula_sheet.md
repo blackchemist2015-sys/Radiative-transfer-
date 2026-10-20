@@ -66,3 +66,33 @@ $$B_\nu = \frac{2h\nu^3}{c^2}\frac1{e^{h\nu/kT}-1},\quad B_\lambda = \frac{2hc^2
 - Weak line: $W_\lambda = \pi r_e\lambda^2Nf$ · Curve of growth: $W\propto N$ → $\sqrt{\ln N}$ → $\sqrt N$
 - NLTE: $S^{\rm line} = \frac{2h\nu^3}{c^2}\left[\frac{b_l}{b_u}e^{h\nu/kT}-1\right]^{-1}$
 
+## Forming the RTE (Lecture 11)
+
+- $I_\nu = (h^4\nu^3/c^2)f$ · Boltzmann: $\partial_tf+c\hat{\mathbf n}\cdot\nabla f = (\partial_tf)_{\rm coll}$
+- General: $\frac1c\partial_tI_\nu+\hat{\mathbf n}\cdot\nabla I_\nu = -(\kappa_\nu+\sigma_\nu)\rho I_\nu+j_\nu+\frac{\sigma_\nu\rho}{4\pi}\iint RI_{\nu'}d\Omega'd\nu'$
+- Spherical: $\mu\partial_rI+\frac{1-\mu^2}{r}\partial_\mu I = \chi(S-I)$ · invariants $I_\nu/\nu^3$, $\nu\chi_\nu$, $j_\nu/\nu^2$
+- Energy: $\partial_tu+\nabla\cdot\mathbf F = 4\pi\int(j_\nu-\kappa_\nu\rho J_\nu)d\nu$ · force: $\mathbf f_{\rm rad} = \frac1c\int\chi_\nu\mathbf F_\nu d\nu$
+
+## Historical approximations (Lecture 12)
+
+- Schwarzschild ($\mu = \pm\frac12$): $T^4 = \frac12T_{\rm eff}^4(1+2\tau)$, $I(\mu)/I(1) = (1+2\mu)/3$
+- Two-stream ($\mu = \pm1/\sqrt3$): $T^4 = \frac34T_{\rm eff}^4(\tau+1/\sqrt3)$ · Eddington: $\frac34T_{\rm eff}^4(\tau+\frac23)$ · exact: $\frac34T_{\rm eff}^4(\tau+q)$
+
+## Polarization (Lecture 13)
+
+- $I = I_1+I_2$, $Q = I_1-I_2$, $U = I_{1'}-I_{2'}$, $V = I_+-I_-$ · $p = \sqrt{Q^2+U^2+V^2}/I$ · $\chi = \frac12\arctan(U/Q)$
+- $d\mathbf I/ds = -\mathsf K\mathbf I+\boldsymbol\epsilon$ (Unno–Rachkovsky with Zeeman profiles)
+- Thomson/Rayleigh: $p = \sin^2\Theta/(1+\cos^2\Theta)$ · electron-scattering atmosphere: $p(\mu = 0) = 11.7\,\%$
+- Zeeman: $\Delta\lambda_B = 4.67\times10^{-13}g\lambda^2B$ (λ, Δλ in Å; B in G) · weak field: $V\approx-\Delta\lambda_B\cos\gamma\,\partial I/\partial\lambda$
+
+## TE, LTE, NLTE (Lecture 14)
+
+- TE: $I_\nu = B_\nu(T)$ · LTE: $S_\nu = B_\nu(T(\mathbf r))$ · NLTE: rate equations, $S_\nu\ne B_\nu$
+- Statistical equilibrium: $n_i\sum_j(R_{ij}+C_{ij}) = \sum_jn_j(R_{ji}+C_{ji})$ · $b_i = n_i/n_i^{\rm LTE}$
+- $S^{\rm line} = \frac{2h\nu^3}{c^2}\left[\frac{b_l}{b_u}e^{h\nu/kT}-1\right]^{-1}\approx\frac{b_u}{b_l}B_\nu$ · criterion: $n_e$ vs $n_{\rm crit} = A\beta_{\rm esc}/q$
+
+## Stellar atmospheres (Lecture 15)
+
+- $dP/d\tau = g/\kappa$ · $F_{\rm rad}+F_{\rm conv} = \sigma T_{\rm eff}^4$ · scale height $H = kT/(\mu m_Hg)$
+- Convection if $\nabla_{\rm rad}>\nabla_{\rm ad}$ (0.4 ideal monatomic); gray atmosphere: $\nabla_{\rm rad} = \tau/[4(\tau+2/3)]<0.25$
+

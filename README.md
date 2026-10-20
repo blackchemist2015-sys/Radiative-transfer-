@@ -1,6 +1,6 @@
 # Radiative Transfer: a Graduated Course for Pre-Master Students (with LTE Solutions)
 
-A self-contained, illustrated course in **radiative transfer** for students preparing for an **Astrophysics master's programme**. It is built in 10 lectures that go from the definition of specific intensity to the full solution of the **gray LTE stellar atmosphere** and **LTE line formation**. Every lecture follows the same structure:
+A self-contained, illustrated course in **radiative transfer** for students preparing for an **Astrophysics master's programme**. Part I (10 lectures) goes from the definition of specific intensity to the full solution of the **gray LTE stellar atmosphere** and **LTE line formation**. Part II (5 lectures) covers how the transfer equation is formed, the history of approximations and solutions, polarized light, TE/LTE/non-LTE, and stellar atmospheres. Every lecture follows the same structure:
 
 1. **Learning goals**
 2. **Key concepts in plain words**: each idea explained physically, with everyday analogies, before any mathematics
@@ -26,8 +26,14 @@ A self-contained, illustrated course in **radiative transfer** for students prep
 | 8 | [Moments, diffusion and scattering](course/L08_moments_diffusion_scattering.md) | Eddington approximation, Rosseland mean, $S(0) = \sqrt\varepsilon B$, Λ-iteration |
 | 9 | [**The gray LTE atmosphere — complete solution**](course/L09_gray_LTE_atmosphere.md) | $T^4 = \tfrac34T_{\rm eff}^4(\tau+q)$, Hopf function, $H$-function, emergent spectrum |
 | 10 | [**LTE spectral lines** and the limits of LTE](course/L10_LTE_lines_and_beyond.md) | Milne–Eddington, curve of growth, abundances, NLTE |
-| 11 | [Final exam with complete solutions](course/L11_final_exam_solutions.md) | 15 short questions, 12 problems, 2 essays |
-| 12 | [Formula sheet](course/L12_formula_sheet.md) | all key results on 2 pages |
+| | **Part II — deeper foundations and modern topics** | |
+| 11 | [How the radiative transfer equation is formed](course/L11_forming_the_RTE.md) | Boltzmann equation → general RTE → special forms; energy and momentum moments |
+| 12 | [Historical context of approximations and solutions](course/L12_history_of_approximations.md) | Schuster, Schwarzschild, Eddington, Milne, Hopf, Chandrasekhar; numerical era |
+| 13 | [Polarized light](course/L13_polarized_light.md) | Stokes parameters, polarized RTE, 11.7 % limb polarization, Zeeman and Hanle effects |
+| 14 | [**TE, LTE and non-LTE**: definitions, examples, methods](course/L14_TE_LTE_NLTE.md) | side-by-side definitions with examples, rate equations, NLTE mechanisms, solution methods (names) |
+| 15 | [Stellar atmospheres](course/L15_stellar_atmospheres.md) | model-atmosphere equations, opacity sources, convection, solar layers, model grids, diagnostics |
+| 16 | [Final exam with complete solutions](course/L16_final_exam_solutions.md) | 15 short questions, 12 problems, 2 essays, 5 Part II questions |
+| 17 | [Formula sheet](course/L17_formula_sheet.md) | all key results, Parts I and II |
 
 ## How to study
 
@@ -83,6 +89,6 @@ The solvers reproduce known exact results: $q(0) = 1/\sqrt3$, $q(\infty) = 0.710
 2. W. Hu, *Astro 305 Lecture Notes, Set 1: Radiative Transfer*, University of Chicago.
 3. MIT 8.901 *Astrophysics I* (Spring 2019), Lecture 7: *Radiative Transfer*. Its three-step build-up of the RTE, Kirchhoff's law for thick and thin objects, the thin hydrogen cloud, the two-layer stellar atmosphere and thermal inversions are reproduced (with computed figures) in Lecture 5, and cross-referenced in Lectures 6 and 10.
 4. G. W. Collins II, *The Fundamentals of Stellar Astrophysics* (2003), Part II, Ch. 9: *The Flow of Radiation Through the Atmosphere*.
-5. S. Chandrasekhar, *Radiative Transfer* (Oxford 1950; Dover 1960), Chs. I, III, V, XII.
+5. S. Chandrasekhar, *Radiative Transfer* (Oxford 1950; Dover 1960), Chs. I, III, V, X, XII.
 
 Further reading: Rybicki & Lightman, *Radiative Processes in Astrophysics*; Mihalas, *Stellar Atmospheres*; Gray, *The Observation and Analysis of Stellar Photospheres*; Hubeny & Mihalas, *Theory of Stellar Atmospheres*.

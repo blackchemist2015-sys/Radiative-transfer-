@@ -1,6 +1,6 @@
 # Final Examination — Radiative Transfer (with complete solutions)
 
-> **Format suggestion:** 3 hours. Part A (30 %): short answers. Part B (70 %): problems; answer any 8 of the 12. The solutions follow each question. All numbers were checked with `scripts/worked_examples.py` and the solvers in `scripts/lte_solvers.py`.
+> **Format suggestion:** 3 hours. Part A (25 %): short answers. Part B (55 %): problems; answer any 8 of the 12. Part C: essay. Part D (20 %): Part II topics (Lectures 11–15). The solutions follow each question. All numbers were checked with `scripts/worked_examples.py` and the solvers in `scripts/lte_solvers.py`.
 > Constants: $h = 6.626\times10^{-34}$ J s, $k = 1.381\times10^{-23}$ J K$^{-1}$, $c = 2.998\times10^8$ m s$^{-1}$, $\sigma = 5.670\times10^{-8}$ W m$^{-2}$ K$^{-4}$, $m_e = 9.109\times10^{-31}$ kg, $m_H = 1.674\times10^{-27}$ kg, $r_e = 2.818\times10^{-15}$ m, $\sigma_T = 6.652\times10^{-29}$ m$^2$, $R_\odot = 6.957\times10^8$ m, 1 pc $= 3.086\times10^{16}$ m, 1 eV $= 1.602\times10^{-19}$ J.
 > $\int_0^\infty E_n(t)\,dt = \dfrac1n$, $\int_0^\infty t\,E_n(t)\,dt = \dfrac{1}{n+1}$, $E_n(0) = \dfrac1{n-1}$.
 
@@ -165,3 +165,28 @@ In an LTE atmosphere $B_\nu = B_0(1+\beta\tau_c)$, and a line has a constant rat
 **C2.** Describe how a model stellar atmosphere is computed, starting from the gray LTE solution, and how its predictions are compared with observations.
 
 > **Model answer outline.** Inputs $T_{\rm eff}$, $\log g$, composition → gray starting $T(\tau) = [\frac34T_{\rm eff}^4(\tau+q)]^{1/4}$ → hydrostatic $P(\tau)$ from $dP/d\tau = g/\kappa$ → Saha–Boltzmann populations → $\kappa_\nu,\ j_\nu$ → solve the RTE at many frequencies (formal solution, or Feautrier/ALI with scattering) → check radiative equilibrium $\int\kappa_\nu(J_\nu-B_\nu)d\nu = 0$ and constant flux → temperature correction (Unsöld–Lucy) → iterate to convergence → emergent spectrum, limb darkening, line profiles (Milne–Eddington intuition, curve of growth) → compare with observed spectra, colours, Balmer jump and line equivalent widths → derive $T_{\rm eff}$, $g$ and abundances.
+
+---
+
+## Part D — Part II topics (Lectures 11–15), 4 marks each
+
+**D1.** (Lecture 11) Show how the term $\frac{1-\mu^2}{r}\frac{\partial I}{\partial\mu}$ arises in the spherical RTE, and state when it may be neglected.
+
+> **Solution.** Along a straight ray with impact parameter $p$: $r^2 = p^2+z^2$, $\mu = z/r$, so $dr/dz = \mu$ and $d\mu/dz = (1-\mu^2)/r$. Then $dI/dz = \mu\,\partial_rI+\frac{1-\mu^2}{r}\partial_\mu I$. The term describes the change of a ray's angle to the local vertical. It is negligible when the atmosphere is thin compared with $r$ (about $10H\ll R$), e.g. the Sun.
+
+**D2.** (Lecture 12) Schwarzschild (1906) used two streams at $\mu = \pm\frac12$ and found $T^4 = \frac12T_{\rm eff}^4(1+2\tau)$. Derive the corresponding limb-darkening law and compare $I(0)/I(1)$ with the exact gray value 0.344.
+
+> **Solution.** $S\propto1+2\tau$ is linear, so Eddington–Barbier is exact: $I(0,\mu)\propto1+2\mu$ and $I(\mu)/I(1) = (1+2\mu)/3$. At the limb, $I(0)/I(1) = 1/3 = 0.333$, only 3 % below the exact 0.344 (Eddington's approximation gives 0.400).
+
+**D3.** (Lecture 13) Light is measured through filters: $I_1 = 0.55$, $I_2 = 0.45$, $I_{1'} = 0.50$, $I_{2'} = 0.50$, $I_+ = 0.52$, $I_- = 0.48$ (units of the total). Find $p$, $p_L$ and $p_V$. Which physical process could produce circular polarization in a stellar line?
+
+> **Solution.** $I = 1$, $Q = 0.10$, $U = 0$, $V = 0.04$. Then $p = \sqrt{0.01+0.0016} = 0.108$, $p_L = 0.10$, $p_V = 0.04$. Circular polarization in a spectral line comes from the Zeeman effect with a magnetic field component along the line of sight ($V\propto B\cos\gamma\,\partial I/\partial\lambda$ in the weak-field limit).
+
+**D4.** (Lecture 14) Classify as TE, LTE or NLTE, with one sentence of justification each: (a) radiation 0.5 $R_\odot$ from the centre of the Sun; (b) the continuum at 500 nm in the solar photosphere; (c) the core of the Ca II K line; (d) [O III] 500.7 nm in a planetary nebula with $n_e = 10^{10}$ m$^{-3}$.
+
+> **Solution.** (a) **TE**: the photon mean free path (cm) is $10^{-10}$ of the temperature scale height, so the radiation is isotropic and Planckian at the local $T$. (b) **LTE**: H$^-$ populations are set by collisions at $n_e\sim10^{19}$–$10^{20}$ m$^{-3}$, so $S = B$, although $I\neq B$ at the surface. (c) **NLTE**: a strong resonance line forming high in the low-density chromosphere, with photon losses ($S<B$) and non-radiative heating. (d) **NLTE**: $n_e\approx0.016\,n_{\rm crit}$, so every collisional excitation is followed by radiative decay.
+
+**D5.** (Lecture 15) Explain line blanketing and backwarming, and name the dominant continuum opacity source in (a) an O star, (b) an A0 star, (c) the Sun, (d) an M dwarf.
+
+> **Solution.** Many lines block flux (mainly in the UV). The energy must still escape, so it is redistributed to other frequencies and partly returned to deeper layers, which become hotter (backwarming), while the outer layers cool. Opacity sources: (a) electron scattering and He bound-free; (b) H I bound-free (Balmer continuum); (c) H$^-$ bound-free and free-free; (d) H$^-$ plus molecules (TiO, H$_2$O).
+

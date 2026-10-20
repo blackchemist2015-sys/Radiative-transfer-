@@ -606,10 +606,187 @@ def fig_mit_two_layer():
     save(fig, "L05_mit_two_layer.png")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and "--part2" not in sys.argv:
     np.random.seed(1)
     fig_overview(); fig_intensity_geometry(); fig_constancy(); fig_planck()
     fig_processes(); fig_random_walk(); fig_slab(); fig_saha(); fig_regimes()
     fig_plane_parallel(); fig_En(); fig_eddington_barbier(); fig_scattering()
     fig_two_stream(); fig_gray(); fig_gray_spectrum(); fig_lines()
     fig_mit_rte_panels(); fig_mit_two_layer()
+    fig_rte_element(); fig_rte_hierarchy(); fig_history(); fig_polarization(); fig_nlte(); fig_solar_atmosphere()
+
+
+# =====================================================================
+# Part II figures (Lectures 11-15)
+# =====================================================================
+def fig_rte_element():
+    """Lecture 11: bookkeeping of a pencil of radiation through a cylinder."""
+    fig, ax = plt.subplots(figsize=(10, 4.8))
+    ax.set_xlim(0, 10); ax.set_ylim(-0.4, 5.4); ax.axis("off")
+    ax.add_patch(Ellipse((2.5, 2.2), 0.6, 1.8, fc="#9ec5e8", ec=C[0], lw=1.5))
+    ax.add_patch(Ellipse((7.5, 2.2), 0.6, 1.8, fc="#9ec5e8", ec=C[0], lw=1.5, alpha=.6))
+    ax.plot([2.5, 7.5], [3.1, 3.1], color=C[0], lw=1.2); ax.plot([2.5, 7.5], [1.3, 1.3], color=C[0], lw=1.2)
+    ax.text(2.5, 0.95, r"$dA$", ha="center", color=C[0], fontsize=12)
+    ax.annotate("", (7.5, 0.75), (2.5, 0.75), arrowprops=dict(arrowstyle="<->", color="k"))
+    ax.text(5, 0.45, r"$ds$", ha="center", fontsize=12)
+    arrow(ax, (0.3, 2.2), (2.2, 2.2), color=C[1], lw=2.6)
+    ax.text(1.2, 2.45, r"$I_\nu(s)$", color=C[1], ha="center", fontsize=12)
+    arrow(ax, (7.8, 2.2), (9.7, 2.2), color=C[1], lw=2.6)
+    ax.text(8.8, 2.45, r"$I_\nu(s+ds)$", color=C[1], ha="center", fontsize=12)
+    # losses
+    arrow(ax, (4.0, 2.6), (4.0, 4.1), color=C[5], lw=1.5); ax.text(4.05, 4.15, "absorbed\n" r"$-\kappa_\nu\rho I_\nu ds$", fontsize=9.5, va="bottom")
+    arrow(ax, (5.0, 2.4), (5.9, 3.9), color=C[4], lw=1.5); ax.text(5.9, 3.95, "scattered out\n" r"$-\sigma_\nu\rho I_\nu ds$", fontsize=9.5, va="bottom")
+    # gains
+    arrow(ax, (3.6, 0.0 + 0.2), (4.2, 1.9), color=C[2], lw=1.5); ax.text(2.2, -0.15, r"emitted $+j_\nu ds$", fontsize=9.5, color=C[2])
+    arrow(ax, (6.6, 0.2), (6.0, 1.9), color=C[3], lw=1.5); ax.text(6.75, -0.15, "scattered in\n" r"$+\sigma_\nu\rho J_\nu ds$", fontsize=9.5, color=C[3])
+    ax.text(5.0, 5.15, r"$I_\nu(s+ds)-I_\nu(s)=$ gains $-$ losses", ha="center", fontsize=12, color=C[0])
+    save(fig, "L11_rte_element.png")
+
+
+def fig_rte_hierarchy():
+    fig, ax = plt.subplots(figsize=(10, 6.6))
+    ax.set_xlim(0, 10); ax.set_ylim(-1.05, 10.4); ax.axis("off")
+    boxes = [
+        (9.6, "Boltzmann equation for photons",
+         r"$\partial_t f+c\,\hat{n}\cdot\nabla f+\dot{p}\,\partial_p f=(\partial_t f)_{\rm coll}$"),
+        (7.6, r"multiply by $h^4\nu^3/c^3$, use $I_\nu=(h^4\nu^3/c^2)f$",
+         r"$\frac{1}{c}\partial_t I_\nu+\hat{n}\cdot\nabla I_\nu=j_\nu-\alpha_\nu I_\nu+$ scattering in"),
+        (5.6, r"static medium ($t_{\rm light}\ll t_{\rm evol}$), no refraction or gravity",
+         r"$\frac{dI_\nu}{ds}=j_\nu-\alpha_\nu I_\nu$  (along a straight ray)"),
+        (3.6, r"plane-parallel layers, $\mu=\cos\theta$, $d\tau=-\alpha dz$",
+         r"$\mu\frac{dI_\nu}{d\tau_\nu}=I_\nu-S_\nu$"),
+        (1.6, "integrating factor, boundary conditions",
+         r"$I_\nu(0,\mu)=\int_0^\infty S_\nu e^{-\tau/\mu}d\tau/\mu$"),
+        (-0.2, r"moments: $\frac{dH}{d\tau}=J-S$, $\frac{dK}{d\tau}=H$; closure $K=J/3$", ""),
+    ]
+    for i, (y, cap, eq) in enumerate(boxes):
+        ax.add_patch(Rectangle((0.6, y - 0.7), 8.8, 1.4, fc=plt.cm.Blues(0.12 + 0.07 * i), ec=C[0], lw=1))
+        ax.text(5, y + (0.35 if eq else 0), cap, ha="center", va="center", fontsize=10.5)
+        if eq:
+            ax.text(5, y - 0.25, eq, ha="center", va="center", fontsize=11.5, color=C[0])
+        if i < len(boxes) - 1:
+            arrow(ax, (5, y - 0.72), (5, boxes[i + 1][0] + 0.72), color="k", lw=1.2, ms=10)
+    save(fig, "L11_rte_hierarchy.png")
+
+
+def fig_history():
+    fig, ax = plt.subplots(figsize=(12, 5.2))
+    ax.set_xlim(1895, 2025); ax.set_ylim(-4.4, 3.6); ax.axis("off")
+    ax.plot([1897, 2023], [0, 0], color="k", lw=1.5)
+    for yr in range(1900, 2021, 20):
+        ax.plot([yr, yr], [-0.12, 0.12], color="k"); ax.text(yr, -0.42, str(yr), ha="center", fontsize=9.5)
+    ax.axvspan(1895, 1960, ymin=0.5, ymax=1, color=C[0], alpha=0.06)
+    ax.axvspan(1960, 2025, ymin=0, ymax=0.5, color=C[1], alpha=0.06)
+    ax.text(1897, 3.35, "analytic era: approximations & exact solutions", fontsize=10.5, color=C[0], weight="bold")
+    ax.text(2023, -4.25, "numerical era: computers, NLTE, 3D", fontsize=10.5, color=C[1], weight="bold", ha="right")
+    up = [(1905, "Schuster: two-stream\nscattering atmosphere", 1.0), (1906, "Schwarzschild:\nradiative equilibrium", 2.3),
+          (1921, "Milne: integral\nequations", 1.0), (1926, "Eddington\napproximation", 2.3), (1934, "Hopf: exact\ngray solution", 1.0),
+          (1943, "Ambartsumian:\ninvariance", 2.3), (1950, "Chandrasekhar:\ndiscrete ordinates,\nH-functions, polarization", 1.0)]
+    down = [(1957, "Sobolev:\nmoving envelopes", -0.8), (1964, "Feautrier\nmethod", -1.9), (1969, "Auer & Mihalas:\ncomplete\nlinearization", -2.95),
+            (1973, "Cannon:\noperator\nperturbation", -0.8), (1986, "Olson, Auer &\nBuchler: ALI", -1.9), (1987, "short\ncharacteristics", -0.8),
+            (1995, "Hubeny & Lanz: CL/ALI;\nTrujillo Bueno: GS/SOR", -2.95), (2005, "3D radiation-\nhydrodynamics", -0.8)]
+    for yr, lab, y in up + down:
+        ax.plot([yr, yr], [0, y * (0.75 if y > 0 else 0.92)], color=C[0] if y > 0 else C[1], lw=1)
+        ax.plot(yr, 0, "o", color=C[0] if y > 0 else C[1], ms=6)
+        ax.text(yr, y, lab, ha="center", va="bottom" if y > 0 else "top", fontsize=8.8)
+    save(fig, "L12_history.png")
+
+
+def fig_polarization():
+    fig, axs = plt.subplots(1, 2, figsize=(11.5, 4.4))
+    ax = axs[0]
+    th = np.linspace(0, 2 * np.pi, 300)
+    a, b, chi = 1.0, 0.45, np.radians(30)
+    x = a * np.cos(th) * np.cos(chi) - b * np.sin(th) * np.sin(chi)
+    y = a * np.cos(th) * np.sin(chi) + b * np.sin(th) * np.cos(chi)
+    ax.plot(x, y, color=C[0], lw=2.2)
+    ax.annotate("", (x[40], y[40]), (x[30], y[30]), arrowprops=dict(arrowstyle="-|>", color=C[0], lw=1.5))
+    ax.axhline(0, color="k", lw=.8); ax.axvline(0, color="k", lw=.8)
+    ax.plot([0, 1.2 * np.cos(chi)], [0, 1.2 * np.sin(chi)], "--", color=C[1])
+    ax.text(0.45, 0.08, r"$\chi$", fontsize=13, color=C[1])
+    ax.text(1.18, -0.12, r"$E_x$"); ax.text(0.04, 1.12, r"$E_y$")
+    ax.set_aspect("equal"); ax.set_xlim(-1.3, 1.3); ax.set_ylim(-1.3, 1.3); ax.grid(False)
+    ax.set_xticks([]); ax.set_yticks([])
+    ax.set_title("Polarization ellipse traced by the electric vector")
+    ax.text(-1.25, -1.25, r"$Q=I_p\cos2\beta\cos2\chi$" "\n" r"$U=I_p\cos2\beta\sin2\chi$" "\n" r"$V=I_p\sin2\beta$,  $\tan\beta=b/a$",
+            fontsize=10, va="bottom")
+    ax = axs[1]
+    mu = np.arange(0, 1.0001, 0.05)
+    deg = np.array([.11713, .08979, .07448, .06311, .05410, .04667, .04041, .03502, .03033, .02619, .02252, .01923, .01627, .01358,
+                    .011123, .008880, .006818, .004919, .003155, .001522, 0])
+    Il = np.array([.28823, .34053, .38203, .42070, .45782, .49394, .52939, .56432, .59888, .63313, .66714, .70095, .73459, .76809,
+                   .80147, .83475, .86794, .90105, .93409, .96707, 1.0])
+    Ir = np.array([.36470, .40771, .44352, .47739, .51019, .54231, .57397, .60529, .63634, .66719, .69788, .72844, .75888, .78924,
+                   .81950, .84971, .87986, .90996, .94001, .97002, 1.0])
+    ax.plot(mu, 100 * deg, "o-", color=C[1], ms=4, label="degree of polarization [%]")
+    ax.set_xlabel(r"$\mu=\cos\theta$  (1 = disk centre, 0 = limb)"); ax.set_ylabel("polarization [%]")
+    ax.set_title("Electron-scattering atmosphere (Chandrasekhar 1950, Table XXIV)")
+    ax2 = ax.inset_axes([0.45, 0.45, 0.5, 0.48])
+    ax2.plot(mu, Il, color=C[0], label=r"$I_l$ (E in meridian plane)"); ax2.plot(mu, Ir, color=C[2], ls="--", label=r"$I_r$ (E parallel to limb)")
+    ax2.set_title("law of darkening, two polarizations", fontsize=8.5); ax2.tick_params(labelsize=8); ax2.legend(fontsize=7.5, loc="lower right")
+    ax.text(0.02, 11.9, "11.7 % at the limb", fontsize=9.5)
+    save(fig, "L13_polarization.png")
+
+
+def fig_nlte():
+    fig, axs = plt.subplots(1, 2, figsize=(11.5, 4.4))
+    ax = axs[0]
+    ax.set_xlim(0, 10); ax.set_ylim(0, 6); ax.axis("off")
+    ax.plot([2, 8], [1, 1], "k", lw=2); ax.plot([2, 8], [4.6, 4.6], "k", lw=2)
+    ax.text(8.2, 0.95, "lower level 1", va="center"); ax.text(8.2, 4.55, "upper level 2", va="center")
+    arrow(ax, (3, 1.05), (3, 4.55), color=C[0], lw=1.8); ax.text(2.9, 2.8, r"$n_1B_{12}\bar J$", ha="right", color=C[0])
+    arrow(ax, (4.2, 4.55), (4.2, 1.05), color=C[0], lw=1.8); ax.text(4.3, 2.8, r"$n_2(A_{21}+B_{21}\bar J)$", ha="left", color=C[0])
+    arrow(ax, (6.6, 1.05), (6.6, 4.55), color=C[1], lw=1.8, style="-|>"); ax.text(6.5, 3.6, r"$n_1C_{12}$", ha="right", color=C[1])
+    arrow(ax, (7.4, 4.55), (7.4, 1.05), color=C[1], lw=1.8); ax.text(7.5, 2.0, r"$n_2C_{21}$", ha="left", color=C[1])
+    ax.text(5, 5.5, "radiative (blue) vs collisional (orange) rates", ha="center", fontsize=10.5)
+    ax.text(5, 0.25, r"statistical equilibrium: rates in = rates out", ha="center", fontsize=10.5)
+    ax = axs[1]
+    beta = 0.2
+    tt = rt.tau_grid(tau_max=5000.0, n=240)
+    L = rt.lambda_matrix(tt)
+    keep = tt <= 300
+    for eps, col in zip((1.0, 0.1, 1e-2, 1e-3), C):
+        A = np.eye(len(tt)) - (1 - eps) * L
+        S = np.linalg.solve(A, eps * (1 + beta * tt))
+        ax.semilogx(np.maximum(tt[keep], 1e-4), (S / (1 + beta * tt))[keep], color=col, lw=2,
+                    label=fr"$\varepsilon={eps:g}$" + (" (LTE)" if eps == 1 else f", $S(0)/B(0)={S[0]/1:.3f}$"))
+    ax.set_xlim(1e-4, 300); ax.set_ylim(0, 1.05)
+    ax.set_xlabel(r"line optical depth $\tau$"); ax.set_ylabel(r"$S^{\rm line}/B$")
+    ax.set_title(r"Two-level atom, $B=B_0(1+0.2\tau)$: NLTE source function")
+    ax.legend(loc="lower right")
+    save(fig, "L14_nlte.png")
+
+
+def fig_solar_atmosphere():
+    fig, axs = plt.subplots(1, 2, figsize=(12, 4.6))
+    ax = axs[0]
+    h = np.array([-100, 0, 100, 200, 300, 400, 500, 600, 800, 1000, 1200, 1500, 1800, 2000, 2100, 2150, 2200, 2250, 2300, 2400, 3000, 6000])
+    T = np.array([7800, 6420, 5650, 5150, 4750, 4400, 4170, 4250, 5300, 6000, 6300, 6600, 7000, 7500, 8500, 1.5e4, 5e4, 2e5, 5e5, 9e5, 1.3e6, 1.6e6])
+    ax.semilogy(h, T, color=C[1], lw=2.5)
+    for x0, x1, lab, col in ((-100, 500, "photosphere", C[3]), (500, 2100, "chromosphere", C[1]), (2100, 2300, "TR", C[4]), (2300, 6000, "corona", C[0])):
+        ax.axvspan(x0, x1, color=col, alpha=.1)
+        ax.text((x0 + x1) / 2 if lab != "TR" else 2200, 2.5e6, lab, ha="center", fontsize=9.5)
+    ax.annotate("temperature minimum\n~4200 K", (500, 4170), (900, 2200), arrowprops=dict(arrowstyle="->"), fontsize=9.5)
+    ax.annotate(r"$\tau_{500}=1$", (0, 6420), (-80, 1.5e4), arrowprops=dict(arrowstyle="->"), fontsize=9.5)
+    ax.set_xlim(-100, 6000); ax.set_ylim(2e3, 4e6)
+    ax.set_xlabel("height above $\\tau_{500}=1$ [km]"); ax.set_ylabel("temperature [K]")
+    ax.set_title("Solar atmosphere (schematic, after the VAL-C model)")
+    ax = axs[1]
+    ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis("off")
+    steps = ["inputs: $T_{\\rm eff}$, $\\log g$, composition, $\\xi$", "starting model: gray $T(\\tau)$",
+             "hydrostatic equilibrium → $P(\\tau)$", "EOS: Saha–Boltzmann (LTE) or rate equations (NLTE)",
+             "opacities $\\kappa_\\nu$, $j_\\nu$ at ~$10^{5}$ frequencies", "solve RTE → $J_\\nu$, $F_\\nu$",
+             "check flux constancy + radiative/convective equilibrium", "correct $T(\\tau)$ (Unsöld–Lucy) → iterate"]
+    for i, s_ in enumerate(steps):
+        y = 9.3 - i * 1.18
+        ax.add_patch(Rectangle((0.4, y - 0.42), 8.6, 0.84, fc=plt.cm.Oranges(0.1 + 0.05 * i), ec=C[1], lw=1))
+        ax.text(4.7, y, s_, ha="center", va="center", fontsize=9.8)
+        if i < len(steps) - 1:
+            arrow(ax, (4.7, y - 0.44), (4.7, y - 0.74), color="k", lw=1, ms=8)
+    ax.annotate("", (9.2, 6.95), (9.2, 1.05), arrowprops=dict(arrowstyle="-|>", color=C[1], lw=1.5, connectionstyle="arc3,rad=-0.3"))
+    ax.set_title("Computing a model atmosphere")
+    save(fig, "L15_atmospheres.png")
+
+
+if __name__ == "__main__" and "--part2" in sys.argv:
+    fig_rte_element(); fig_rte_hierarchy(); fig_history(); fig_polarization(); fig_nlte(); fig_solar_atmosphere()
