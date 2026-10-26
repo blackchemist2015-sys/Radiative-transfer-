@@ -1152,9 +1152,38 @@ def fig_novotny_model():
     fig.tight_layout(); save(fig, "SA5_novotny_model.png")
 
 
+def fig_crd_thermalization():
+    """Mihalas Ch. 11: coherent scattering vs complete redistribution (Doppler profile)."""
+    fig, axs = plt.subplots(1, 2, figsize=(12, 4.4))
+    ax = axs[0]
+    for eps, col in zip((1e-2, 1e-3), (C[0], C[1])):
+        t, S = rt.solve_scattering_atmosphere(eps)
+        ax.semilogx(np.maximum(t, 1e-3), S, color=col, ls="--", lw=1.8, label=fr"coherent, $\varepsilon={eps:g}$")
+        t, S = rt.solve_two_level_crd(eps)
+        ax.semilogx(np.maximum(t, 1e-3), S, color=col, lw=2.4, label=fr"CRD Doppler, $\varepsilon={eps:g}$")
+        ax.axhline(np.sqrt(eps), color=col, ls=":", lw=1)
+    ax.set_xlim(1e-3, 3e4); ax.set_ylim(0, 1.05)
+    ax.set_xlabel(r"line-centre optical depth $\tau$"); ax.set_ylabel(r"$S/B$")
+    ax.set_title("Same surface value $\\sqrt{\\varepsilon}\\,B$, very different depths")
+    ax.legend(fontsize=8.5, loc="upper left")
+    ax = axs[1]
+    eps_list = np.array([1e-1, 3e-2, 1e-2, 3e-3, 1e-3])
+    th_coh, th_crd = [], []
+    for eps in eps_list:
+        t, S = rt.solve_scattering_atmosphere(eps); th_coh.append(np.interp(0.9, S, t))
+        t, S = rt.solve_two_level_crd(eps); th_crd.append(np.interp(0.9, S, t))
+    ax.loglog(1 / eps_list, th_coh, "o--", color=C[2], label="coherent: grows as $1/\\sqrt{\\varepsilon}$")
+    ax.loglog(1 / eps_list, th_crd, "s-", color=C[3], label="CRD, Doppler: grows as $\\sim1/\\varepsilon$")
+    x = 1 / eps_list
+    ax.loglog(x, 1.3 * np.sqrt(x), color=C[2], lw=0.8, alpha=.6); ax.loglog(x, 0.62 * x, color=C[3], lw=0.8, alpha=.6)
+    ax.set_xlabel(r"$1/\varepsilon$ (scatterings before destruction)"); ax.set_ylabel(r"depth where $S=0.9\,B$")
+    ax.set_title("Thermalization depth"); ax.legend(fontsize=9)
+    fig.tight_layout(); save(fig, "SA3_crd_thermalization.png")
+
+
 def all_concept_figs():
     all_concept_maps(); fig_flux_vs_intensity(); fig_interactions(); fig_formal_contributions(); fig_te_lte_nlte(); fig_line_formation_depth()
-    fig_novotny_model()
+    fig_novotny_model(); fig_crd_thermalization()
 
 
 if __name__ == "__main__" and "--concepts" in sys.argv:

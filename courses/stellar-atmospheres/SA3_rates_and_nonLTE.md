@@ -1,6 +1,6 @@
 # Lecture SA3 — Transition Rates, Statistical Equilibrium and Non-LTE
 
-> **Sources:** Mihalas, *Stellar Atmospheres* (1978) Chs. 5, 11–12 (rates, statistical equilibrium, NLTE line formation); Collins §9.1; R. N. Thomas (1965); Hubeny & Mihalas, *Theory of Stellar Atmospheres* (2014); Osterbrock & Ferland, *Astrophysics of Gaseous Nebulae* (2006); van Regemorter (1962); Drawin (1968).
+> **Sources:** Mihalas, *Stellar Atmospheres* (1978) Ch. 4 (§§4-1, 4-3: Einstein and Einstein–Milne relations), Ch. 5 (equations of statistical equilibrium), Ch. 11 (§11-1 diffusion, destruction, escape and thermalization; §11-2 the two-level atom) and Ch. 12 (multilevel atoms, complete linearization); Collins §9.1; R. N. Thomas (1965); Hubeny & Mihalas, *Theory of Stellar Atmospheres* (2014); Osterbrock & Ferland, *Astrophysics of Gaseous Nebulae* (2006); van Regemorter (1962); Drawin (1968).
 
 ![Concept map of Lecture SA3](../../figures/SA3_map.png)
 
@@ -93,6 +93,27 @@ NLTE abundance corrections are about −0.2 dex for the O I 777 nm triplet in th
 - *Iteration schemes:* Λ-iteration; core saturation; accelerated Λ-iteration (ALI) and multilevel ALI (MALI); Gauss–Seidel and SOR; multigrid; Ng acceleration; Krylov methods (GMRES, BiCGStab); complete linearization; hybrid CL/ALI; variable Eddington factors; the equivalent two-level atom; escape-probability and Sobolev methods; comoving-frame and partial-redistribution (PRD) schemes.
 - *Codes:* MULTI, MULTI3D, RH, Lightweaver, DETAIL/SURFACE, TLUSTY/SYNSPEC, PHOENIX, CMFGEN, FASTWIND, PoWR, Balder, Cloudy, MOCASSIN, LIME, RADEX.
 
+## 3.5 How deep does the surface reach? Escape, destruction and redistribution (Mihalas Ch. 11)
+
+Mihalas organises NLTE line formation around three lengths. The **mean free path** is the flight between absorptions. The **destruction length** is how far a photon wanders before a collision or the continuum destroys it (probability $P_d = \varepsilon$ per scattering). The **thermalization depth** $\Lambda$ is the greatest depth from which photons still have a fair chance of escaping before they are destroyed. Mihalas estimates it by setting the escape probability equal to the destruction probability, $P_e(\Lambda) = \varepsilon$.
+
+**Redistribution changes everything.** In *coherent* scattering a photon absorbed in the opaque line core is re-emitted in the core and stays trapped. With *complete redistribution* (CRD), which is realistic for most lines, every re-emission picks a new frequency from the profile. Sooner or later the photon lands in a transparent wing and escapes from far below the core's $\tau = 1$. The interaction kernel then has long-range tails: it falls off as $1/s^2$ for a Doppler profile, against $e^{-s}/s$ for coherent scattering. The surface therefore "reaches" much deeper.
+
+| Scattering | Thermalization depth $\Lambda$ (Mihalas eq. 11-26) |
+|---|---|
+| coherent, monochromatic | $\sim1/\sqrt\varepsilon$ |
+| CRD, Doppler profile | $\sim1/\varepsilon$ |
+| CRD, Voigt profile (damping $a$) | $\sim a/\varepsilon^2$ |
+| CRD, Lorentz profile | $\sim1/\varepsilon^2$ |
+
+**Yet the surface value is universal:** $S(0) = \sqrt\varepsilon\,B$ for *any* profile (Mihalas eq. 11-38). Because $S(0)$ is $1/\sqrt\varepsilon$ times larger than the local thermal creation term $\varepsilon B$, the surface source function is fed by wing photons from deep layers; it says little about the local temperature. This is why the H$\alpha$ core "has essentially nothing to do with the temperature of the outer layers" (Mihalas §10-2).
+
+![Coherent scattering versus complete redistribution](../../figures/SA3_crd_thermalization.png)
+
+*Figure 3.3 — Isothermal two-level atom ($B$ = const), solved exactly with `scripts/lte_solvers.py` (`solve_two_level_crd`), in the spirit of Mihalas Fig. 11-1. Left: coherent scattering (dashed) and CRD with a Doppler profile (solid) start from the same $S(0) = \sqrt\varepsilon B$ (dotted), but CRD thermalizes much deeper. Right: the depth where $S = 0.9B$ grows as $1/\sqrt\varepsilon$ for coherent scattering (13 and 42 for $\varepsilon$ = 0.01 and 0.001) but roughly as $1/\varepsilon$ with CRD (72 and 622).*
+
+**Practical consequence.** Mihalas stresses that any iteration starting from LTE is futile for small $\varepsilon$: $\Lambda$-iteration shrinks the error only by a factor $(1-\varepsilon)$ per step, while the departures it must build up reach depths of $10^4$ or more. Only direct solutions (Feautrier, Rybicki) or accelerated methods (ALI) work.
+
 ---
 
 ## Worked example 3.1 — [O III] in a planetary nebula
@@ -140,7 +161,7 @@ NLTE abundance corrections are about −0.2 dex for the O I 777 nm triplet in th
 
 **Q2.** For a two-level atom, write $S^{\rm line}$ in terms of $\bar J$, $B$ and $\varepsilon$. When does the line form in LTE, and why can a dense photosphere still show NLTE line cores?
 
-> **A2.** $S = (1-\varepsilon)\bar J + \varepsilon B$ with $\varepsilon'/(1+\varepsilon') = \varepsilon$ and $\varepsilon' = (C_{21}/A_{21})(1-e^{-h\nu/kT})$. LTE requires $C_{21}\gg A_{21}$, i.e. $n_e\gg n_{\rm crit}$ (helped by trapping, $n_e\gg A\beta_{\rm esc}/q$), **and** depths below $\tau\sim1/\sqrt\varepsilon$. Line cores form high, where $n_e$ is low and photons escape ($\beta_{\rm esc}\to1$), so $\varepsilon\ll1$ and $S<B$ there.
+> **A2.** $S = (1-\varepsilon)\bar J + \varepsilon B$ with $\varepsilon'/(1+\varepsilon') = \varepsilon$ and $\varepsilon' = (C_{21}/A_{21})(1-e^{-h\nu/kT})$. LTE requires $C_{21}\gg A_{21}$, i.e. $n_e\gg n_{\rm crit}$ (helped by trapping, $n_e\gg A\beta_{\rm esc}/q$), **and** depths below the thermalization depth: $\sim1/\sqrt\varepsilon$ for coherent scattering, but $\sim1/\varepsilon$ for a Doppler line with complete redistribution (Mihalas §11-2). Line cores form high, where $n_e$ is low and photons escape ($\beta_{\rm esc}\to1$), so $\varepsilon\ll1$ and $S<B$ there.
 
 **Q3.** Describe the coronal approximation, show that its ionisation balance is independent of density, and give one application.
 

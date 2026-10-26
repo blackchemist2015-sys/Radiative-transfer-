@@ -160,3 +160,22 @@ tt = np.array(sp.NOVOTNY_TAU); PP = np.array(sp.NOVOTNY_P)
 r = sp.schwarzschild_ratio(tt, PP)
 print("d lnP / d lnT from Novotny's table:", ", ".join(f"{t:.1f}: {x:.2f}" for t, x in zip(tt, r)))
 print(f"rho(tau=1) = {1.0911e4 * 1.3 * 1.674e-27 / (1.381e-23 * float(sp.novotny_T(1.0))):.2e} kg m^-3")
+
+hdr("SA5 One Unsold temperature correction of the gray atmosphere (Mihalas Ex. 3-7)")
+from scipy.integrate import quad
+from scipy.special import expn
+
+
+def flux_error(c, tau):
+    """Delta H / H for the starting guess B = 3H(tau + c), from the Schwarzschild-Milne flux integral."""
+    S = lambda t: 3 * (t + c)
+    up = quad(lambda t: S(t) * expn(2, t - tau), tau, tau + 60, limit=200)[0]
+    dn = quad(lambda t: S(t) * expn(2, tau - t), 0, tau, limit=200)[0] if tau > 0 else 0.0
+    return 1 - 0.5 * (up - dn)
+
+
+for c0 in (0.5, 2 / 3, 0.8):
+    dH = lambda t: flux_error(c0, t)
+    q0 = c0 + (2 * dH(0) - (dH(1e-4) - dH(0)) / 1e-4) / 3
+    qinf = c0 + quad(dH, 0, 40, limit=200)[0] + 2 * dH(0) / 3
+    print(f"start q = {c0:.3f}: after one step q(0) = {q0:.4f} (7/12 = 0.5833), q(inf) = {qinf:.4f} (17/24 = 0.7083)")

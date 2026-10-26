@@ -9,6 +9,7 @@ Contents
 planck_nu, planck_lambda      Planck functions (SI units)
 lambda_matrix                 Discrete Lambda operator J = Lambda[S]
 solve_scattering_atmosphere   S = eps*B + (1-eps)*J   (exact, by matrix inversion)
+solve_two_level_crd           two-level atom, complete redistribution (Mihalas Ch. 11)
 lambda_iteration              Same problem solved by (slow) Lambda iteration
 hopf_function                 Exact gray-atmosphere Hopf function q(tau)
 chandrasekhar_H               H-function for conservative isotropic scattering
@@ -47,6 +48,17 @@ def planck_lambda(lam, T):
 def tau_grid(tau_min=1e-4, tau_max=40.0, n=240):
     """Logarithmic grid plus tau = 0."""
     return np.concatenate(([0.0], np.logspace(np.log10(tau_min), np.log10(tau_max), n)))
+
+
+def tau_grid_fine(eps, tau_max, h=0.25):
+    """
+    Grid for scattering problems with small eps: logarithmic to tau = 1, then
+    uniform steps h (< 1 mean free path, so the diffusion term is resolved)
+    through a few thermalisation lengths 1/sqrt(3 eps), then logarithmic.
+    """
+    t1 = 8.0 / np.sqrt(3.0 * eps)
+    return np.unique(np.concatenate([[0.0], np.logspace(-5, 0, 50), np.arange(1.0, t1, h),
+                                     np.geomspace(t1, max(tau_max, 2 * t1), 80)]))
 
 
 def _E(n, x):
@@ -90,9 +102,60 @@ def solve_scattering_atmosphere(eps, B=1.0, tau=None):
     Solved exactly (to discretisation accuracy) by inverting (1 - (1-eps)Lambda).
     """
     if tau is None:
-        tau = tau_grid(tau_max=max(40.0, 30.0 / np.sqrt(eps)))
-    L = lambda_matrix(tau)
+        tau = tau_grid_fine(eps, tau_max=max(40.0, 30.0 / np.sqrt(eps)))
+    L = _lambda_matrix_vec(tau)
     A = np.eye(len(tau)) - (1 - eps) * L
+    S = np.linalg.solve(A, eps * B * np.ones(len(tau)))
+    return tau, S
+
+
+def _lambda_matrix_vec(tau):
+    """Vectorised lambda_matrix, with rows renormalised for photon conservation."""
+    tau = np.asarray(tau, float)
+    ti = tau[:, None]
+    a_t, b_t = tau[None, :-1], tau[None, 1:]
+    hseg = b_t - a_t
+    above = a_t >= ti
+    a = np.where(above, a_t - ti, ti - b_t)
+    b = np.where(above, b_t - ti, ti - a_t)
+    E2a, E2b, E3a, E3b = _E(2, a), _E(2, b), _E(3, a), _E(3, b)
+    M0 = E2a - E2b
+    M1 = (a * E2a + E3a) - (b * E2b + E3b)
+    M1 = np.where(above, M1, -M1)
+    L = np.zeros((len(tau), len(tau)))
+    L[:, :-1] += 0.5 * ((b_t - ti) / hseg * M0 - M1 / hseg)
+    L[:, 1:] += 0.5 * ((ti - a_t) / hseg * M0 + M1 / hseg)
+    L[:, -1] += 0.5 * _E(2, tau[-1] - tau)
+    # renormalise rows so that a constant S gives the exact J = S (1 - E2(tau)/2):
+    # for eps << 1 small row-sum errors would act like spurious photon destruction
+    L *= ((1.0 - 0.5 * _E(2, tau)) / L.sum(axis=1))[:, None]
+    return L
+
+
+def solve_two_level_crd(eps, B=1.0, profile="doppler", a_damp=1e-3, tau=None, nx=60, xmax=None):
+    """
+    Two-level atom in an isothermal atmosphere with complete redistribution:
+        S = eps*B + (1-eps)*Jbar,  Jbar = int phi(x) J_x dx,
+    where tau is the line-centre optical depth and tau_x = tau*phi(x)/phi(0).
+    profile: "doppler" (Gaussian) or "voigt" (damping a_damp).
+    Returns tau, S.  The exact surface value is S(0) = sqrt(eps) B for any profile.
+    """
+    if tau is None:
+        deep = 1.0 / eps if profile == "doppler" else max(1.0 / eps, a_damp / eps**2)
+        tau = tau_grid_fine(eps, tau_max=max(40.0, 30.0 * deep), h=0.5)
+    if xmax is None:
+        xmax = 5.0 if profile == "doppler" else min(2e3, 10.0 / np.sqrt(eps))
+    # quadrature in x >= 0 (profile symmetric): log-spaced beyond the core
+    x = np.concatenate([np.linspace(0, 3, 31)[:-1], np.geomspace(3, xmax, nx)])
+    phi = (np.exp(-x**2) / np.sqrt(np.pi) if profile == "doppler"
+           else np.real(wofz(x + 1j * a_damp)) / np.sqrt(np.pi))
+    w = np.gradient(x) * 2.0                      # both wings
+    w /= np.sum(w * phi)                          # enforce int phi dx = 1
+    Lbar = np.zeros((len(tau), len(tau)))
+    for xi, pi, wi in zip(x, phi, w):
+        r = pi / phi[0]
+        Lbar += wi * pi * _lambda_matrix_vec(r * tau)
+    A = np.eye(len(tau)) - (1 - eps) * Lbar
     S = np.linalg.solve(A, eps * B * np.ones(len(tau)))
     return tau, S
 
@@ -212,6 +275,11 @@ if __name__ == "__main__":
     for eps in (1e-1, 1e-2, 1e-4):
         t, S = solve_scattering_atmosphere(eps)
         print(f"eps = {eps:g}:  S(0)/B = {S[0]:.4f},  sqrt(eps) = {np.sqrt(eps):.4f}")
+
+    for eps in (1e-2, 1e-3):
+        t, S = solve_two_level_crd(eps)
+        print(f"two-level atom, CRD Doppler, eps = {eps:g}: S(0)/B = {S[0]:.4f} (sqrt(eps) = {np.sqrt(eps):.4f}),"
+              f" S = 0.9 B at tau = {np.interp(0.9, S, t):.0f}")
 
     t, q = hopf_function()
     print(f"Hopf: q(0) = {q[0]:.4f} (exact 1/sqrt3 = {1/np.sqrt(3):.4f}),"

@@ -48,6 +48,10 @@
 
 > The far wings: $H(a,v)\approx a/(\sqrt\pi v^2)$, with $a\propto\gamma$, which grows with the perturber density.
 
+**A11.** (Lecture SA3; Mihalas §11-2.) A resonance line has $\varepsilon = 10^{-4}$ and a Doppler profile. Give $S(0)/B$ in an isothermal atmosphere, and compare the thermalization depth for coherent scattering and for complete redistribution.
+
+> $S(0) = \sqrt\varepsilon\,B = 0.01\,B$, whatever the profile. Coherent scattering thermalizes at $\tau\sim1/\sqrt\varepsilon = 100$; complete redistribution with a Doppler profile at $\tau\sim1/\varepsilon = 10^4$, because photons redistributed into the transparent wings escape from much deeper.
+
 ---
 
 ## Part B — Problems

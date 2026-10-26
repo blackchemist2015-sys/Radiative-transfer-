@@ -1,6 +1,6 @@
 # Lecture SA4 — The Gray LTE Atmosphere and How Spectral Lines Form
 
-> **Sources:** Collins §9.4 (gray atmosphere, Eddington approximation); Chandrasekhar (1950) Chs. III–V (Milne's equation, Hopf function, $H$-functions); Novotny (1973) Ch. 2.4–2.5 and Ch. 5 (formation of absorption lines, line profiles, line strengths); Mihalas (1978) Chs. 3 and 10; Gray, *The Observation and Analysis of Stellar Photospheres*, Chs. 13–16.
+> **Sources:** Collins §9.4 (gray atmosphere, Eddington approximation); Chandrasekhar (1950) Chs. III–V (Milne's equation, Hopf function, $H$-functions); Novotny (1973) Ch. 2.4–2.5 and Ch. 5 (formation of absorption lines, line profiles, line strengths); Mihalas, *Stellar Atmospheres* (1978) Ch. 3 (grey atmosphere: Eddington approximation, discrete ordinates, exact solution) and §10-2 (the Milne–Eddington model: scattering versus absorption lines, centre-to-limb variation, Schuster mechanism); Gray, *The Observation and Analysis of Stellar Photospheres*, Chs. 13–16.
 
 ![Concept map of Lecture SA4](../../figures/SA4_map.png)
 
@@ -85,13 +85,20 @@ In LTE both continuum and line emit thermally, so $S_\nu = B_\nu(T)$ at every fr
 
 *Figure 4.3 — Left: a line with $\eta_0 = 30$ in a gray solar atmosphere. Right: the temperature of the layer we see at each frequency (red) and the continuum optical depth where $\tau_\nu = 2/3$ (teal). The line centre is seen at a continuum optical depth 31 times smaller, in gas some 900 K cooler. **An LTE absorption line is a map of the temperature gradient.***
 
-This is the continuous version of MIT's two-layer star (Lecture RT3). An isothermal atmosphere gives **no lines**; a temperature rising outward gives **emission**, as in the Ca II H & K emission reversals of the chromosphere.
+This is the continuous version of MIT's two-layer star (Lecture RT3). An isothermal atmosphere gives **no LTE lines**; a temperature rising outward gives **emission**, as in the Ca II H & K emission reversals of the chromosphere. (Scattering lines are different: they can form even in an isothermal atmosphere, because escaping photons pull $S$ below $B$; see §4.4.)
 
 ## 4.4 Milne–Eddington lines and the curve of growth
 
 **Milne–Eddington assumptions:** LTE, $B = B_0(1 + \beta\tau_c)$, and $\eta_\nu$ constant with depth. Then $B$ is linear in $\tau_\nu$, Eddington–Barbier is exact, and
 $$\boxed{\;r_\nu = \frac{F_\nu}{F_c} = \frac{1 + \dfrac{2\beta}{3(1+\eta_\nu)}}{1+\dfrac{2\beta}{3}}\;}\qquad r\xrightarrow{\eta\to\infty}\frac{1}{1+2\beta/3}.$$
 The deepest possible line is set by the temperature gradient $\beta$: $\beta = 0$ gives no line. For the bolometric gray atmosphere $\beta = 3/2$, so the maximum depth is 0.5; at visible wavelengths $\beta$ is larger, so lines are deeper.
+
+**Absorption lines versus scattering lines (Mihalas §10-2).** Give the line its own thermal-coupling parameter, $S_{\rm line} = \varepsilon B + (1-\varepsilon)J$, and solve the Milne–Eddington model in the Eddington approximation. Two classical families appear:
+
+- an **absorption line** ($\varepsilon = 1$, LTE) saturates at a finite residual flux, $R_0 = [1 + \beta/\sqrt3]^{-1}$ (Mihalas eq. 10-18), because we always see the surface value of $B$. Towards the limb it **fades away**: at $\mu\to0$ every frequency shows the same surface $B$;
+- a **scattering line** ($\varepsilon\to0$) can be **completely black** in its core, even at the limb, because photons are continually diverted out of the beam and none survive to emerge.
+
+Classical astronomers therefore sorted solar lines into "absorption" lines (subordinate lines such as H$\alpha$) and "scattering" lines (resonance lines such as Na D). Mihalas warns that this division "often does violence to the actual physics": the real controls are $\varepsilon$ and photon redistribution, treated in Lecture SA3.
 
 ![LTE line formation: Milne-Eddington](../../figures/L10_lines.png)
 
@@ -122,11 +129,16 @@ $$\boxed{\;W_\lambda = \pi r_e\lambda^2N_lf\;}\qquad\text{(independent of broade
 
 The exact surface temperature is $0.8114\times5772 = 4682$ K. The observed solar temperature minimum (~4400 K) is close; above it the chromosphere heats up, which radiative equilibrium cannot produce. The limb-darkening inversion of Lecture RT4 (5155 K at $\tau_{500} = 0$, 6300 K at $\tau_{500} = 1$) agrees to within the effects of non-grayness.
 
-## Worked example 4.2 — Milne–Eddington line depths
+## Worked example 4.2 — How deep can an LTE line be in the Sun? (after Mihalas §10-2)
 
-*With $\beta = 1.5$, find the central residual flux for $\eta_0$ = 1, 10 and ∞.*
+*In a gray solar model the surface temperature is about 4800 K. At 500 nm, find the Planck-function gradient $\beta$, the Milne–Eddington residual flux for $\eta_0$ = 1, 10 and ∞, and compare with the Na D lines, whose cores leave only about 5 % of the continuum.*
 
-**Solution.** $r = [1 + 1/(1+\eta)]/2$: $r$ = 0.75, 0.545 and 0.5. Going from $\eta = 10$ to ∞ barely changes the core: the line is **saturated**, and $W$ can now grow only in the wings.
+**Solution.**
+
+- With $T^4\propto1+\frac32\tau$, $d\ln T/d\tau = 3/8$ at the surface. $d\ln B_\nu/d\ln T = X_0 = u/(1-e^{-u})$, with $u = h\nu/kT = 28\,776/4800 = 6.0$, so $X_0 = 6.0$ and $\beta = \frac38X_0 = 2.25$.
+- Eddington–Barbier form: $r = [1 + 1.50/(1+\eta)]/2.50$, giving $r$ = 0.70, 0.45 and **0.40** for $\eta$ = 1, 10 and ∞. Between $\eta$ = 10 and ∞ the core barely changes: the line is **saturated**, and $W$ can now grow only in the wings.
+- Mihalas' Eddington-approximation solution gives $R_0 = (1 + 2.25/\sqrt3)^{-1} = 0.43$. Either way, **no LTE absorption line at 500 nm can be darker than about 40 % of the continuum.**
+- The Na D cores, at about 5 %, are far darker. They must be **scattering lines** with $\varepsilon\ll1$: photon losses push $S$ to about $\sqrt\varepsilon B$ (Lecture SA3).
 
 ## Worked example 4.3 — An abundance from a weak line
 
@@ -167,7 +179,7 @@ The total iron abundance then follows from Saha–Boltzmann (the fraction of Fe 
 
 **Q3.** Explain, using Eddington–Barbier, why the solar spectrum shows absorption lines. What would an isothermal LTE atmosphere show, and what does a chromosphere do?
 
-> **A3.** $F_\nu\approx\pi S_\nu(\tau_\nu = 2/3)$ with $S_\nu = B_\nu(T)$. Line opacity makes $\tau_\nu = 2/3$ occur higher up, where $T$ and $B_\nu$ are lower, so the flux is lower: an absorption line. An isothermal atmosphere has the same $B_\nu$ at all depths, so $F_\nu = F_c$ and there are no lines. In a chromosphere $T$ rises outward, so the cores of strong lines formed there appear in emission (e.g. the Ca II K$_2$ peaks).
+> **A3.** $F_\nu\approx\pi S_\nu(\tau_\nu = 2/3)$ with $S_\nu = B_\nu(T)$. Line opacity makes $\tau_\nu = 2/3$ occur higher up, where $T$ and $B_\nu$ are lower, so the flux is lower: an absorption line. In LTE an isothermal atmosphere has the same $B_\nu$ at all depths, so $F_\nu = F_c$ and there are no lines (only scattering lines, with $S<B$ near the surface, could appear). In a chromosphere $T$ rises outward, so the cores of strong lines formed there appear in emission (e.g. the Ca II K$_2$ peaks).
 
 **Q4.** Sketch the curve of growth and explain each of its three parts. Which is best for abundances, and why?
 

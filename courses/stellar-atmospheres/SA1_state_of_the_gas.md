@@ -1,6 +1,6 @@
 # Lecture SA1 — The State of the Gas: TE, LTE and Non-LTE; Saha and Boltzmann
 
-> **Sources:** Collins §9.1 (breakdown of strict TE, assumption of LTE, the five assumptions of normal stellar atmospheres), §9.2c–d (Kirchhoff's law, $S_\nu = B_\nu$); E. Novotny, *Introduction to Stellar Atmospheres and Interiors* (1973), Ch. 3.1–3.3 (Bohr atom, excitation, ionisation); MIT 8.901 §7.3; Mihalas, *Stellar Atmospheres* (1978) Ch. 5; R. N. Thomas (1965); Osterbrock & Ferland (2006).
+> **Sources:** Collins §9.1 (breakdown of strict TE, assumption of LTE, the five assumptions of normal stellar atmospheres), §9.2c–d (Kirchhoff's law, $S_\nu = B_\nu$); E. Novotny, *Introduction to Stellar Atmospheres and Interiors* (1973), Ch. 3.1–3.3 (Bohr atom, excitation, ionisation); MIT 8.901 §7.3; Mihalas, *Stellar Atmospheres* (1978) §5-1 (LTE: Maxwell, Boltzmann, Saha) and §5-2 (the LTE equation of state), §11-1 (why LTE fails: diffusion, destruction, escape); R. N. Thomas (1965); Osterbrock & Ferland (2006).
 
 ![Concept map of Lecture SA1](../../figures/SA1_map.png)
 

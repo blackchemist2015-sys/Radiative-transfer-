@@ -21,6 +21,7 @@
 - Collisions: $q_{ul} = 8.629\times10^{-6}\Omega/(g_u\sqrt T)$ cm$^3$ s$^{-1}$ · Klein–Rosseland: $q_{lu} = (g_u/g_l)q_{ul}e^{-\Delta E/kT}$
 - Critical density $n_{\rm crit} = A_{ul}/q_{ul}$ · two-level, no radiation: $\frac{(n_u/n_l)}{(n_u/n_l)^*} = \frac{n_e/n_{\rm crit}}{1+n_e/n_{\rm crit}}$
 - Coronal: $n_u/n_l = n_eq_{lu}/A_{ul}$; $n_{i+1}/n_i = q_{\rm ion}(T)/\alpha_{\rm rec}(T)$ · Nebular: $J_\nu\approx WB_\nu(T_*)$, $W\approx\frac14(R_*/r)^2$
+- Two-level atom (Mihalas Ch. 11): $S(0) = \sqrt\varepsilon\,B$ for any profile · thermalization depth $\Lambda\sim\varepsilon^{-1/2}$ (coherent), $\varepsilon^{-1}$ (CRD Doppler), $a\,\varepsilon^{-2}$ (CRD Voigt), $\varepsilon^{-2}$ (CRD Lorentz) · defined by $P_{\rm esc}(\Lambda) = \varepsilon$
 
 ## Line absorption and broadening (Lecture SA2)
 
@@ -41,7 +42,7 @@
 ## Lines (Lecture SA4)
 
 - $\int\sigma_\nu d\nu = \pi r_ecf$ · $\Delta\nu_D = \frac{\nu_0}c\sqrt{2kT/m+\xi^2}$ · Voigt $a = \gamma/4\pi\Delta\nu_D$
-- Milne–Eddington (LTE): $\dfrac{F_\nu}{F_c} = \dfrac{1+2\beta/[3(1+\eta_\nu)]}{1+2\beta/3}$, maximum depth $1-\frac1{1+2\beta/3}$
+- Milne–Eddington (LTE): $\dfrac{F_\nu}{F_c} = \dfrac{1+2\beta/[3(1+\eta_\nu)]}{1+2\beta/3}$, maximum depth $1-\frac1{1+2\beta/3}$ · Mihalas (Eddington approx.): saturated absorption line $R_0 = (1+\beta/\sqrt3)^{-1}$; pure scattering line $R_0\to0$ · $\beta = \frac38X_0$, $X_0 = u/(1-e^{-u})$, $u = h\nu/kT_0$
 - Weak line: $W_\lambda = \pi r_e\lambda^2Nf$ · Curve of growth: $W\propto N$ → $\sqrt{\ln N}$ → $\sqrt N$
 - NLTE: $S^{\rm line} = \frac{2h\nu^3}{c^2}\left[\frac{b_l}{b_u}e^{h\nu/kT}-1\right]^{-1}$
 
@@ -56,3 +57,4 @@
 - $dP/d\tau = g/\kappa$ · $F_{\rm rad}+F_{\rm conv} = \sigma T_{\rm eff}^4$ · scale height $H = kT/(\mu m_Hg)$
 - Convection if $\nabla_{\rm rad}>\nabla_{\rm ad}$ (0.4 ideal monatomic); gray atmosphere: $\nabla_{\rm rad} = \tau/[4(\tau+2/3)]<0.25$
 - Hand-built model (Novotny Ch. 9): $T = T_{\rm eff}\,[\tfrac34(\tau+\tfrac23)]^{1/4}$; for $\kappa = \kappa_0P^a$: $P^{1+a} = (1+a)\,g\tau/\kappa_0$ (Sun: $\kappa\approx10^{-4.4}P^{0.8}$ cgs); stable if $d\ln P/d\ln T > 1/\nabla_{\rm ad} = 2.5$
+- Unsöld temperature correction (Mihalas §3-3): $\Delta B = 3\int_0^\tau\Delta H\,d\tau' + 2\Delta H(0) - d\Delta H/d\tau$ · Cayrel mechanism (NLTE): $T_0\approx T_R$, independent of dilution $W$

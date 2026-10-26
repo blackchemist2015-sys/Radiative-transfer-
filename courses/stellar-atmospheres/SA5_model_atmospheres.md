@@ -1,6 +1,6 @@
 # Lecture SA5 — Real Model Atmospheres and the Sun
 
-> **Sources:** E. Novotny, *Introduction to Stellar Atmospheres and Interiors* (1973), Ch. 4 (the equations for model atmospheres; convection; comparison of models) and Ch. 9 (a model solar atmosphere computed step by step); Collins §9.1d; Mihalas (1978) Ch. 7; Gray, *The Observation and Analysis of Stellar Photospheres*; Vernazza, Avrett & Loeser (1981); Asplund et al. (2009); Hubeny & Mihalas (2014).
+> **Sources:** E. Novotny, *Introduction to Stellar Atmospheres and Interiors* (1973), Ch. 4 (the equations for model atmospheres; convection; comparison of models) and Ch. 9 (a model solar atmosphere computed step by step); Collins §9.1d; Mihalas, *Stellar Atmospheres* (1978) §3-3 (Unsöld's temperature correction), Ch. 7 (§7-2 LTE models and temperature correction, §7-3 convection, §7-5 non-LTE models and the Cayrel mechanism, §7-7 semiempirical solar models); Gray, *The Observation and Analysis of Stellar Photospheres*; Vernazza, Avrett & Loeser (1981); Asplund et al. (2009); Hubeny & Mihalas (2014).
 
 ![Concept map of Lecture SA5](../../figures/SA5_map.png)
 
@@ -42,6 +42,10 @@ In plane-parallel geometry $g$ is constant and the flux is fixed by $T_{\rm eff}
 ![Solar atmosphere and model-atmosphere iteration](../../figures/L15_atmospheres.png)
 
 *Figure 5.1 — Left: the layers of the solar atmosphere (schematic, after VAL-C): $T$ falls to a minimum near 4200 K, rises through the chromosphere, jumps through the transition region and reaches 1–2 MK in the corona. Right: the iteration. Start from the gray $T(\tau)$ of Lecture SA4, compute the opacities and radiation field, test flux constancy, correct $T$ (Unsöld–Lucy, Avrett–Krook, or complete linearization) and repeat.*
+
+**How a temperature correction works (Unsöld; Mihalas §3-3).** Compute the flux $H(\tau)$ from the current model; its error is $\Delta H(\tau) = H_{\rm target} - H(\tau)$. The moment equations in the Eddington approximation then say how much the Planck function must change to remove that error:
+$$\boxed{\;\Delta B(\tau) = 3\int_0^\tau\Delta H\,d\tau' + 2\,\Delta H(0) - \frac{d\,\Delta H}{d\tau}\;}$$
+Apply $\Delta B$, recompute the flux, and repeat until $\Delta H\to0$. Unlike $\Lambda$-iteration, this corrects the deep layers as well as the surface. Lucy (1964) generalised it to non-gray atmospheres, and it is still the workhorse of LTE codes (Worked example 5.4).
 
 ## 5.2 A solar model atmosphere by hand (after Novotny, Ch. 9)
 
@@ -88,6 +92,8 @@ $$\frac{d\ln P}{d\ln T} > 2.5 \quad(\text{stable}).$$
 | corona | > 2300 | 1–2 MK | magnetic heating; coronal approximation | EUV and X-ray lines (Fe IX–XVI); white-light K-corona |
 
 Only the photosphere is close to radiative-equilibrium LTE. The rise above the temperature minimum needs non-radiative heating, and its lines need NLTE (Lecture SA3). In LTE such a rise would give emission cores in strong lines: the thermal-inversion effect of MIT's toy model (Lecture RT3).
+
+**NLTE alone can warm the surface: the Cayrel mechanism (Mihalas §7-5).** In LTE radiative equilibrium the temperature always *falls* outward, and LTE lines cool the top layers further. Cayrel noticed that the outer layers resemble a nebula around a star. They are lit by diluted radiation, $J_\nu = W B_\nu(T_R)$ with $W<1$. In LTE the gas balances the *quantity* of light, so the dilution lowers its temperature. In NLTE, where photo-ionisation is balanced by recombination, the gas responds to the *quality* of the light: each absorbed photon still carries energy typical of $T_R$, and the gas settles at $T_0\approx T_R$, whatever $W$ is. For the Sun, Cayrel estimated $T_0\approx5600$ K, against the gray 4800 K; Feautrier's NLTE H$^-$ model gave a minimum near 4700 K and a surface value of 5200 K. Two lessons follow: a temperature minimum followed by a modest rise can appear *without* any mechanical heating, but the chromosphere's climb to 10 000 K and beyond cannot. And strong lines with $\varepsilon\ll1$ leave the boundary temperature almost unchanged, unlike LTE lines, which cool it.
 
 ## 5.5 Beyond plane-parallel and static; codes; diagnostics
 
@@ -141,6 +147,18 @@ Only the photosphere is close to radiative-equilibrium LTE. The rise above the t
 *The chromosphere radiates ~$4\times10^3$ W m$^{-2}$ and the quiet corona ~$3\times10^2$ W m$^{-2}$. Compare with the photospheric flux.*
 
 **Solution.** $\sigma T_{\rm eff}^4 = 6.3\times10^7$ W m$^{-2}$, so the ratios are $6\times10^{-5}$ and $5\times10^{-6}$. Only about $10^{-4}$ of the energy needs to be deposited non-radiatively. The *temperature* is high because the density is so low that very few particles must radiate this power.
+
+## Worked example 5.4 — One Unsöld correction (Mihalas Exercise 3-7)
+
+*Start the gray atmosphere from a wrong guess, $B = 3H(\tau + c)$, with any constant $c$. Apply one Unsöld correction and find the new $q(0)$ and $q(\infty)$.*
+
+**Solution.**
+
+1. The Schwarzschild–Milne flux integral for this $B$ gives the flux error $\Delta H(\tau) = \frac32H\,[E_4(\tau) - c\,E_3(\tau)]$. For the Eddington value $c = 2/3$, $\Delta H(0) = 0$: the surface flux is already right, but not the flux at depth.
+2. Use $\int_0^\infty E_n = 1/n$, $E_n(0) = 1/(n-1)$ and $dE_n/d\tau = -E_{n-1}$ in the correction formula. At depth, $q(\infty) = c + \int_0^\infty\Delta H/H + \frac23\Delta H(0)/H = c + (\frac38 - \frac c2) + (\frac13 - \frac c2) = \frac{17}{24} = 0.708$.
+3. At the surface, $q(0) = c + \frac23\Delta H(0)/H - \frac13\Delta H'(0)/H = c + (\frac13 - \frac c2) + (\frac14 - \frac c2) = \frac7{12} = 0.583$.
+
+**Every starting guess gives the same answer after one step**: 0.583 and 0.708, against the exact 0.577 and 0.710. (`scripts/worked_examples.py` reproduces these numbers by direct integration for $c$ = 0.5, 2/3 and 0.8.) By contrast, one $\Lambda$-iteration leaves $q(\infty) = c$, with no improvement at all at depth.
 
 ---
 

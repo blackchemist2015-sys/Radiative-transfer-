@@ -1,6 +1,6 @@
 # Lecture RT4 — Atmospheres: Plane-Parallel Layers, Moments and Scattering
 
-> **Sources:** Collins Ch. 9.2–9.4 (plane-parallel RTE, moments, radiative equilibrium, Eddington approximation); Chandrasekhar Ch. I–III (Schwarzschild–Milne equations, $\Lambda$ operator); Hu, *Astro 305 Set 1* (diffusion, Rosseland mean); Novotny Ch. 2.4–2.5 (solution of the equation of transfer, solar examples).
+> **Sources:** Collins Ch. 9.2–9.4 (plane-parallel RTE, moments, radiative equilibrium, Eddington approximation); Mihalas, *Stellar Atmospheres* (1978) §§2-2–2-5 (Schwarzschild–Milne equations, moments, radiative equilibrium, diffusion), §3-2 (mean opacities) and §6-1 (Λ-iteration); Chandrasekhar Ch. I–III (Schwarzschild–Milne equations, $\Lambda$ operator); Hu, *Astro 305 Set 1* (diffusion, Rosseland mean); Novotny Ch. 2.4–2.5 (solution of the equation of transfer, solar examples).
 
 ![Concept map of Lecture RT4](../../figures/RT4_map.png)
 
@@ -85,6 +85,15 @@ $$\boxed{\;\frac1{\kappa_R} = \frac{\int\kappa_\nu^{-1}\,\partial B_\nu/\partial
 \boxed{\;F = -\frac{16\sigma T^3}{3\kappa_R\rho}\frac{dT}{dz}\;}$$
 This is radiative transfer in **stellar interiors**. As a harmonic mean, the Rosseland mean is dominated by the most transparent frequencies.
 
+**Which mean opacity? (Mihalas §3-2).** No single mean turns a non-gray problem into a gray one. Each mean preserves one property exactly, so choose the mean for the job:
+
+| Mean | Weighting | What it gets right | Limitation |
+|---|---|---|---|
+| flux-weighted $\bar\chi_F$ | $\int\chi_\nu H_\nu d\nu/H$ | the $K$-integral, so the radiation pressure and **radiation force** ($\propto\bar\chi_F\sigma T_{\rm eff}^4/c$): hot-star models | needs $H_\nu$, known only after solving |
+| Rosseland $\bar\kappa_R$ | harmonic, weight $\partial B_\nu/\partial T$ | the **flux at depth** (diffusion); on the $\tau_R$ scale, $T^4 = \frac34T_{\rm eff}^4[\tau_R + q(\tau_R)]$ is accurate deep down | wrong in the surface layers, where spectra form |
+| Planck $\bar\kappa_P$ | arithmetic, weight $B_\nu$, true absorption only | the total **thermal emission**; computable without solving the transfer equation | governs energy balance only near the surface |
+| absorption mean $\bar\kappa_J$ | weight $J_\nu$ | the total **absorption** | needs $J_\nu$ |
+
 ## 4.5 Scattering and thermalisation
 
 With $S = \varepsilon B + (1-\varepsilon)J$ in an **isothermal** atmosphere, the Eddington equation becomes $\frac13J'' = \varepsilon(J - B)$, whose solution is
@@ -94,7 +103,7 @@ $$\boxed{\;S(0) = \sqrt\varepsilon\,B\;},\qquad \tau_{\rm th}\sim\frac{1}{\sqrt\
 
 ![Scattering atmospheres and Lambda iteration](../../figures/L08_scattering.png)
 
-*Figure 4.4 — Left: exact solutions (solid, from `scripts/lte_solvers.py`) and the Eddington approximation (dashed). Although $B$ is constant, $S$ falls far below $B$ near the surface and reaches $B$ only below $\tau_{\rm th}$ (dotted). Right: $\Lambda$-iteration for $\varepsilon = 0.01$ after up to 200 steps, still far from converged.*
+*Figure 4.4 — Left: exact solutions (solid, from `scripts/lte_solvers.py`) and the Eddington approximation (dashed). Although $B$ is constant, $S$ falls far below $B$ near the surface and reaches $B$ only below $\tau_{\rm th}$ (dotted). Right: $\Lambda$-iteration for $\varepsilon = 0.01$, starting from $S = B$. The surface error is still 94 % after 10 steps and 16 % after 50; it falls below 1 % only after about 200, because each step shrinks it by just $(1-\varepsilon)$. For $\varepsilon = 10^{-4}$ tens of thousands of steps would be needed.*
 
 ![Eddington approximation for J](../../figures/L08_eddington_J.png)
 

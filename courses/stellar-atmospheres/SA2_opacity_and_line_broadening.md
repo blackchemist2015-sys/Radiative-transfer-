@@ -1,6 +1,6 @@
 # Lecture SA2 — Where Opacity Comes From: Continuous Absorption and Line Broadening
 
-> **Sources:** Mihalas, *Stellar Atmospheres* (1978) Chs. 4 and 9 (absorption cross-sections; line broadening); Novotny (1973) Ch. 3.4–3.6 (velocities of gas particles, absorption processes, absorption coefficients); Collins §9.2; Rybicki & Lightman Ch. 5 (free–free); Gray, *The Observation and Analysis of Stellar Photospheres*, Chs. 8, 11, 18; Wildt (1939); Barklem, Anstee & O'Mara (2000).
+> **Sources:** Mihalas, *Stellar Atmospheres* (1978) §§4-1–4-5 (Einstein relations, oscillator strengths, continuum absorption and scattering cross-sections of H, H$^-$ and He) and Ch. 9 (natural damping, Doppler broadening and the Voigt function, impact and statistical theories of collision broadening); Novotny (1973) Ch. 3.4–3.6 (velocities of gas particles, absorption processes, absorption coefficients); Collins §9.2; Rybicki & Lightman Ch. 5 (free–free); Gray, *The Observation and Analysis of Stellar Photospheres*, Chs. 8, 11, 18; Wildt (1939); Barklem, Anstee & O'Mara (2000).
 
 ![Concept map of Lecture SA2](../../figures/SA2_map.png)
 

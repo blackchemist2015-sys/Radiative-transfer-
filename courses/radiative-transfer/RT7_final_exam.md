@@ -100,7 +100,7 @@ An isothermal atmosphere has $S = \varepsilon B+(1-\varepsilon)J$. (a) In the Ed
 > **Solution.** (a) $dH/d\tau = J - S = \varepsilon(J-B)$ and $H = \frac13dJ/d\tau$, so $\frac13J'' = \varepsilon(J-B)$. Then $J = B+Ce^{-\sqrt{3\varepsilon}\tau}$; with $J(0) = \frac23J'(0)$, $C = -B/(1+2\sqrt{\varepsilon/3})$.
 > (b) $\sqrt{\varepsilon/3} = 0.0577$, so $J(0)/B = 1-1/1.1155 = 0.1035$ and $S(0)/B = 0.01+0.99\times0.1035 = 0.1125$. The exact value is $\sqrt\varepsilon = 0.100$; Eddington overestimates by 12 %.
 > (c) $\tau_{\rm th}\sim1/\sqrt\varepsilon = 10$ (Eddington: $1/\sqrt{3\varepsilon} = 5.8$); $N\sim1/\varepsilon = 100$ scatterings.
-> (d) Each iteration transmits information only about $\Delta\tau\sim1$, and the error decreases by a factor $(1-\varepsilon) = 0.99$ per step, so hundreds of iterations are needed (see Lecture RT4, Figure 4.4). Our solver gives $S(0)$ errors of 95 % after 10 iterations, 17 % after 50, 5 % after 100 and 0.9 % after 200; yet beyond 100 iterations each step changes $S(0)$ by less than 0.1 %, so a naive convergence test would stop far too early.
+> (d) Each iteration transmits information only about $\Delta\tau\sim1$, and the error decreases by a factor $(1-\varepsilon) = 0.99$ per step, so hundreds of iterations are needed (see Lecture RT4, Figure 4.4). Our solver gives $S(0)$ errors of 94 % after 10 iterations, 16 % after 50, 5 % after 100 and 0.8 % after 200; yet beyond 100 iterations each step changes $S(0)$ by less than 0.1 %, so a naive convergence test would stop far too early.
 
 ### B8. Diffusion and Rosseland mean (8 marks)
 

@@ -77,7 +77,7 @@ All figures and all numbers in the worked examples are produced by the Python sc
 
 | Script | What it does |
 |---|---|
-| [`lte_solvers.py`](scripts/lte_solvers.py) | Planck functions; the **Λ operator** as a matrix; exact solution of $S = \varepsilon B+(1-\varepsilon)J$; Λ-iteration; **exact gray LTE atmosphere** (Hopf function); Chandrasekhar $H$-function; Milne–Eddington line profiles and curves of growth; Saha–Boltzmann for hydrogen |
+| [`lte_solvers.py`](scripts/lte_solvers.py) | Planck functions; the **Λ operator** as a matrix; exact solution of $S = \varepsilon B+(1-\varepsilon)J$; the two-level atom with complete redistribution; Λ-iteration; **exact gray LTE atmosphere** (Hopf function); Chandrasekhar $H$-function; Milne–Eddington line profiles and curves of growth; Saha–Boltzmann for hydrogen |
 | [`sa_physics.py`](scripts/sa_physics.py) | Stellar Atmospheres physics: Kramers bound–free and free–free opacity, H$^-$ abundance, collisional rates and critical densities, Voigt and rotational profiles, Novotny's hand-built solar model and the Schwarzschild convection test |
 | [`make_figures.py`](scripts/make_figures.py) | regenerates every figure in [`figures/`](figures) (`--part2`, `--sa` and `--concepts` build subsets; `--concepts` draws the concept maps and concept illustrations) |
 | [`worked_examples.py`](scripts/worked_examples.py) | prints every numerical answer quoted in the lectures |
@@ -99,7 +99,7 @@ The solvers reproduce known exact results: $q(0) = 1/\sqrt3$, $q(\infty) = 0.710
 3. MIT 8.901 *Astrophysics I* (Spring 2019), Lecture 7: *Radiative Transfer*. Its three-step build-up of the RTE, Kirchhoff's law for thick and thin objects, the thin hydrogen cloud, the two-layer stellar atmosphere and thermal inversions are reproduced (with computed figures) in Lecture RT3.
 4. G. W. Collins II, *The Fundamentals of Stellar Astrophysics* (2003), Part II, Ch. 9: *The Flow of Radiation Through the Atmosphere*.
 5. S. Chandrasekhar, *Radiative Transfer* (Oxford 1950; Dover 1960), Chs. I, III, V, X, XII.
-6. D. Mihalas, *Stellar Atmospheres*, 2nd ed. (Freeman 1978): absorption cross-sections, statistical equilibrium and transition rates, line broadening (structure of Course B).
+6. D. Mihalas, *Stellar Atmospheres*, 2nd ed. (Freeman 1978): absorption cross-sections, statistical equilibrium and transition rates, line broadening (structure of Course B); also the mean opacities (§3-2, Lecture RT4), Unsöld's temperature correction (§3-3) and the Cayrel mechanism (§7-5) in Lecture SA5, absorption versus scattering lines in the Milne–Eddington model (§10-2, Lecture SA4), and escape, destruction and thermalization of the two-level atom with complete redistribution (Ch. 11, Lecture SA3, reproduced numerically by `solve_two_level_crd`).
 7. E. Novotny, *Introduction to Stellar Atmospheres and Interiors* (Oxford University Press 1973), Chs. 2–5 and 9: transfer of radiation, absorption coefficients, model atmospheres, line formation, and the step-by-step model solar atmosphere reproduced in Lecture SA5.
 
 Further reading: Rybicki & Lightman, *Radiative Processes in Astrophysics*; Mihalas, *Stellar Atmospheres*; Gray, *The Observation and Analysis of Stellar Photospheres*; Hubeny & Mihalas, *Theory of Stellar Atmospheres*.
