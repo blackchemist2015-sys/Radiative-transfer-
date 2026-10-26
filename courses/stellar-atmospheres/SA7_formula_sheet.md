@@ -22,14 +22,14 @@
 - Critical density $n_{\rm crit} = A_{ul}/q_{ul}$ · two-level, no radiation: $\frac{(n_u/n_l)}{(n_u/n_l)^*} = \frac{n_e/n_{\rm crit}}{1+n_e/n_{\rm crit}}$
 - Coronal: $n_u/n_l = n_eq_{lu}/A_{ul}$; $n_{i+1}/n_i = q_{\rm ion}(T)/\alpha_{\rm rec}(T)$ · Nebular: $J_\nu\approx WB_\nu(T_*)$, $W\approx\frac14(R_*/r)^2$
 
-## Line absorption and broadening (Lecture SA4)
+## Line absorption and broadening (Lecture SA2)
 
 - $\alpha^{\rm line}_\nu = \frac{\pi e^2}{m_ec}f_{lu}n_l\phi(\nu)(1-e^{-h\nu/kT})$, $\frac{\pi e^2}{m_ec} = 0.02654$ cm$^2$ Hz · $A_{ul} = 0.6670\frac{g_l}{g_u}\frac{f_{lu}}{\lambda^2[{\rm cm}]}$ s$^{-1}$
 - Natural: $\gamma_{\rm rad} = \Gamma_u+\Gamma_l$, $\Delta\lambda_{\rm FWHM} = \lambda^2\gamma/(2\pi c)$; classical $\gamma_{\rm cl} = 2.47\times10^{-22}\nu^2$ s$^{-1}$
 - Doppler: $\Delta\nu_D = \frac{\nu_0}{c}\sqrt{2kT/m+\xi^2}$ · pressure: $\Delta\nu = C_n/r^n$, $n = 2$ (linear Stark), 3 (resonance), 4 (quadratic Stark), 6 (van der Waals); impact width $\gamma_n\propto N C_n^{2/(n-1)}\bar v^{(n-3)/(n-1)}$
 - Voigt: $\phi = H(a,v)/(\sqrt\pi\Delta\nu_D)$, $a = \gamma/(4\pi\Delta\nu_D)$, wings $H\approx a/(\sqrt\pi v^2)$ · rotation: $\Delta\lambda_L = \lambda v\sin i/c$
 
-## Gray LTE atmosphere (Lecture SA5)
+## Gray LTE atmosphere (Lecture SA4)
 
 - $J = B = S$, $H = \sigma T_{\rm eff}^4/4\pi$
 - Eddington: $T^4 = \frac34T_{\rm eff}^4(\tau+\frac23)$, $T(0) = 0.841T_{\rm eff}$, $T(2/3) = T_{\rm eff}$
@@ -38,20 +38,21 @@
 - Two-stream ($\mu = \pm1/\sqrt3$): $T^4 = \frac34T_{\rm eff}^4(\tau+1/\sqrt3)$
 - Hydrostatic: $dP/d\tau = g/\kappa$ ⇒ $P = g\tau/\kappa$
 
-## Lines (Lecture SA6)
+## Lines (Lecture SA4)
 
 - $\int\sigma_\nu d\nu = \pi r_ecf$ · $\Delta\nu_D = \frac{\nu_0}c\sqrt{2kT/m+\xi^2}$ · Voigt $a = \gamma/4\pi\Delta\nu_D$
 - Milne–Eddington (LTE): $\dfrac{F_\nu}{F_c} = \dfrac{1+2\beta/[3(1+\eta_\nu)]}{1+2\beta/3}$, maximum depth $1-\frac1{1+2\beta/3}$
 - Weak line: $W_\lambda = \pi r_e\lambda^2Nf$ · Curve of growth: $W\propto N$ → $\sqrt{\ln N}$ → $\sqrt N$
 - NLTE: $S^{\rm line} = \frac{2h\nu^3}{c^2}\left[\frac{b_l}{b_u}e^{h\nu/kT}-1\right]^{-1}$
 
-## TE, LTE, NLTE (Lecture SA7)
+## TE, LTE, NLTE (Lectures SA1, SA3)
 
 - TE: $I_\nu = B_\nu(T)$ · LTE: $S_\nu = B_\nu(T(\mathbf r))$ · NLTE: rate equations, $S_\nu\ne B_\nu$
 - Statistical equilibrium: $n_i\sum_j(R_{ij}+C_{ij}) = \sum_jn_j(R_{ji}+C_{ji})$ · $b_i = n_i/n_i^{\rm LTE}$
 - $S^{\rm line} = \frac{2h\nu^3}{c^2}\left[\frac{b_l}{b_u}e^{h\nu/kT}-1\right]^{-1}\approx\frac{b_u}{b_l}B_\nu$ · criterion: $n_e$ vs $n_{\rm crit} = A\beta_{\rm esc}/q$
 
-## Stellar atmospheres (Lecture SA8)
+## Stellar atmospheres (Lecture SA5)
 
 - $dP/d\tau = g/\kappa$ · $F_{\rm rad}+F_{\rm conv} = \sigma T_{\rm eff}^4$ · scale height $H = kT/(\mu m_Hg)$
 - Convection if $\nabla_{\rm rad}>\nabla_{\rm ad}$ (0.4 ideal monatomic); gray atmosphere: $\nabla_{\rm rad} = \tau/[4(\tau+2/3)]<0.25$
+- Hand-built model (Novotny Ch. 9): $T = T_{\rm eff}\,[\tfrac34(\tau+\tfrac23)]^{1/4}$; for $\kappa = \kappa_0P^a$: $P^{1+a} = (1+a)\,g\tau/\kappa_0$ (Sun: $\kappa\approx10^{-4.4}P^{0.8}$ cgs); stable if $d\ln P/d\ln T > 1/\nabla_{\rm ad} = 2.5$

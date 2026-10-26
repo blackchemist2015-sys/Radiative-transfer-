@@ -21,6 +21,8 @@ build_course () {
     --to html5 --standalone --toc --toc-depth=2 \
     --katex="$KATEX" --css "$ROOT/build/course.css" \
     -o .course.html
+  # mark caption paragraphs (a paragraph that is entirely italic) for styling
+  python3 -c 'import re,sys; p=sys.argv[1]; s=open(p).read(); s=re.sub(r"<p><em>((?:(?!</?p>).)*?)</em></p>", r"<p class=caption><em>\1</em></p>", s, flags=re.S); open(p,"w").write(s)' .course.html
   NODE_PATH="$NODE_DIR/node_modules" CHROME="$CHROME" node "$ROOT/scripts/print_pdf.js" .course.html "$ROOT/$out"
   rm -f .course.html
   echo "wrote $out"

@@ -496,7 +496,7 @@ const MODULES = [];
 const R_H = 1.09678e7;
 
 /* L1 ---------------------------------------------------------------- */
-MODULES.push({ id: 'L1', n: 'RT1', nav: 'Optical depth', lecture: 'Lecture RT1 · Introduction',
+MODULES.push({ id: 'L1', n: 'RT1', nav: 'Optical depth', lecture: 'Lecture RT1 · Radiation and how we describe it',
   title: 'How much light gets through a slab of gas?',
   intro: 'Absorption removes a fixed fraction of the beam per unit length. Optical depth counts how many mean free paths the light must cross. Make the gas denser or the path longer and see when the medium turns from transparent to opaque.',
   eq: String.raw`I_\nu(s)=I_\nu(0)\,e^{-\tau_\nu},\qquad \tau_\nu=\int_0^{s}\alpha_\nu\,ds'=\alpha_\nu\,s,\qquad A=2.5\log_{10}e^{\tau}=1.086\,\tau\ \text{mag}`,
@@ -527,7 +527,7 @@ MODULES.push({ id: 'L1', n: 'RT1', nav: 'Optical depth', lecture: 'Lecture RT1 �
   } });
 
 /* L2 ---------------------------------------------------------------- */
-MODULES.push({ id: 'L2', n: 'RT2', nav: 'Intensity vs flux', lecture: 'Lecture RT2 · The radiation field',
+MODULES.push({ id: 'L2', n: 'RT1', nav: 'Intensity vs flux', lecture: 'Lecture RT1 · Radiation and how we describe it',
   title: 'Why does a star look equally bright per square arcsecond from any distance?',
   intro: 'Walk away from a star. The flux you receive falls as 1/d², but the solid angle the star covers falls in exactly the same way. Their ratio, the specific intensity, does not change along a ray in empty space.',
   eq: String.raw`F(d)=\sigma T_{\rm eff}^4\left(\frac{R}{d}\right)^{2},\qquad \Omega=\pi\left(\frac{R}{d}\right)^{2},\qquad I=\frac{F}{\Omega}=\frac{\sigma T_{\rm eff}^4}{\pi}=\text{const}`,
@@ -571,7 +571,7 @@ MODULES.push({ id: 'L2', n: 'RT2', nav: 'Intensity vs flux', lecture: 'Lecture R
   } });
 
 /* L3 ---------------------------------------------------------------- */
-MODULES.push({ id: 'L3', n: 'RT3', nav: 'Planck function', lecture: 'Lecture RT3 · Black-body radiation',
+MODULES.push({ id: 'L3', n: 'RT2', nav: 'Planck function', lecture: 'Lecture RT2 · Black bodies and light–matter interaction',
   title: 'How does a black body change with temperature?',
   intro: 'Raise the temperature and watch the peak move to shorter wavelengths (Wien) while the area under the curve grows as T⁴ (Stefan–Boltzmann). Turn on the Rayleigh–Jeans and Wien approximations to see where each one works.',
   eq: String.raw`B_\lambda(T)=\frac{2hc^{2}}{\lambda^{5}}\;\frac{1}{e^{hc/\lambda kT}-1},\qquad \lambda_{\max}T=2.898\times10^{-3}\ \text{m K},\qquad F=\pi\!\int\! B_\lambda\,d\lambda=\sigma T^{4}`,
@@ -611,7 +611,7 @@ MODULES.push({ id: 'L3', n: 'RT3', nav: 'Planck function', lecture: 'Lecture RT3
   } });
 
 /* L4 ---------------------------------------------------------------- */
-MODULES.push({ id: 'L4', n: 'RT4', nav: 'Random walk', lecture: 'Lecture RT4 · Emission, absorption, scattering',
+MODULES.push({ id: 'L4', n: 'RT2', nav: 'Random walk', lecture: 'Lecture RT2 · Black bodies and light–matter interaction',
   title: 'How many scatterings does a photon need to escape?',
   intro: 'Photons start at the centre of a cloud of optical radius τ and take steps of one mean free path in random directions. Each interaction destroys the photon with probability ε (true absorption) and otherwise scatters it. Run the experiment and compare with N ≈ τ².',
   eq: String.raw`\langle R^{2}\rangle=N\ell^{2}\;\Rightarrow\;N_{\rm escape}\simeq\tau^{2},\qquad \tau_{\rm th}\simeq\frac{1}{\sqrt{\varepsilon}}`,
@@ -667,7 +667,7 @@ MODULES.push({ id: 'L4', n: 'RT4', nav: 'Random walk', lecture: 'Lecture RT4 · 
   } });
 
 /* L5 ---------------------------------------------------------------- */
-MODULES.push({ id: 'L5', n: 'RT5', nav: 'Slab & MIT star', lecture: 'Lecture RT5 · The transfer equation',
+MODULES.push({ id: 'L5', n: 'RT3', nav: 'Slab & MIT star', lecture: 'Lecture RT3 · The transfer equation',
   title: 'Absorption lines or emission lines? A slab and the MIT two-layer star',
   intro: 'Top: a beam enters a uniform slab and relaxes toward the source function S. Bottom: the MIT 8.901 toy star, a thick base at T_base under a thin layer at T_top, with hydrogen lines placed by the Rydberg formula. Swap the temperatures to create a thermal inversion.',
   eq: String.raw`I_\nu=I_\nu(0)\,e^{-\tau_\nu}+S_\nu\left(1-e^{-\tau_\nu}\right),\qquad I_\nu=B_\nu(T_{\rm base})\,e^{-\tau_\nu}+B_\nu(T_{\rm top})\left(1-e^{-\tau_\nu}\right)`,
@@ -730,7 +730,7 @@ MODULES.push({ id: 'L5', n: 'RT5', nav: 'Slab & MIT star', lecture: 'Lecture RT5
   } });
 
 /* L6 ---------------------------------------------------------------- */
-MODULES.push({ id: 'L6', n: 'SA1', nav: 'Saha–Boltzmann', lecture: 'Lecture SA1 · LTE',
+MODULES.push({ id: 'L6', n: 'SA1', nav: 'Saha–Boltzmann', lecture: 'Lecture SA1 · The state of the gas',
   title: 'Why are Balmer lines strongest in A stars?',
   intro: 'In LTE the populations of hydrogen follow Boltzmann (excitation into n = 2) and Saha (ionisation). Excitation rises with temperature, but ionisation soon removes the neutral atoms. Move T and the electron pressure and follow the n = 2 population that produces Balmer absorption.',
   eq: String.raw`\frac{N_{\rm II}\,n_e}{N_{\rm I}}=\frac{2U_{\rm II}}{U_{\rm I}}\left(\frac{2\pi m_e kT}{h^{2}}\right)^{3/2}e^{-\chi/kT},\qquad \frac{N_2}{N_1}=\frac{g_2}{g_1}\,e^{-10.2\,\text{eV}/kT},\qquad P_e=n_ekT`,
@@ -764,7 +764,7 @@ MODULES.push({ id: 'L6', n: 'SA1', nav: 'Saha–Boltzmann', lecture: 'Lecture SA
   } });
 
 /* L7 ---------------------------------------------------------------- */
-MODULES.push({ id: 'L7', n: 'RT7', nav: 'Eddington–Barbier', lecture: 'Lecture RT7 · Plane-parallel atmospheres',
+MODULES.push({ id: 'L7', n: 'RT4', nav: 'Eddington–Barbier', lecture: 'Lecture RT4 · Atmospheres, moments, scattering',
   title: 'What depth do we see at each point of the stellar disk?',
   intro: 'Choose a source function S(τ) = a + bτ + cτ² and a viewing direction μ = cos θ. The emergent intensity is a weighted average of S, with weight e^(−τ/μ)/μ. Eddington–Barbier says the answer is close to S at τ = μ, and exact when c = 0.',
   eq: String.raw`I(0,\mu)=\int_0^{\infty}S(\tau)\,e^{-\tau/\mu}\,\frac{d\tau}{\mu}=a+b\mu+2c\mu^{2}\;\approx\;S(\tau=\mu),\qquad F(0)\approx\pi S(2/3)`,
@@ -813,7 +813,7 @@ MODULES.push({ id: 'L7', n: 'RT7', nav: 'Eddington–Barbier', lecture: 'Lecture
   } });
 
 /* L8 ---------------------------------------------------------------- */
-MODULES.push({ id: 'L8', n: 'RT8', nav: 'Scattering & Λ-iteration', lecture: 'Lecture RT8 · Moments, diffusion, scattering',
+MODULES.push({ id: 'L8', n: 'RT4', nav: 'Scattering & Λ-iteration', lecture: 'Lecture RT4 · Atmospheres, moments, scattering',
   title: 'Why is S below B at the surface of an isothermal scattering atmosphere?',
   intro: 'The gas has one temperature (B is constant), but photons scatter many times before being destroyed. Near the surface they leak out, J falls, and S falls with it. The exact curve is solved live with the Λ matrix; compare it with the Eddington approximation and with plain Λ-iteration.',
   eq: String.raw`S=\varepsilon B+(1-\varepsilon)J,\qquad J(\tau)=\Lambda_\tau[S]=\tfrac12\!\int_0^{\infty}\!S(t)\,E_1|t-\tau|\,dt,\qquad S(0)=\sqrt{\varepsilon}\,B`,
@@ -846,7 +846,7 @@ MODULES.push({ id: 'L8', n: 'RT8', nav: 'Scattering & Λ-iteration', lecture: 'L
   } });
 
 /* L9 ---------------------------------------------------------------- */
-MODULES.push({ id: 'L9', n: 'SA5', nav: 'Gray LTE atmosphere', lecture: 'Lecture SA5 · The gray LTE atmosphere',
+MODULES.push({ id: 'L9', n: 'SA4', nav: 'Gray LTE atmosphere', lecture: 'Lecture SA4 · Gray atmosphere and LTE lines',
   title: 'The complete gray LTE atmosphere: temperature, limb darkening and spectrum',
   intro: 'The exact solution (Hopf function, Chandrasekhar H-function) is compared with Eddington’s approximation. Change T_eff to rescale the whole model, and the wavelength to see how monochromatic limb darkening depends on colour. Gravity and opacity set the pressure.',
   eq: String.raw`T^{4}=\tfrac34T_{\rm eff}^{4}\left[\tau+q(\tau)\right],\qquad I_\lambda(0,\mu)=\int_0^{\infty}B_\lambda\big(T(\tau)\big)e^{-\tau/\mu}\frac{d\tau}{\mu},\qquad F_\lambda=2\pi\!\int_0^{\infty}\!B_\lambda E_2(\tau)\,d\tau,\qquad P=\frac{g\tau}{\kappa}`,
@@ -903,7 +903,7 @@ MODULES.push({ id: 'L9', n: 'SA5', nav: 'Gray LTE atmosphere', lecture: 'Lecture
   } });
 
 /* L10 --------------------------------------------------------------- */
-MODULES.push({ id: 'L10', n: 'SA6', nav: 'LTE spectral lines', lecture: 'Lecture SA6 · LTE lines',
+MODULES.push({ id: 'L10', n: 'SA4', nav: 'LTE spectral lines', lecture: 'Lecture SA4 · Gray atmosphere and LTE lines',
   title: 'How does a spectral line grow? Milne–Eddington profiles and the curve of growth',
   intro: 'In LTE a line is dark because, at the line frequencies, we see higher and cooler layers. β is the temperature gradient of the atmosphere (B = B₀(1 + βτ)), η₀ the line-to-continuum opacity ratio (∝ number of absorbers), and a the damping parameter of the Voigt profile.',
   eq: String.raw`\frac{F_\nu}{F_c}=\frac{1+\dfrac{2\beta}{3(1+\eta_\nu)}}{1+\dfrac{2\beta}{3}},\qquad \eta_\nu=\eta_0\,H(a,v),\qquad W=\int\left(1-\frac{F_\nu}{F_c}\right)d\nu,\qquad \Delta\lambda_D=\frac{\lambda_0}{c}\sqrt{\frac{2kT}{m}+\xi^{2}}`,

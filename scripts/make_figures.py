@@ -609,7 +609,7 @@ def fig_mit_two_layer():
     save(fig, "L05_mit_two_layer.png")
 
 
-if __name__ == "__main__" and "--part2" not in sys.argv and "--sa" not in sys.argv:
+if __name__ == "__main__" and not any(f in sys.argv for f in ("--part2", "--sa", "--concepts")):
     np.random.seed(1)
     fig_overview(); fig_intensity_geometry(); fig_constancy(); fig_planck()
     fig_processes(); fig_random_walk(); fig_slab(); fig_saha(); fig_regimes()
@@ -884,3 +884,278 @@ def fig_sa_broadening():
 
 if __name__ == "__main__" and "--sa" in sys.argv:
     fig_sa_opacity(); fig_sa_rates(); fig_sa_broadening()
+
+
+# =====================================================================
+# Concept maps and concept illustrations (condensed courses)
+# =====================================================================
+from matplotlib.patches import FancyBboxPatch
+
+KIND = {"core": ("#dbe7f7", "#1f5fa8"), "law": ("#fbe3d6", "#c0532b"), "result": ("#dff3ea", "#1f8a5f"),
+        "app": ("#efe7fb", "#6250d6"), "warn": ("#fdf1d6", "#a8740a")}
+
+
+def concept_map(fname, title, nodes, edges, size=(12, 6.2)):
+    fig, ax = plt.subplots(figsize=size)
+    ax.set_xlim(0, 12); ax.set_ylim(0, 6.2); ax.axis("off")
+    ax.set_title(title, fontsize=13.5, weight="bold", color="#1f2a3a", loc="left")
+    boxes = {}
+    for key, (x, y, label, kind) in nodes.items():
+        fc, ec = KIND[kind]
+        t = ax.text(x, y, label, ha="center", va="center", fontsize=10.2, zorder=4, color="#16202c")
+        bb = t.get_window_extent(renderer=fig.canvas.get_renderer()).transformed(ax.transData.inverted())
+        w, hgt = bb.width + 0.35, bb.height + 0.25
+        ax.add_patch(FancyBboxPatch((x - w / 2, y - hgt / 2), w, hgt, boxstyle="round,pad=0.04,rounding_size=0.15",
+                                    fc=fc, ec=ec, lw=1.6, zorder=3))
+        for k2, (x2, y2, w2, h2) in boxes.items():
+            if abs(x - x2) < (w + w2) / 2 + 0.1 and abs(y - y2) < (hgt + h2) / 2 + 0.1:
+                print(f"  overlap in {fname}: {key} / {k2}")
+        if x - w / 2 < 0 or x + w / 2 > 12:
+            print(f"  outside in {fname}: {key}")
+        boxes[key] = (x, y, w, hgt)
+    for a, b, lab in edges:
+        xa, ya, wa, ha = boxes[a]; xb, yb, wb, hb = boxes[b]
+        dx, dy = xb - xa, yb - ya
+        def edge_pt(x, y, w, h, ux, uy):
+            tx = (w / 2 + 0.05) / abs(ux) if ux else np.inf
+            ty = (h / 2 + 0.05) / abs(uy) if uy else np.inf
+            t = min(tx, ty); return x + ux * t, y + uy * t
+        L = np.hypot(dx, dy); ux, uy = dx / L, dy / L
+        p0 = edge_pt(xa, ya, wa, ha, ux, uy); p1 = edge_pt(xb, yb, wb, hb, -ux, -uy)
+        ax.add_patch(FancyArrowPatch(p0, (p1[0], p1[1]), arrowstyle="-|>", mutation_scale=13, color="#555", lw=1.3, zorder=2))
+        if lab:
+            ax.text((p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2 + 0.12, lab, fontsize=8.6, ha="center", color="#444",
+                    bbox=dict(fc="white", ec="none", alpha=0.85, pad=1), zorder=5)
+    handles = [Rectangle((0, 0), 1, 1, fc=KIND[k][0], ec=KIND[k][1]) for k in ("core", "law", "result", "app")]
+    ax.legend(handles, ["concept", "law / equation", "result", "application"], loc="lower right", fontsize=8.5, frameon=False, ncol=4)
+    save(fig, fname)
+
+
+def all_concept_maps():
+    concept_map("RT1_map.png", "RT1 concept map — describing radiation", {
+        "src": (1.4, 4.9, "photons from\na source", "core"), "I": (4.3, 4.9, "specific intensity $I_\\nu$\n(brightness of one beam)", "core"),
+        "cons": (8.0, 5.3, "conserved along rays\nin vacuum", "result"), "J": (2.2, 2.6, "mean intensity $J_\\nu$\n(illumination)", "law"),
+        "F": (5.0, 2.6, "flux $F_\\nu$\n(net flow)", "law"), "K": (7.8, 2.6, "$K_\\nu$ → pressure\n$P=u/3$ if isotropic", "law"),
+        "tau": (10.3, 3.9, "optical depth $\\tau$\n(mean free paths)", "core"), "rte": (10.0, 1.4, "RTE\n$dI/d\\tau=S-I$", "result"),
+        "obs": (4.2, 0.8, "what telescopes measure:\npixels ($I$), unresolved stars ($F$)", "app")},
+        [("src", "I", ""), ("I", "cons", ""), ("I", "J", "average"), ("I", "F", "weight cosθ"), ("I", "K", "weight cos²θ"),
+         ("I", "tau", "through matter"), ("tau", "rte", ""), ("F", "obs", ""), ("I", "obs", "")])
+    concept_map("RT2_map.png", "RT2 concept map — black bodies and light–matter interaction", {
+        "te": (1.6, 5.0, "thermal\nequilibrium", "core"), "B": (4.6, 5.0, "Planck $B_\\nu(T)$", "law"),
+        "wien": (8.0, 5.4, "Wien: colour ↔ T\nStefan–Boltzmann: $\\sigma T^4$", "result"), "mat": (1.6, 2.6, "matter:\natoms, ions, e⁻", "core"),
+        "proc": (4.6, 2.6, "absorption, emission,\nstimulated emission, scattering", "core"), "ein": (8.2, 3.2, "Einstein relations\n$A$, $B$", "law"),
+        "kir": (10.4, 1.6, "Kirchhoff\n$j_\\nu=\\alpha_\\nu B_\\nu$", "result"), "rw": (4.8, 0.7, "random walk\n$N\\approx\\tau^2$", "result"),
+        "app": (10.4, 4.3, "star colours, CMB,\nradio $T_b$", "app")},
+        [("te", "B", ""), ("B", "wien", ""), ("wien", "app", ""), ("mat", "proc", ""), ("proc", "ein", "atomic rates"),
+         ("ein", "kir", "+ equilibrium"), ("B", "kir", ""), ("proc", "rw", "scattering")])
+    concept_map("RT3_map.png", "RT3 concept map — forming and solving the transfer equation", {
+        "f": (1.6, 5.0, "photons in\nphase space $f$", "core"), "boltz": (4.6, 5.0, "photon conservation\n(Boltzmann equation)", "law"),
+        "gl": (8.4, 5.0, "gains − losses:\nemission, absorption, scattering", "core"), "rte": (8.4, 3.1, "$dI_\\nu/d\\tau_\\nu=S_\\nu-I_\\nu$", "law"),
+        "S": (11.0, 3.9, "source function\n$S=j/\\alpha$", "core"), "fs": (4.8, 3.1, "formal solution\n$I=I_0e^{-\\tau}+\\int Se^{-(\\tau-t)}dt$", "result"),
+        "thin": (1.9, 1.4, "thin: $I\\approx I_0+\\tau(S-I_0)$", "result"), "thick": (5.4, 1.2, "thick: $I\\to S$", "result"),
+        "lines": (9.4, 1.0, "absorption vs emission lines;\nMIT two-layer star", "app")},
+        [("f", "boltz", ""), ("boltz", "gl", ""), ("gl", "rte", "static, along a ray"), ("S", "rte", ""), ("rte", "fs", "integrating factor"),
+         ("fs", "thin", ""), ("fs", "thick", ""), ("thick", "lines", ""), ("thin", "lines", "")])
+    concept_map("RT4_map.png", "RT4 concept map — atmospheres, moments and scattering", {
+        "pp": (2.2, 5.0, "plane-parallel layers\n$\\mu\\,dI/d\\tau=I-S$", "law"), "em": (6.0, 5.0, "emergent intensity\n$\\int S e^{-\\tau/\\mu}d\\tau/\\mu$", "result"),
+        "eb": (10.0, 5.0, "Eddington–Barbier\n$I(0,\\mu)\\approx S(\\tau=\\mu)$", "result"), "ld": (10.0, 3.2, "limb darkening →\n$T(\\tau)$ of the Sun", "app"),
+        "mom": (2.2, 2.8, "moments\n$dH/d\\tau=J-S$, $dK/d\\tau=H$", "law"), "edd": (5.8, 2.8, "Eddington closure\n$K=J/3$", "law"),
+        "diff": (5.6, 0.9, "diffusion, Rosseland mean\n(stellar interiors)", "result"), "sc": (1.9, 0.9, "scattering\n$S=\\varepsilon B+(1-\\varepsilon)J$", "core"),
+        "th": (9.7, 0.9, "thermalisation:\n$S(0)=\\sqrt{\\varepsilon}B$", "result")},
+        [("pp", "em", ""), ("em", "eb", "linear S"), ("eb", "ld", ""), ("pp", "mom", "average over μ"), ("mom", "edd", "close"),
+         ("edd", "diff", "deep inside"), ("sc", "th", ""), ("mom", "sc", "")])
+    concept_map("RT5_map.png", "RT5 concept map — polarized light", {
+        "E": (1.8, 5.0, "electric-field\nellipse", "core"), "st": (5.0, 5.0, "Stokes $I,Q,U,V$", "law"),
+        "vrte": (9.0, 5.0, "vector RTE\n$d\\mathbf{I}/ds=-\\mathsf{K}\\mathbf{I}+\\epsilon$", "law"),
+        "sc": (2.0, 2.6, "scattering\n(Thomson, Rayleigh)", "core"), "lin": (5.4, 2.6, "linear polarization\n$p=\\sin^2\\Theta/(1+\\cos^2\\Theta)$", "result"),
+        "ch": (9.6, 2.8, "11.7 % at the limb\n(Chandrasekhar)", "result"), "B": (2.0, 0.8, "magnetic field", "core"),
+        "z": (5.6, 0.8, "Zeeman: $V\\propto B_\\parallel$,\nHanle (weak fields)", "result"), "app": (9.6, 0.8, "magnetograms, CMB,\nISM dust, synchrotron", "app")},
+        [("E", "st", ""), ("st", "vrte", ""), ("sc", "lin", ""), ("lin", "ch", "in atmospheres"), ("B", "z", ""), ("z", "app", ""),
+         ("lin", "app", ""), ("st", "lin", "")])
+    concept_map("RT6_map.png", "RT6 concept map — how the problem was solved", {
+        "two": (1.8, 5.0, "two streams\nSchuster, Schwarzschild\n1905–1906", "law"), "edd": (5.4, 5.0, "Eddington closure\n1926", "law"),
+        "milne": (9.2, 5.0, "integral equations\nMilne 1921", "law"), "exact": (5.4, 2.9, "exact solutions:\nHopf, Ambartsumian,\nChandrasekhar 1930–1950", "result"),
+        "num": (2.0, 1.0, "numerical era:\nFeautrier, linearization", "core"), "ali": (6.2, 1.0, "accelerated Λ-iteration,\nshort characteristics", "core"),
+        "now": (10.0, 1.0, "3D radiation-\nhydrodynamics, NLTE", "app")},
+        [("two", "edd", ""), ("milne", "edd", ""), ("edd", "exact", "benchmarks"), ("milne", "exact", ""), ("exact", "num", "computers"),
+         ("num", "ali", ""), ("ali", "now", "")])
+    concept_map("SA1_map.png", "SA1 concept map — the state of the gas", {
+        "te": (1.7, 5.0, "TE: one T for\nmatter and light", "core"), "lte": (5.4, 5.0, "LTE: matter at\nlocal T(r)", "core"),
+        "nlte": (9.4, 5.0, "NLTE: populations set\nby the radiation field", "core"), "sb": (2.6, 2.7, "Boltzmann (excitation)\nSaha (ionisation)", "law"),
+        "kir": (6.4, 2.7, "Kirchhoff\n$S_\\nu=B_\\nu(T)$", "law"), "crit": (10.0, 2.7, "criterion:\n$n_e$ vs $n_{crit}$", "law"),
+        "bal": (2.6, 0.8, "spectral sequence:\nBalmer lines peak at A0", "app"), "par": (7.0, 0.8, "atmosphere fixed by\n$T_{\\rm eff}$, $\\log g$, composition", "result")},
+        [("te", "lte", "photons escape"), ("lte", "nlte", "collisions rare"), ("lte", "sb", ""), ("lte", "kir", ""), ("nlte", "crit", ""),
+         ("sb", "bal", ""), ("kir", "par", "")])
+    concept_map("SA2_map.png", "SA2 concept map — where opacity comes from", {
+        "pop": (1.8, 5.0, "populations\n(Saha–Boltzmann)", "core"), "xs": (5.4, 5.0, "cross-sections\n(atomic physics)", "core"),
+        "cont": (2.3, 2.8, "continuous opacity:\nbound–free, free–free,\nH⁻, e⁻ scattering", "law"), "line": (7.0, 2.9, "line opacity:\n$f$-value × profile $\\phi(\\nu)$", "law"),
+        "br": (10.3, 4.6, "broadening: natural,\nDoppler, pressure → Voigt", "law"), "tot": (5.0, 0.8, "total $\\kappa_\\nu$ →\nthe spectrum's shape", "result"),
+        "app": (10.2, 1.2, "Balmer jump, H⁻ in the Sun,\ngravity from line wings", "app")},
+        [("pop", "cont", ""), ("xs", "cont", ""), ("xs", "line", ""), ("pop", "line", ""), ("br", "line", ""), ("cont", "tot", ""),
+         ("line", "tot", ""), ("tot", "app", "")])
+    concept_map("SA3_map.png", "SA3 concept map — rates and non-LTE", {
+        "rad": (1.8, 5.0, "radiative rates\n(depend on $J_\\nu$)", "core"), "col": (5.6, 5.0, "collisional rates\n(depend on $n_e$, $T$)", "core"),
+        "db": (9.6, 5.0, "detailed balance:\nEinstein, Milne,\nKlein–Rosseland", "law"), "se": (5.6, 3.0, "statistical equilibrium\nrates in = rates out", "law"),
+        "lte": (1.6, 1.0, "collisions win\n→ LTE", "result"), "cor": (5.0, 1.0, "coronal / nebular\nlimits", "result"),
+        "nlte": (8.6, 1.0, "NLTE: $b_i\\neq1$,\n$S\\neq B$", "result"), "m": (11.0, 2.8, "methods:\nALI, CL, MC", "app")},
+        [("rad", "se", ""), ("col", "se", ""), ("db", "se", ""), ("se", "lte", ""), ("se", "cor", ""), ("se", "nlte", ""), ("nlte", "m", "")])
+    concept_map("SA4_map.png", "SA4 concept map — the gray atmosphere and LTE lines", {
+        "as": (1.8, 5.0, "gray, LTE,\nradiative equilibrium", "core"), "jb": (5.2, 5.0, "$J=B$, flux constant", "law"),
+        "T": (9.0, 5.0, "$T^4=\\frac{3}{4}T_{\\rm eff}^4(\\tau+q)$", "result"), "ld": (10.4, 3.0, "limb darkening,\nnon-Planck spectrum", "result"),
+        "line": (2.0, 2.6, "line opacity\nraises $\\tau_\\nu$", "core"), "hi": (5.6, 2.6, "line forms higher,\nwhere T is lower", "law"),
+        "me": (5.0, 0.8, "Milne–Eddington profiles", "result"), "cog": (9.2, 0.8, "curve of growth\n→ abundances", "app")},
+        [("as", "jb", ""), ("jb", "T", ""), ("T", "ld", ""), ("line", "hi", "Eddington–Barbier"), ("T", "hi", ""), ("hi", "me", ""), ("me", "cog", "")])
+    concept_map("SA5_map.png", "SA5 concept map — real model atmospheres", {
+        "in": (1.8, 5.0, "inputs: $T_{\\rm eff}$,\n$\\log g$, composition", "core"), "eq": (5.6, 5.0, "structure equations:\nhydrostatic + energy + RTE", "law"),
+        "it": (9.6, 5.0, "iterate: correct T(τ)\n(Unsöld–Lucy)", "law"), "nong": (2.4, 2.7, "non-gray opacity:\nblanketing, backwarming", "core"),
+        "conv": (6.0, 2.7, "convection,\nsphericity, winds", "core"), "sun": (9.8, 2.7, "the Sun: photosphere →\nchromosphere → corona", "app"),
+        "grid": (3.2, 0.8, "grids: ATLAS, MARCS,\nPHOENIX, TLUSTY", "result"), "diag": (8.0, 0.8, "diagnostics:\n$T_{\\rm eff}$, $\\log g$, abundances", "app")},
+        [("in", "eq", ""), ("eq", "it", ""), ("nong", "eq", ""), ("conv", "eq", ""), ("it", "sun", ""), ("eq", "grid", ""), ("grid", "diag", "")])
+
+
+def fig_flux_vs_intensity():
+    fig, axs = plt.subplots(1, 2, figsize=(11, 3.9))
+    for ax in axs:
+        ax.set_xlim(-3, 3); ax.set_ylim(-0.8, 3.6); ax.axis("off"); ax.set_aspect("equal")
+        ax.add_patch(Rectangle((-0.8, -0.35), 1.6, 0.35, fc="#9ec5e8", ec=C[0]))
+        ax.text(0, -0.65, "detector area dA", ha="center", fontsize=10, color=C[0])
+    ax = axs[0]
+    for ang in np.linspace(-70, 70, 9):
+        t = np.radians(ang); s = (2.8 * np.sin(t), 2.8 * np.cos(t))
+        arrow(ax, s, (0.25 * np.sin(t), 0.05), color=C[1], lw=1.4, ms=10)
+    ax.set_title("FLUX: count light from all directions\n" r"$F_\nu=\oint I_\nu\cos\theta\,d\Omega$  (falls as $1/r^2$)", fontsize=10.5)
+    ax = axs[1]
+    ax.plot([-0.8, -0.25], [0.05, 1.6], "k", lw=2); ax.plot([0.8, 0.25], [0.05, 1.6], "k", lw=2)
+    for xx in (-0.12, 0, 0.12):
+        arrow(ax, (xx * 3, 3.2), (xx, 0.05), color=C[1], lw=1.4, ms=10)
+    for ang in (-60, -35, 35, 60):
+        t = np.radians(ang); ax.plot([2.8 * np.sin(t), 1.4 * np.sin(t)], [2.8 * np.cos(t), 1.4 * np.cos(t)], color="#bbb", lw=1.2)
+        ax.plot(1.4 * np.sin(t), 1.4 * np.cos(t), "x", color="#999")
+    ax.text(0.0, 3.35, r"$d\Omega$", ha="center", fontsize=12, color=C[1])
+    ax.set_title("INTENSITY: a collimator picks one direction\n" r"$I_\nu=dE/(dt\,dA\,d\Omega\,d\nu)$  (constant along a ray)", fontsize=10.5)
+    save(fig, "RT1_flux_vs_intensity.png")
+
+
+def fig_interactions():
+    fig, axs = plt.subplots(1, 4, figsize=(13, 3.6))
+    titles = ["bound–bound\n(spectral line)", "bound–free\n(photo-ionisation)", "free–free\n(inverse bremsstrahlung)", "scattering\n(redirected, not destroyed)"]
+    for ax, t in zip(axs, titles):
+        ax.set_xlim(0, 4); ax.set_ylim(-0.6, 4.2); ax.axis("off"); ax.set_title(t, fontsize=10.5)
+        ax.add_patch(Rectangle((0.6, 3.0), 2.8, 1.0, color=C[4], alpha=.15)); ax.text(3.45, 3.5, "continuum", fontsize=8, va="center")
+        ax.plot([0.6, 3.4], [0.6, 0.6], "k", lw=2); ax.plot([0.6, 3.4], [2.0, 2.0], "k", lw=2)
+
+    def wave(ax, x0, y0, x1, y1, col=C[1]):
+        tt = np.linspace(0, 1, 200); xs = x0 + (x1 - x0) * tt; ys = y0 + (y1 - y0) * tt + 0.1 * np.sin(2 * np.pi * 5 * tt)
+        ax.plot(xs, ys, color=col, lw=1.4); arrow(ax, (xs[-6], ys[-6]), (xs[-1], ys[-1]), color=col, ms=9)
+    a = axs[0]; wave(a, 0.0, 1.3, 1.45, 1.3); arrow(a, (1.7, 0.65), (1.7, 1.95), color=C[0], lw=1.8)
+    a.text(2.0, -0.4, r"narrow: $h\nu=E_2-E_1$", ha="center", fontsize=9)
+    a = axs[1]; wave(a, 0.0, 1.3, 1.45, 1.3); arrow(a, (1.7, 0.65), (1.7, 3.3), color=C[0], lw=1.8)
+    a.text(2.0, -0.4, r"any $h\nu\geq\chi$: an edge", ha="center", fontsize=9)
+    a = axs[2]; wave(a, 0.0, 3.5, 1.4, 3.5); arrow(a, (1.6, 3.2), (2.6, 3.8), color=C[0], lw=1.8)
+    a.plot(1.9, 3.35, "o", color=C[2], ms=8); a.text(2.0, -0.4, r"e⁻ near an ion; $\propto\nu^{-3}$", ha="center", fontsize=9)
+    a = axs[3]; wave(a, 0.0, 1.3, 1.6, 1.3); a.plot(1.85, 1.3, "o", color=C[0], ms=10); wave(a, 2.05, 1.45, 3.4, 2.6)
+    a.text(2.0, -0.4, "Thomson (e⁻), Rayleigh (atoms)", ha="center", fontsize=9)
+    save(fig, "RT2_interactions.png")
+
+
+def fig_formal_contributions():
+    fig, axs = plt.subplots(1, 2, figsize=(11.5, 4.1))
+    edges = np.arange(0, 5.01, 0.25)
+    a, b = 1.0, 1.5
+    contrib = []
+    for t0, t1 in zip(edges[:-1], edges[1:]):
+        tt = np.linspace(t0, t1, 200); contrib.append(np.trapezoid((a + b * tt) * np.exp(-tt), tt))
+    contrib = np.array(contrib); total = a + b
+    ax = axs[0]
+    ax.bar(edges[:-1] + 0.125, contrib / total, width=0.22, color=C[0])
+    ax.set_xlabel(r"depth of the emitting layer, $\tau$ (from the observer)"); ax.set_ylabel("fraction of the emergent intensity")
+    frac1 = contrib[edges[:-1] < 1].sum() / total
+    ax.set_title(f"Who sends the light we see? (S = 1 + 1.5τ)\n{100*frac1:.0f} % comes from τ < 1, the rest from deeper layers")
+    ax = axs[1]
+    tau = np.linspace(0, 5, 300)
+    ax.plot(tau, a + b * tau, color=C[1], lw=2, label=r"source function $S(\tau)$")
+    ax.plot(tau, np.exp(-tau), color=C[0], lw=2, label=r"survival to the surface $e^{-\tau}$")
+    ax.plot(tau, (a + b * tau) * np.exp(-tau) / total, color=C[2], lw=2.5, label=r"contribution $S e^{-\tau}$ (normalised)")
+    ax.axvline(1 - a / b, color="#999", ls=":")
+    ax.axhline(0, color="k", lw=.6)
+    ax.set_xlabel(r"$\tau$"); ax.set_ylim(0, 3); ax.legend(fontsize=9)
+    ax.set_title("Deep layers are bright but hidden;\nsurface layers are visible but faint")
+    save(fig, "RT3_contributions.png")
+
+
+def fig_te_lte_nlte():
+    fig, axs = plt.subplots(1, 3, figsize=(13, 4.3))
+    rng = np.random.default_rng(7)
+    def box(ax, title, sub, shade):
+        ax.set_xlim(0, 4); ax.set_ylim(-0.9, 4.4); ax.axis("off"); ax.set_title(title, fontsize=12, weight="bold")
+        img = np.linspace(shade[0], shade[1], 100)[:, None] * np.ones((1, 10))
+        ax.imshow(img, extent=(0.3, 3.7, 0.3, 3.7), origin="lower", cmap="YlOrRd", vmin=0, vmax=1, aspect="auto")
+        ax.text(2, -0.55, sub, ha="center", fontsize=9.5, va="center")
+    def particles(ax, n):
+        p = rng.uniform(0.45, 3.55, size=(n, 2)); ax.plot(p[:, 0], p[:, 1], "o", ms=3, color="#1f2a3a")
+    def photon(ax, x, y, dx, dy, col):
+        arrow(ax, (x, y), (x + dx, y + dy), color=col, lw=1.4, ms=9)
+    a = axs[0]; box(a, "TE", "closed and isothermal:\nevery process balances its inverse; $I_\\nu=B_\\nu$", (0.6, 0.6))
+    a.add_patch(Rectangle((0.3, 0.3), 3.4, 3.4, fill=False, ec="k", lw=3)); particles(a, 70)
+    for _ in range(14):
+        x, y = rng.uniform(0.6, 3.2, 2); t = rng.uniform(0, 2 * np.pi); photon(a, x, y, 0.4 * np.cos(t), 0.4 * np.sin(t), C[0])
+    a = axs[1]; box(a, "LTE", "dense gas, open top: collisions keep the local T;\nphotons leak out, so $S_\\nu=B_\\nu(T)$ but $I_\\nu\\neq B_\\nu$", (0.85, 0.25))
+    a.plot([0.3, 0.3, 3.7, 3.7], [3.7, 0.3, 0.3, 3.7], "k", lw=3); particles(a, 70)
+    for x in (0.8, 1.6, 2.4, 3.2): photon(a, x, 3.3, 0.1, 0.9, C[0])
+    a.text(2, 4.25, "escaping photons", ha="center", fontsize=9, color=C[0])
+    a = axs[2]; box(a, "NLTE", "thin gas: few collisions; populations follow\nthe radiation field (here from a star outside), $S_\\nu\\neq B_\\nu$", (0.15, 0.15))
+    a.plot([0.3, 0.3, 3.7, 3.7], [3.7, 0.3, 0.3, 3.7], "k", lw=1, ls="--"); particles(a, 12)
+    a.add_patch(Circle((-0.25, 2.0), 0.35, color="#f6bd60", clip_on=False))
+    for y in (1.0, 1.6, 2.2, 2.8): photon(a, 0.15, y, 1.4, 0.0, C[1])
+    save(fig, "SA1_te_lte_nlte.png")
+
+
+def fig_line_formation_depth():
+    fig, axs = plt.subplots(1, 2, figsize=(11.5, 4.2))
+    v = np.linspace(-4, 4, 400); eta0, beta = 30.0, 1.5
+    eta = eta0 * np.exp(-v**2)
+    r = rt.milne_eddington_residual(v, eta0, beta)
+    ax = axs[0]; ax.plot(v, r, color=C[0], lw=2.2)
+    ax.set_xlabel(r"distance from line centre $v=\Delta\nu/\Delta\nu_D$"); ax.set_ylabel(r"$F_\nu/F_c$")
+    ax.set_title(r"The line we observe ($\eta_0=30$)")
+    ax = axs[1]
+    tc = (2 / 3) / (1 + eta)
+    T = 5772 * (0.75 * (tc + 2 / 3)) ** 0.25
+    ax.plot(v, T, color=C[1], lw=2.2)
+    ax.set_xlabel(r"$v$"); ax.set_ylabel(r"temperature of the layer we see [K]")
+    ax2 = ax.twinx(); ax2.plot(v, tc, color=C[2], lw=1.5, ls="--"); ax2.set_ylabel(r"continuum depth $\tau_c$ where $\tau_\nu=2/3$", color=C[2]); ax2.grid(False)
+    ax.set_title("Where it forms: line centre is seen higher,\nin cooler gas (gray Sun, Eddington–Barbier)")
+    save(fig, "SA4_line_depth.png")
+
+
+def fig_novotny_model():
+    import sa_physics as sp
+    tt = np.array(sp.NOVOTNY_TAU); PP = np.array(sp.NOVOTNY_P)
+    tg = np.linspace(0.02, 2.0, 200)
+    fig, axs = plt.subplots(1, 3, figsize=(14, 4.2))
+    ax = axs[0]
+    ax.plot(tg, sp.novotny_T(tg), color="#c0392b")
+    ax.axhline(5800, color="#999", ls=":"); ax.text(1.4, 5830, "$T_{\\rm eff}=5800$ K", fontsize=9, color="#666")
+    ax.set_xlabel("optical depth $\\tau$"); ax.set_ylabel("T [K]"); ax.set_title("Step 1: temperature from\nEddington's approximation")
+    ax = axs[1]
+    ax.plot(tg, sp.novotny_P_powerlaw(tg) / 1e4, color="#1f5fa8", label="analytic, $\\kappa=10^{-4.4}P^{0.8}$")
+    ax.plot(tt, PP / 1e4, "o", color="#16a085", label="Novotny's numerical model")
+    ax.set_xlabel("optical depth $\\tau$"); ax.set_ylabel("gas pressure P [$10^4$ dyn cm$^{-2}$]")
+    ax.set_title("Step 2: pressure from\nhydrostatic equilibrium $dP/d\\tau=g/\\kappa$"); ax.legend(fontsize=8.5)
+    ax = axs[2]
+    tf = np.linspace(0.2, 6, 300)
+    ax.plot(tt, sp.schwarzschild_ratio(tt, PP), "o-", color="#16a085", label="Novotny model (real opacity)")
+    ax.plot(tf, sp.schwarzschild_ratio(tf, sp.novotny_P_powerlaw(tf)), color="#1f5fa8", label="power-law opacity")
+    ax.axhline(2.5, color="#c0392b", ls="--"); ax.text(3.2, 2.62, "convection below 2.5", color="#c0392b", fontsize=9)
+    ax.set_ylim(1, 8); ax.set_xlabel("optical depth $\\tau$"); ax.set_ylabel("$d\\ln P/d\\ln T$")
+    ax.set_title("Step 3: Schwarzschild test\nconvection starts near $\\tau\\approx1.2$"); ax.legend(fontsize=8.5)
+    fig.tight_layout(); save(fig, "SA5_novotny_model.png")
+
+
+def all_concept_figs():
+    all_concept_maps(); fig_flux_vs_intensity(); fig_interactions(); fig_formal_contributions(); fig_te_lte_nlte(); fig_line_formation_depth()
+    fig_novotny_model()
+
+
+if __name__ == "__main__" and "--concepts" in sys.argv:
+    all_concept_figs()

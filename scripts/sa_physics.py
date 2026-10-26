@@ -95,3 +95,29 @@ if __name__ == "__main__":
     dnuD = vD / 500e-9
     print(f"Fe 500 nm: v_D = {vD:.0f} m/s, dnu_D = {dnuD:.3e} Hz, a(gamma=1e9) = {1e9/(4*np.pi*dnuD):.4f}")
     print(f"rotation 50 km/s at 500 nm: {500*50/3e5:.4f} nm")
+
+
+# ---------------------------------------------------------------------------
+# A model solar atmosphere "by hand" (after Novotny 1973, Ch. 9), cgs units
+# ---------------------------------------------------------------------------
+NOVOTNY_TAU = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
+NOVOTNY_P = [4.607e4, 5.772e4, 6.837e4, 7.750e4, 8.545e4, 9.248e4, 9.863e4, 10.414e4,
+             10.911e4, 11.368e4, 11.778e4, 12.153e4, 12.492e4, 12.796e4, 13.070e4]  # Novotny Tables 9-2/9-3
+
+
+def novotny_T(tau, Teff=5800.0):
+    """Eddington first approximation, T^4 = (3/4) Teff^4 (tau + 2/3)."""
+    return Teff * (0.75 * (np.asarray(tau) + 2.0 / 3.0)) ** 0.25
+
+
+def novotny_P_powerlaw(tau, g=2.74e4, logk0=-4.40, a=0.8):
+    """Analytic P(tau) for kappa = 10^logk0 P^a (cm^2/g): P^(1+a) = (1+a) g tau / 10^logk0."""
+    return ((1 + a) * g * np.asarray(tau) / 10 ** logk0) ** (1 / (1 + a))
+
+
+def schwarzschild_ratio(tau, P):
+    """d ln P / d ln T along the model; convection sets in where it drops below 2.5 (= 1/nabla_ad)."""
+    tau, P = np.asarray(tau), np.asarray(P)
+    dlnP = np.gradient(np.log(P), tau)
+    dlnT = 0.25 / (tau + 2.0 / 3.0)
+    return dlnP / dlnT

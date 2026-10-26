@@ -1,6 +1,6 @@
 # Final Examination — Course A: Radiative Transfer (with complete solutions)
 
-> **Format suggestion:** 3 hours. Part A (20 %): short answers. Part B (50 %): answer any 6 of the 8 problems. Part C (20 %): RT6, RT9 and RT10 topics. Part E (10 %): essay. Solutions follow each question; numbers were checked with `scripts/worked_examples.py` and `scripts/lte_solvers.py`.
+> **Format suggestion:** 3 hours. Part A (20 %): short answers. Part B (50 %): answer any 6 of the 8 problems. Part C (20 %): RT3, RT5 and RT6 topics. Part E (10 %): essay. Solutions follow each question; numbers were checked with `scripts/worked_examples.py` and `scripts/lte_solvers.py`.
 > Constants: $h = 6.626\times10^{-34}$ J s, $k = 1.381\times10^{-23}$ J K$^{-1}$, $c = 2.998\times10^8$ m s$^{-1}$, $\sigma = 5.670\times10^{-8}$ W m$^{-2}$ K$^{-4}$, $m_e = 9.109\times10^{-31}$ kg, $m_H = 1.674\times10^{-27}$ kg, $r_e = 2.818\times10^{-15}$ m, $\sigma_T = 6.652\times10^{-29}$ m$^2$, $R_\odot = 6.957\times10^8$ m, 1 pc $= 3.086\times10^{16}$ m, 1 eV $= 1.602\times10^{-19}$ J.
 > $\int_0^\infty E_n(t)\,dt = \dfrac1n$, $\int_0^\infty t\,E_n(t)\,dt = \dfrac{1}{n+1}$, $E_n(0) = \dfrac1{n-1}$.
 
@@ -91,7 +91,7 @@ Represent the radiation field by two streams, $I^+$ at $\mu = +1/\sqrt3$ and $I^
 
 At $\lambda = 500$ nm, the observed solar limb darkening is $I(\mu) = I(1)(0.36+0.64\mu)$ with $I(1) = 4.0\times10^{13}$ W m$^{-3}$ sr$^{-1}$. Assuming LTE and the Eddington–Barbier relation, find $T(\tau_{500} = 0)$ and $T(\tau_{500} = 1)$. Comment.
 
-> **Solution.** $S(\tau) = I(1)(0.36+0.64\tau)$, and LTE gives $S = B_\lambda(T)$, so $T = (hc/\lambda k)/\ln(1+2hc^2/(\lambda^5B))$, with $hc/\lambda k = 28\,776$ K and $2hc^2/\lambda^5 = 3.811\times10^{15}$. $\tau = 0$: $B = 1.44\times10^{13}$, so $T = 28776/\ln(265.7) = 5155$ K. $\tau = 1$: $B = 4.0\times10^{13}$, so $T = 28776/\ln(96.3) = 6300$ K. The temperature rises inward by about 1100 K per unit optical depth, which is why the Sun shows limb darkening and absorption lines. The values bracket $T_{\rm eff} = 5772$ K, consistent with the gray model (Lecture SA5).
+> **Solution.** $S(\tau) = I(1)(0.36+0.64\tau)$, and LTE gives $S = B_\lambda(T)$, so $T = (hc/\lambda k)/\ln(1+2hc^2/(\lambda^5B))$, with $hc/\lambda k = 28\,776$ K and $2hc^2/\lambda^5 = 3.811\times10^{15}$. $\tau = 0$: $B = 1.44\times10^{13}$, so $T = 28776/\ln(265.7) = 5155$ K. $\tau = 1$: $B = 4.0\times10^{13}$, so $T = 28776/\ln(96.3) = 6300$ K. The temperature rises inward by about 1100 K per unit optical depth, which is why the Sun shows limb darkening and absorption lines. The values bracket $T_{\rm eff} = 5772$ K, consistent with the gray model (Lecture SA4).
 
 ### B7. Scattering and thermalisation (10 marks)
 
@@ -100,7 +100,7 @@ An isothermal atmosphere has $S = \varepsilon B+(1-\varepsilon)J$. (a) In the Ed
 > **Solution.** (a) $dH/d\tau = J - S = \varepsilon(J-B)$ and $H = \frac13dJ/d\tau$, so $\frac13J'' = \varepsilon(J-B)$. Then $J = B+Ce^{-\sqrt{3\varepsilon}\tau}$; with $J(0) = \frac23J'(0)$, $C = -B/(1+2\sqrt{\varepsilon/3})$.
 > (b) $\sqrt{\varepsilon/3} = 0.0577$, so $J(0)/B = 1-1/1.1155 = 0.1035$ and $S(0)/B = 0.01+0.99\times0.1035 = 0.1125$. The exact value is $\sqrt\varepsilon = 0.100$; Eddington overestimates by 12 %.
 > (c) $\tau_{\rm th}\sim1/\sqrt\varepsilon = 10$ (Eddington: $1/\sqrt{3\varepsilon} = 5.8$); $N\sim1/\varepsilon = 100$ scatterings.
-> (d) Each iteration transmits information only about $\Delta\tau\sim1$, and the error decreases by a factor $(1-\varepsilon) = 0.99$ per step, so hundreds of iterations are needed (see Figure 8.1). Our solver gives $S(0)$ errors of 95 % after 10 iterations, 17 % after 50, 5 % after 100 and 0.9 % after 200; yet beyond 100 iterations each step changes $S(0)$ by less than 0.1 %, so a naive convergence test would stop far too early.
+> (d) Each iteration transmits information only about $\Delta\tau\sim1$, and the error decreases by a factor $(1-\varepsilon) = 0.99$ per step, so hundreds of iterations are needed (see Lecture RT4, Figure 4.4). Our solver gives $S(0)$ errors of 95 % after 10 iterations, 17 % after 50, 5 % after 100 and 0.9 % after 200; yet beyond 100 iterations each step changes $S(0)$ by less than 0.1 %, so a naive convergence test would stop far too early.
 
 ### B8. Diffusion and Rosseland mean (8 marks)
 
@@ -114,15 +114,15 @@ An isothermal atmosphere has $S = \varepsilon B+(1-\varepsilon)J$. (a) In the Ed
 
 ## Part C — Formation of the RTE, polarization, history (4 marks each)
 
-**C1.** (Lecture RT6) Show how the term $\frac{1-\mu^2}{r}\frac{\partial I}{\partial\mu}$ arises in the spherical RTE, and state when it may be neglected.
+**C1.** (Lecture RT3) Show how the term $\frac{1-\mu^2}{r}\frac{\partial I}{\partial\mu}$ arises in the spherical RTE, and state when it may be neglected.
 
 > **Solution.** Along a straight ray with impact parameter $p$: $r^2 = p^2+z^2$, $\mu = z/r$, so $dr/dz = \mu$ and $d\mu/dz = (1-\mu^2)/r$. Then $dI/dz = \mu\,\partial_rI+\frac{1-\mu^2}{r}\partial_\mu I$. The term describes the change of a ray's angle to the local vertical. It is negligible when the atmosphere is thin compared with $r$ (about $10H\ll R$), e.g. the Sun.
 
-**C2.** (Lecture RT10) Schwarzschild (1906) used two streams at $\mu = \pm\frac12$ and found $T^4 = \frac12T_{\rm eff}^4(1+2\tau)$. Derive the corresponding limb-darkening law and compare $I(0)/I(1)$ with the exact gray value 0.344.
+**C2.** (Lecture RT6) Schwarzschild (1906) used two streams at $\mu = \pm\frac12$ and found $T^4 = \frac12T_{\rm eff}^4(1+2\tau)$. Derive the corresponding limb-darkening law and compare $I(0)/I(1)$ with the exact gray value 0.344.
 
 > **Solution.** $S\propto1+2\tau$ is linear, so Eddington–Barbier is exact: $I(0,\mu)\propto1+2\mu$ and $I(\mu)/I(1) = (1+2\mu)/3$. At the limb, $I(0)/I(1) = 1/3 = 0.333$, only 3 % below the exact 0.344 (Eddington's approximation gives 0.400).
 
-**C3.** (Lecture RT9) Light is measured through filters: $I_1 = 0.55$, $I_2 = 0.45$, $I_{1'} = 0.50$, $I_{2'} = 0.50$, $I_+ = 0.52$, $I_- = 0.48$ (units of the total). Find $p$, $p_L$ and $p_V$. Which physical process could produce circular polarization in a stellar line?
+**C3.** (Lecture RT5) Light is measured through filters: $I_1 = 0.55$, $I_2 = 0.45$, $I_{1'} = 0.50$, $I_{2'} = 0.50$, $I_+ = 0.52$, $I_- = 0.48$ (units of the total). Find $p$, $p_L$ and $p_V$. Which physical process could produce circular polarization in a stellar line?
 
 > **Solution.** $I = 1$, $Q = 0.10$, $U = 0$, $V = 0.04$. Then $p = \sqrt{0.01+0.0016} = 0.108$, $p_L = 0.10$, $p_V = 0.04$. Circular polarization in a spectral line comes from the Zeeman effect with a magnetic field component along the line of sight ($V\propto B\cos\gamma\,\partial I/\partial\lambda$ in the weak-field limit).
 

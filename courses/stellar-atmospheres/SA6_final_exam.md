@@ -127,10 +127,10 @@ For Na I D at 589 nm in the solar photosphere, take $T = 5772$ K, $m = 23$ u, $\
 
 ## Part D — Regimes and opacity (4 marks each)
 
-**D1.** (Lecture SA7) Classify as TE, LTE or NLTE, with one sentence of justification each: (a) radiation 0.5 $R_\odot$ from the centre of the Sun; (b) the continuum at 500 nm in the solar photosphere; (c) the core of the Ca II K line; (d) [O III] 500.7 nm in a planetary nebula with $n_e = 10^{10}$ m$^{-3}$.
+**D1.** (Lectures SA1, SA3) Classify as TE, LTE or NLTE, with one sentence of justification each: (a) radiation 0.5 $R_\odot$ from the centre of the Sun; (b) the continuum at 500 nm in the solar photosphere; (c) the core of the Ca II K line; (d) [O III] 500.7 nm in a planetary nebula with $n_e = 10^{10}$ m$^{-3}$.
 
 > **Solution.** (a) **TE**: the photon mean free path (cm) is $10^{-10}$ of the temperature scale height, so the radiation is isotropic and Planckian at the local $T$. (b) **LTE**: H$^-$ populations are set by collisions at $n_e\sim10^{19}$–$10^{20}$ m$^{-3}$, so $S = B$, although $I\neq B$ at the surface. (c) **NLTE**: a strong resonance line forming high in the low-density chromosphere, with photon losses ($S<B$) and non-radiative heating. (d) **NLTE**: $n_e\approx0.016\,n_{\rm crit}$, so every collisional excitation is followed by radiative decay.
 
-**D2.** (Lecture SA8) Explain line blanketing and backwarming, and name the dominant continuum opacity source in (a) an O star, (b) an A0 star, (c) the Sun, (d) an M dwarf.
+**D2.** (Lecture SA5) Explain line blanketing and backwarming, and name the dominant continuum opacity source in (a) an O star, (b) an A0 star, (c) the Sun, (d) an M dwarf.
 
 > **Solution.** Many lines block flux (mainly in the UV). The energy must still escape, so it is redistributed to other frequencies and partly returned to deeper layers, which become hotter (backwarming), while the outer layers cool. Opacity sources: (a) electron scattering and He bound-free; (b) H I bound-free (Balmer continuum); (c) H$^-$ bound-free and free-free; (d) H$^-$ plus molecules (TiO, H$_2$O).

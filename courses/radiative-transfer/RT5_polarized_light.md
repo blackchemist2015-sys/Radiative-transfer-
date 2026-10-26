@@ -1,6 +1,10 @@
-# Lecture RT9 — Polarized Light and Polarized Radiative Transfer
+# Lecture RT5 — Polarized Light
 
 > **Sources:** Hu, *Astro 305 Set 1* (Stokes parameters as differences of filtered intensities); Chandrasekhar, *Radiative Transfer* (1950), Ch. I §15–17 (Stokes parameters, Rayleigh phase matrix) and Ch. X §68 (exact laws of darkening in the two states of polarization; Table XXIV); Landi Degl'Innocenti & Landolfi, *Polarization in Spectral Lines* (2004); Stenflo, *Solar Magnetic Fields* (1994).
+
+![Concept map of Lecture RT5](../../figures/RT5_map.png)
+
+*Concept map — polarization is described by four Stokes numbers. Two physical agents create it: **scattering** (left) gives linear polarization, up to 11.7 % at the limb of an electron-scattering star; **magnetic fields** (bottom) give Zeeman and Hanle signatures. Transporting the four numbers needs the vector transfer equation.*
 
 ## Learning goals
 
@@ -11,7 +15,7 @@
 
 ---
 
-## Key concepts in plain words
+## The big ideas in plain words
 
 **Light is a transverse wave.** The electric field oscillates perpendicular to the direction of travel. If its oscillation has a preferred orientation, the light is *polarized*. Natural thermal emission is unpolarized because countless independent emitters oscillate in random directions. Polarization appears when something breaks the symmetry: a scattering geometry, a magnetic field, aligned dust grains, or relativistic electrons spiralling in a field.
 
@@ -23,7 +27,7 @@
 
 ---
 
-## 9.1 Stokes parameters
+## 5.1 Stokes parameters
 
 For a monochromatic wave $E_x = a_1\cos(\omega t-\delta_1)$, $E_y = a_2\cos(\omega t-\delta_2)$, with $\delta = \delta_2-\delta_1$ (up to a common constant):
 $$I = a_1^2+a_2^2,\quad Q = a_1^2-a_2^2,\quad U = 2a_1a_2\cos\delta,\quad V = 2a_1a_2\sin\delta.$$
@@ -31,7 +35,7 @@ Operationally (Hu): $I = I_1+I_2$, $Q = I_1-I_2$, $U = I_{1'}-I_{2'}$ (axes rota
 
 ![Polarization ellipse and limb polarization](../../figures/L13_polarization.png)
 
-*Figure 9.1 — Left: the electric vector traces an ellipse with orientation $\chi$ and ellipticity $\tan\beta = b/a$. Right: Chandrasekhar's exact result for a semi-infinite electron-scattering atmosphere. The polarization rises from 0 at disk centre to 11.7 % at the limb (data: Chandrasekhar 1950, Table XXIV). Inset: the limb darkening differs for the two polarization states.*
+*Figure 5.1 — Left: the electric vector traces an ellipse with orientation $\chi$ and ellipticity $\tan\beta = b/a$. Right: Chandrasekhar's exact result for a semi-infinite electron-scattering atmosphere. The polarization rises from 0 at disk centre to 11.7 % at the limb (data: Chandrasekhar 1950, Table XXIV). Inset: the limb darkening differs for the two polarization states.*
 
 | Quantity | Definition |
 |---|---|
@@ -43,7 +47,7 @@ Operationally (Hu): $I = I_1+I_2$, $Q = I_1-I_2$, $U = I_{1'}-I_{2'}$ (axes rota
 
 **Rotation of axes** by an angle $\phi$: $Q' = Q\cos2\phi+U\sin2\phi$, $U' = -Q\sin2\phi+U\cos2\phi$, with $I$ and $V$ unchanged. The factor $2\phi$ means linear polarization is a "spin-2" quantity, the basis of the E- and B-mode decomposition of CMB polarization.
 
-## 9.2 The polarized transfer equation
+## 5.2 The polarized transfer equation
 
 Write the Stokes vector $\mathbf I = (I,Q,U,V)^T$. The transfer equation becomes a matrix equation:
 $$\boxed{\;\frac{d\mathbf I_\nu}{ds} = -\mathsf K_\nu\,\mathbf I_\nu + \boldsymbol\epsilon_\nu\;}\qquad
@@ -56,7 +60,7 @@ $$\boxed{\;\frac{d\mathbf I_\nu}{ds} = -\mathsf K_\nu\,\mathbf I_\nu + \boldsymb
 - **Scattering** adds a gain term with the **phase matrix** $\mathsf P(\hat{\mathbf n}',\hat{\mathbf n})$ (Chandrasekhar's Rayleigh phase matrix for Thomson and Rayleigh scattering).
 - With Zeeman-split absorption profiles these are the **Unno–Rachkovsky equations** (Unno 1956; Rachkovsky 1962). Sign conventions differ between authors (see Landi Degl'Innocenti & Landolfi 2004).
 
-## 9.3 Polarization by scattering
+## 5.3 Polarization by scattering
 
 For Thomson or Rayleigh scattering of unpolarized light through a scattering angle $\Theta$:
 $$I_{\rm sc}\propto\frac{1+\cos^2\Theta}{2},\qquad p_L = \frac{1-\cos^2\Theta}{1+\cos^2\Theta} = \frac{\sin^2\Theta}{1+\cos^2\Theta}.$$
@@ -70,7 +74,7 @@ So the light is unpolarized in the forward and backward directions and 100 % pol
 
 For an unresolved spherical star the polarization cancels by symmetry. It becomes observable when the symmetry is broken: in eclipsing binaries (where it is measured during eclipses), rapidly rotating oblate stars, or disks.
 
-## 9.4 Magnetic fields: the Zeeman and Hanle effects
+## 5.4 Magnetic fields: the Zeeman and Hanle effects
 
 **Zeeman splitting.** A field $B$ splits a line by
 $$\Delta\lambda_B = 4.67\times10^{-13}\,g_{\rm eff}\,\lambda^2\,B,$$
@@ -81,7 +85,7 @@ where $g_{\rm eff}$ is the effective Landé factor. The $\sigma$ components are 
 
 **Hanle effect.** Weak fields (roughly 1–100 G, depending on the line) change the polarization of *scattered* line radiation (depolarization and rotation). The linearly polarized spectrum of the solar limb, the "second solar spectrum" (Stenflo & Keller 1997), is a diagnostic of turbulent magnetic fields that the Zeeman effect cannot detect.
 
-## 9.5 Where polarized transfer is used
+## 5.5 Where polarized transfer is used
 
 | Field | Mechanism | Example |
 |---|---|---|
@@ -94,32 +98,26 @@ where $g_{\rm eff}$ is the effective Landé factor. The $\sigma$ components are 
 
 ---
 
-## Worked example 9.1 — Stokes parameters from filter measurements
+## Worked example 5.1 — Stokes parameters from filter measurements
 
 *Through six filters a detector measures (in units of the total): horizontal 0.70, vertical 0.30, +45° 0.60, −45° 0.40, right-circular 0.50, left-circular 0.50. Find $I, Q, U, V$, $p$ and $\chi$.*
 
 $I = 0.70+0.30 = 1.00$, $Q = 0.40$, $U = 0.20$, $V = 0$. So $p = \sqrt{0.40^2+0.20^2} = 0.447$ (44.7 % linearly polarized) and $\chi = \tfrac12\arctan(0.20/0.40) = 13.3°$.
 
-## Worked example 9.2 — Polarization of scattered light
+## Worked example 5.2 — Polarization of scattered light
 
 *Unpolarized sunlight is Thomson-scattered by electrons. Find the degree of polarization at $\Theta = 90°$, $60°$ and $30°$.*
 
 $p = \sin^2\Theta/(1+\cos^2\Theta)$: 90° → $1/1 = 100\,\%$; 60° → $0.75/1.25 = 60\,\%$; 30° → $0.25/1.75 = 14\,\%$. The same law gives the polarization pattern of the blue sky (Rayleigh scattering) and of the solar corona (the K-corona, Thomson scattering by free electrons).
 
-## Worked example 9.3 — Is a line split in a sunspot?
+## Worked example 5.3 — Is a line split in a sunspot?
 
-*The Fe I line at 6302.5 Å has $g_{\rm eff} = 2.5$. Compute the Zeeman splitting for $B = 3000$ G (sunspot umbra) and $B = 100$ G (plage), and compare with the Doppler width (about 28 mÅ at 5800 K, Lecture SA6).*
+*The Fe I line at 6302.5 Å has $g_{\rm eff} = 2.5$. Compute the Zeeman splitting for $B = 3000$ G (sunspot umbra) and $B = 100$ G (plage), and compare with the Doppler width (about 28 mÅ at 5800 K, Lecture SA2).*
 
 $\Delta\lambda_B = 4.67\times10^{-13}\times2.5\times(6302.5)^2\times B = 4.64\times10^{-5}\,B$ Å.
 
 - 3000 G: $\Delta\lambda_B = 0.139$ Å $= 139$ mÅ, 5 times the Doppler width. The line is visibly split (strong-field regime).
 - 100 G: $\Delta\lambda_B = 4.6$ mÅ, much smaller than the Doppler width. The line is not split, but $V\propto\partial I/\partial\lambda$ still measures the field (weak-field regime).
-
-## Worked example 9.4 — Polarization of synchrotron radiation
-
-*For electrons with a power-law energy distribution $N(E)\propto E^{-p}$ in a uniform field, the maximum linear polarization is $\Pi = (p+1)/(p+7/3)$. Evaluate it for $p = 2.5$.*
-
-$\Pi = 3.5/4.833 = 0.72$, i.e. 72 %. Observed values are lower (typically 10–30 %) because the field is tangled and Faraday rotation varies along the line of sight. The ratio of observed to maximum polarization measures the order of the magnetic field.
 
 ---
 
@@ -139,7 +137,7 @@ $\Pi = 3.5/4.833 = 0.72$, i.e. 72 %. Observed values are lower (typically 10–3
 
 ---
 
-## Exam questions and answers — Lecture RT9
+## Exam questions and answers — Lecture RT5
 
 **Q1.** Define the four Stokes parameters operationally. Show that for completely polarized light $I^2 = Q^2+U^2+V^2$.
 
